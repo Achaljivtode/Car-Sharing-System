@@ -43,39 +43,60 @@ class CarType(models.Model):
     def __str__(self):
         return self.car_type
     
+class Agent(models.Model):
+    owner_name=models.CharField(max_length=255)
+    owner_email=models.EmailField(unique=True)
+    owner_contact=models.CharField(max_length=15,unique=True,null=True,blank=True)
+    owner_adress=models.TextField()
 
-
-class Car(models.Model):
+    car_model=models.CharField(max_length=60)
     car_number = models.CharField(max_length=15, unique=True,validators=[car_number_validator])
-    car_name=models.CharField(max_length=100)
-    from_location=models.CharField(max_length=255)
-    to_location=models.CharField(max_length=255)
     carType=models.ForeignKey(CarType,on_delete=models.CASCADE,default=1) # carType stores id 
     company=models.ForeignKey(Company,on_delete=models.CASCADE,default=1)
+    car_image=models.ImageField(upload_to='car_images/',default=1)
+
+    def __str__(self):
+        return self.owner_name
+
+class Car(models.Model):
+    agent=models.ForeignKey(Agent,on_delete=models.CASCADE,default=1)
+    from_location=models.CharField(max_length=255)
+    to_location=models.CharField(max_length=255)
     price_per_day=models.DecimalField(max_digits=10, decimal_places=2)
-    car_image=models.ImageField(upload_to='car_images/',null=True,blank=True)
     description=models.TextField()
 
     def __str__(self):
-        return self.car_name
-
+        return self.agent.car_model if self.agent else "Unknown Car"
 
 class CarBook(models.Model):
     booking_date=models.DateTimeField(auto_now=True)
     pickup_date=models.DateField()
     drop_date=models.DateField()
-    car=models.ForeignKey(Car,on_delete=models.CASCADE,default=1)
-    user=models.ForeignKey(CustomUser,on_delete=models.CASCADE,default=1)
+    car = models.ForeignKey(Car, on_delete=models.CASCADE, default=1)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
+    agent = models.ForeignKey(Agent, on_delete=models.CASCADE, default=1)
 
 
     def __str__(self):
-        return f"Booking for {self.car.car_name} from {self.pickup_date} to {self.drop_date}"
+        car_model = self.car.agent.car_model if self.car and self.car.agent else "Unknown Car"
+        return f"Booking for {car_model} from {self.pickup_date} to {self.drop_date}"
 
 
 class CarReport(models.Model):
-    user=models.ForeignKey(CustomUser,on_delete=models.CASCADE,default=1)
-    car=models.ForeignKey(Car,on_delete=models.CASCADE,default=1)
-    stock=models.IntegerField()
+    car = models.ForeignKey(Car, on_delete=models.CASCADE,default=1)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
+    agent=models.ForeignKey(Agent,on_delete=models.CASCADE,default=1)
+    stock=models.IntegerField(default=0)
+
+class Enquiry(models.Model):
+    name=models.CharField(max_length=255)
+    email=models.EmailField()
+    contact=models.CharField(max_length=15,null=True,blank=True)
+    message=models.TextField()
+
+
+
+
 
    
 
