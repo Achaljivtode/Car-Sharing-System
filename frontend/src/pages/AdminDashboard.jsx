@@ -1,10 +1,10 @@
 import React from 'react'
-import SideBar from '../Components/SideBar/SideBar'
+import Header from '../Components/Header/Header'
 
 function AdminDashboard() {
   return (
-    <div className='flex lg:flex-row md:flex-col flex-col'>
-      <SideBar />
+    <div >
+      <Header />
       <div className='border p-10 w-full h-screen flex flex-col'>
         <div className='flex flex-row justify-between mb-20'>
           <h1 className='text-2xl font-semibold'>Details</h1>

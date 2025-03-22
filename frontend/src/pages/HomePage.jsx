@@ -8,7 +8,7 @@ import Enquiry from '../Components/ContactUs/Enquiry'
 
 function HomePage() {
   return (
-    <div className=''>
+    <div >
         <Header />
         <HeroSection />
         <HeroServices />

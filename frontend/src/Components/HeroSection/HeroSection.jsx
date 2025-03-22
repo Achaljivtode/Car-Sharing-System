@@ -10,6 +10,7 @@ function HeroSection() {
                     <h1 className='text-4xl'>Heading</h1>
                     <button className='border bg-slate-800 hover:bg-slate-950 rounded-lg mt-5 p-3'>Explore More</button>
                 </div>
+                
             </div>
     )
 }
