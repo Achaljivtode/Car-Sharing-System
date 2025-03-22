@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from app.models import Car,CarBook,CustomUser,CarReport,CarType,Company
-from app.serializers import CarSerializer,CarBookSerializer,CustomUserSerializer,CarReportSerializer , CompanySerializer,CarTypeSerializer
+from app.models import Car,CarBook,CustomUser,CarReport,CarType,Company,Agent,Enquiry
+from app.serializers import CarSerializer,CarBookSerializer,CustomUserSerializer,CarReportSerializer , CompanySerializer,CarTypeSerializer,AgentSerializer,EnquirySerializer
 from rest_framework import generics
 from rest_framework.parsers import MultiPartParser, FormParser
 # Create your views here.
@@ -64,4 +64,22 @@ class CarTypeView(generics.ListCreateAPIView):
 class DetailCarTypeView(generics.RetrieveUpdateDestroyAPIView):
     queryset=CarType.objects.all()
     serializer_class=CarTypeSerializer
+    lookup_field='pk'
+
+class AgentView(generics.ListCreateAPIView):
+    queryset=Agent.objects.all()
+    serializer_class=AgentSerializer
+
+class DetailAgentView(generics.RetrieveUpdateDestroyAPIView):
+    queryset=Agent.objects.all()
+    serializer_class=AgentSerializer
+    lookup_field='pk'
+
+class EnquiryView(generics.ListCreateAPIView):
+    queryset=Enquiry.objects.all()
+    serializer_class=EnquirySerializer
+
+class DetailEnquiryView(generics.RetrieveUpdateDestroyAPIView):
+    queryset=Enquiry.objects.all()
+    serializer_class=EnquirySerializer
     lookup_field='pk'
