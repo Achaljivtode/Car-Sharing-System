@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
 import os
 
@@ -40,13 +41,33 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app',
     'rest_framework',
-    'corsheaders',
+    'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
+    'corsheaders'
 ]
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+     'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+    ),
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),  # Access token expires in 30 min
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),  # Refresh token expires in 7 days
+    'ROTATE_REFRESH_TOKENS': True,  #  Issue new refresh token when refreshed
+    'BLACKLIST_AFTER_ROTATION': True,  #  Blacklist old refresh tokens
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    
+    
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -137,9 +158,26 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Folder where uploaded images wil
 AUTH_USER_MODEL = 'app.CustomUser'
 
 CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:5500",
-
-    
+     "http://localhost:5173",
+    "http://127.0.0.1:5173",
 ]
+CORS_ALLOW_CREDENTIALS = True
+
+# CORS_ALLOW_HEADERS = [
+#     'content-type',
+#     'authorization',
+#     'accept',
+#     'origin',
+# ]
+
+# CORS_ALLOW_METHODS = [
+#     'GET',
+#     'POST',
+#     'PUT',
+#     'PATCH',
+#     'DELETE',
+#     'OPTIONS',
+# ]
+
 
 

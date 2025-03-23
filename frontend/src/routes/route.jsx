@@ -11,29 +11,26 @@ import AdminDashboard from "../pages/AdminDashboard";
 import CarAddPage from "../pages/CarAddPage";
 import AllBookingReport from "../pages/AllBookingReport";
 
-
 const routes = createBrowserRouter([
-    { path:'' , element:<HomePage /> },
-    { path:'/home' , element:<HomePage /> },
-    { path:'/about' , element:<AbourPage /> },
-    { path:'/contact' , element:<CountactUsPage /> },
-    { path:'/services' , element:<ServicePage /> },
-    { path:'/booking' , element:<BookCar /> },
-    { path:'/register' , element:<RegisterPage /> },
-    { path:'/login' , element:<LoginPage /> },
+  { path: "", element: <HomePage /> },
+  { path: "/home", element: <HomePage /> },
+  { path: "/about", element: <AbourPage /> },
+  { path: "/contact", element: <CountactUsPage /> },
+  { path: "/services", element: <ServicePage /> },
 
-    // add
-    { path: '/add-car' , element: <CarAddPage /> },
+  { path: "/booking", element: <BookCar /> },
+  { path: "/register", element: <RegisterPage /> },
+  { path: "/login", element: <LoginPage /> },
 
-    // reports
-    { path: '/booking-reports' , element: <AllBookingReport /> },
-    
-    { path:'/admin-dashboard' , element:<AdminDashboard /> },
+  // add
+  { path: "/add-car", element: <CarAddPage /> },
 
+  // reports
+  { path: "/booking-reports", element: <AllBookingReport /> },
 
+  { path: "/admin-dashboard", element: <AdminDashboard /> },
 
-    
-    { path:'*' , element:<PageNotFound /> },
-])
+  { path: "*", element: <PageNotFound /> },
+]);
 
 export default routes;
