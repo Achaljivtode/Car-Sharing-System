@@ -1,8 +1,11 @@
 import React from 'react'
 import Header from '../Components/Header/Header'
 import Footer from '../Components/Footer/Footer'
+import { useNavigate } from 'react-router-dom'
 
 function AllBookingReport() {
+  const navigate = useNavigate()
+  
   return (
     <div>
         <Header />
@@ -26,7 +29,7 @@ function AllBookingReport() {
                 <td className='border border-orange-200 p-2 text-center '>1234567890</td>
                 <td className='border border-orange-200 p-2 text-center '>12/12/2021</td>
                 <td className='border border-orange-200 p-2 text-center '>
-                  <button className='bg-green-500 text-white p-2 rounded-md'>View</button>
+                  <button onClick={()=> navigate(`/booking-details/:id`)} className='bg-green-500 text-white p-2 rounded-md hover:cursor-pointer hover:bg-green-600'>View details</button>
                 </td>
               </tr>
             </table>
