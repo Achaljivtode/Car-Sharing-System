@@ -3,8 +3,15 @@ import Header from '../Components/Header/Header'
 import Footer from '../Components/Footer/Footer'
 import { CiSearch } from "react-icons/ci";
 import cars from '../constant/cars';
+import { useNavigate } from 'react-router-dom'
 
 function BookCar() {
+    const role = localStorage.getItem('role')
+    const navigate = useNavigate()
+    const redirectFunc = () => {
+        role ? navigate(`/book-car/:id`) : navigate('/login')
+    }
+
     const [formData, setFormdata] = useState({
         Pick: 'Nagpur', // from location
         Drop: 'Pune', //to location
@@ -140,7 +147,7 @@ function BookCar() {
                                         <div className='flex'>
                                             <p className=' rounded-2xl bg-green-600 text-white px-5 py-1'>{car.status}</p>
                                             <p className='border border-gray-400 rounded-2xl px-5 py-1 ml-3'>{car.seats} seats</p>
-                                            <button className='border border-gray-400 bg-green-600 hover:cursor-pointer hover:bg-green-700 text-white rounded-2xl px-5 py-1 ml-3'>Book Now</button>
+                                            <button onClick={redirectFunc} className='border border-gray-400 bg-green-600 hover:cursor-pointer hover:bg-green-700 text-white rounded-2xl px-5 py-1 ml-3'>Book Now</button>
                                         </div>
                                         <p><span className='text-3xl font-semibold'>{car.price}</span>/day</p>
                                     </div>

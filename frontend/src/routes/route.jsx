@@ -11,6 +11,7 @@ import AdminDashboard from "../pages/AdminDashboard";
 import CarAddPage from "../pages/CarAddPage";
 import AllBookingReport from "../pages/AllBookingReport";
 import Bookingdetails from "../pages/Bookingdetails";
+import BookCarPage from "../pages/BookCarPage";
 
 
 const routes = createBrowserRouter([
@@ -22,6 +23,7 @@ const routes = createBrowserRouter([
     { path:'/booking' , element:<BookCar /> },
     { path:'/register' , element:<RegisterPage /> },
     { path:'/login' , element:<LoginPage /> },
+    { path:'/book-car/:id', element:<BookCarPage /> },
 
     // add
     { path: '/add-car' , element: <CarAddPage /> },
