@@ -2,11 +2,11 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 function HeroServiceCard({ car }) {
-  const navigate = useNavigate(); // ✅ Initialize navigation
+  const navigate = useNavigate(); //  Initialize navigation
 
-  // ✅ Handle redirection to the booking form
-  const handleBookNow = () => {
-    navigate(`/book/${car.id}`, { state: { car } }); // ✅ Pass car details
+  //  Handle redirection to the booking form
+  const handleBookNow = (carId) => {
+    navigate(`/book-car/${carId}`, { state: { car } }); //  Pass car details
   };
 
   return (
@@ -25,10 +25,10 @@ function HeroServiceCard({ car }) {
       </p>
       <p className="text-center text-gray-500">{car.description}</p>
 
-      {/* ✅ Book Now Button */}
+      {/*  Book Now Button */}
       <div className="text-center mt-4">
         <button
-          onClick={handleBookNow}
+          onClick={() => handleBookNow(car.id)}
           className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200"
         >
           Book Now

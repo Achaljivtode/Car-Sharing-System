@@ -14,42 +14,22 @@ import Bookingdetails from "../pages/Bookingdetails";
 import BookCarPage from "../pages/BookCarPage";
 
 const routes = createBrowserRouter([
-<<<<<<< HEAD
   { path: "", element: <HomePage /> },
   { path: "/home", element: <HomePage /> },
   { path: "/about", element: <AbourPage /> },
   { path: "/contact", element: <CountactUsPage /> },
   { path: "/services", element: <ServicePage /> },
-=======
-    { path:'' , element:<HomePage /> },
-    { path:'/home' , element:<HomePage /> },
-    { path:'/about' , element:<AbourPage /> },
-    { path:'/contact' , element:<CountactUsPage /> },
-    { path:'/services' , element:<ServicePage /> },
-    { path:'/booking' , element:<BookCar /> },
-    { path:'/register' , element:<RegisterPage /> },
-    { path:'/login' , element:<LoginPage /> },
-    { path:'/book-car/:id', element:<BookCarPage /> },
->>>>>>> 370e49c6188ed0dbf0ed5c6558c1b18154757e87
-
   { path: "/booking", element: <BookCar /> },
   { path: "/register", element: <RegisterPage /> },
   { path: "/login", element: <LoginPage /> },
+  { path: "/book-car/:id", element: <BookCarPage /> },
 
-<<<<<<< HEAD
   // add
   { path: "/add-car", element: <CarAddPage /> },
-=======
-    // reports
-    { path: '/booking-reports' , element: <AllBookingReport /> },
-    { path: '/booking-details/:id' , element: <Bookingdetails /> },
-
-    
-    { path:'/admin-dashboard' , element:<AdminDashboard /> },
->>>>>>> 370e49c6188ed0dbf0ed5c6558c1b18154757e87
 
   // reports
   { path: "/booking-reports", element: <AllBookingReport /> },
+  { path: "/booking-details/:id", element: <Bookingdetails /> },
 
   { path: "/admin-dashboard", element: <AdminDashboard /> },
 

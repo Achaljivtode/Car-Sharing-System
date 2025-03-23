@@ -19,6 +19,36 @@ export const fetchCars = async () => {
   }
 };
 
+export const fetchCarById = async (carId) => {
+  try {
+    const response = await api.get(`/cars/${carId}/`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching car details:", error);
+    return null;
+  }
+};
+
+// Book a car
+export const bookCar = async (bookingData) => {
+  try {
+    const token = localStorage.getItem("token"); //  Ensure user is logged in
+    const response = await api.post("/booking-report/", bookingData, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // Include auth token
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error booking car:",
+      error.response ? error.response.data : error.message
+    );
+    return null;
+  }
+};
+
 // Function to Register a User (Supports File Upload)
 export const registerUser = async (userData) => {
   try {

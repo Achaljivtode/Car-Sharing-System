@@ -88,6 +88,7 @@ class AgentSerializer(serializers.ModelSerializer):
 # CarBookSerializer
 
 class CarBookSerializer(serializers.ModelSerializer):
+    car_image_url = serializers.SerializerMethodField()
     car_owner=serializers.CharField(source='car.agent.owner_name',read_only=True)
     car_name=serializers.CharField(source='car.agent.car_model',read_only=True)
     car_type=serializers.CharField(source='car.agent.carType.car_type',read_only=True)
@@ -101,7 +102,16 @@ class CarBookSerializer(serializers.ModelSerializer):
     
     class Meta:
         model=CarBook
-        fields=['id','user','user_name','user_email','user_contact','booking_date','pickup_date','drop_date','car','pickup_addr','drop_addr','car_owner','car_name','car_type','car_company','price']
+        fields=['id','user','user_name','user_email','user_contact','booking_date','pickup_date','drop_date','car','pickup_addr','drop_addr','car_owner','car_name','car_image_url','car_type','car_company','price']
+
+    def get_car_image_url(self, obj):
+        """
+        Fetch the car image URL from the related Car model.
+        """
+        request = self.context.get('request')
+        if obj.car.agent.car_image and request:
+            return request.build_absolute_uri(obj.car.agent.car_image.url)
+        return None
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
