@@ -10,6 +10,7 @@ import ServicePage from "../pages/ServicePage";
 import AdminDashboard from "../pages/AdminDashboard";
 import CarAddPage from "../pages/CarAddPage";
 import AllBookingReport from "../pages/AllBookingReport";
+import Bookingdetails from "../pages/Bookingdetails";
 
 
 const routes = createBrowserRouter([
@@ -27,6 +28,8 @@ const routes = createBrowserRouter([
 
     // reports
     { path: '/booking-reports' , element: <AllBookingReport /> },
+    { path: '/booking-details/:id' , element: <Bookingdetails /> },
+
     
     { path:'/admin-dashboard' , element:<AdminDashboard /> },
 
