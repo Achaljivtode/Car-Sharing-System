@@ -47,7 +47,7 @@ function Header() {
                             <>
                                 {
                                     Users.customer && Object.keys(Users.customer).map((key, index) => (
-                                        <a href={Users.customer[key]} className="text-sm hover:text-blue-700 font-bold p-2 my-4">{key}</a>
+                                        <a href={Users.customer[key]} key={index} className="text-sm hover:text-blue-700 font-bold p-2 my-4">{key}</a>
                                     ))
                                 }
                             </>
@@ -98,7 +98,7 @@ function Header() {
                                             </div>
                                         }
                                     </div>
-                                    <a href="/account" className="text-sm hover:text-blue-700 font-bold p-2 my-4">ACCOUNT</a>
+                                    <a href="/my-account" className="text-sm hover:text-blue-700 font-bold p-2 my-4">ACCOUNT</a>
                                 </>
                             ) : (
                                 <>

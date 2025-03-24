@@ -11,6 +11,14 @@ admin add section :
 2. add car type
 3. add company
 
+created account page
+
+customer :
+added add-car page
+created customer dashboard
+created account page
+
+
 
 
 

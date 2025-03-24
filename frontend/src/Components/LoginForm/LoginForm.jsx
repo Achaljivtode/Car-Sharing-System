@@ -24,7 +24,7 @@ function LoginForm() {
         if (response.role === "admin") {
           navigate("/admin-dashboard");
         } else {
-          navigate("/home");
+          navigate("/customer-dashboard");
         }
       } else {
         alert(" Login Failed! Check your credentials.");

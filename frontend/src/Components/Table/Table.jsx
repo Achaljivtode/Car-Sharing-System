@@ -3,7 +3,7 @@ import React from 'react'
 function Table({ tableHeading, tableData, heading }) {
     return (
         <div className='border-y-3 border-y-amber-600 max-w-7xl mx-auto my-10 shadow-[1px_10px_50px_rgba(0,0,0,0.15)] p-10'>
-            <h1 className='text-orange-400 text-2xl font-semibold'>{heading}</h1>
+            <h1 className='text-orange-400 text-2xl mb-2 font-semibold'>{heading}</h1>
             <hr />
             <table className='w-full my-10'>
                 <thead>

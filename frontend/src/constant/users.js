@@ -3,8 +3,8 @@ const users = {
         CONTACT: '/contact',
         Dashboard: '/customer-dashboard',
         'BOOK CAR': '/booking',
-        ACCOUNT : '/account',
-        'MY BOOKING' : '/history'
+        ACCOUNT : '/my-account',
+        'MY BOOKING' : '/my-booking'
     },
     admin : 
         {

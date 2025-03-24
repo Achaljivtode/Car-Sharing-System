@@ -22,9 +22,13 @@ import AddCompany from "../pages/AddCompany";
 import AddCartype from "../pages/AddCartype";
 import EditCarType from "../pages/EditCarType";
 import EditCompany from "../pages/EditCompany";
+import CustomerDashboard from "../pages/CustomerDashboard";
+import CustomerBookingPage from "../pages/CustomerBookingPage";
+import Account from "../pages/Account";
 
 
 const routes = createBrowserRouter([
+    //  DEFAULT 
     { path:'' , element:<HomePage /> },
     { path:'/home' , element:<HomePage /> },
     { path:'/about' , element:<AbourPage /> },
@@ -37,6 +41,8 @@ const routes = createBrowserRouter([
 
     { path:'/table', element:<Table /> },
 
+
+    // ADMIN -------
   // add
   { path: "/add-car", element: <CarAddPage /> },
   { path: "/add-car-type", element: <AddCartype /> },
@@ -61,10 +67,17 @@ const routes = createBrowserRouter([
 
     
     { path:'/admin-dashboard' , element:<AdminDashboard /> },
-
-
-
     
+    
+    // CUSTOMER -----
+    
+    
+    { path:'/my-booking' , element:<CustomerBookingPage /> },
+    { path:'/customer-dashboard' , element:<CustomerDashboard /> },
+
+
+
+    { path:'my-Account', element:<Account /> },
     { path:'*' , element:<PageNotFound /> },
 ])
 
