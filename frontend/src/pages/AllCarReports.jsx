@@ -1,42 +1,71 @@
-import React from 'react'
-import '../styles.css'
-import Header from '../Components/Header/Header'
-import Footer from '../Components/Footer/Footer'
-import Table from '../Components/Table/Table'
-import { useNavigate } from 'react-router-dom'
+import React from "react";
+import "../styles.css";
+import Header from "../Components/Header/Header";
+import Footer from "../Components/Footer/Footer";
+import Table from "../Components/Table/Table";
+import { useNavigate } from "react-router-dom";
+import { getAllCarReports } from "../api";
+import { useEffect, useState } from "react";
 
 function AllCarReports() {
-    const navigate = useNavigate()
-    const redirectCardeatils =() => {
-        navigate('/car-details:id')
-    }
-    const userHeading = ['ID','Image', 'Owner Name', 'Contact','Car Name', 'Type', 'Company', 'Stock', 'Price', 'Action']
-    const userData = [
-        // data values only
-        [
-            '1',            // id
-            <img src="/Resources/Cars/bmw 3 series.png" alt="image" className='image' />,
-            'Aman Kumar',       // owner name
-            '1234567890',       // Contact
-            'AUdi 3 Series',    // Car Name
-            'sedan',            // Type
-            'audi',             // Company
-            '10',               // Stock
-            '1500',             // Price
-            [
-                <button onClick={redirectCardeatils} className='editButton'>Edit</button>,
-                <button className='deleteButton'>Delete</button>
+  const [report, setReport] = useState([]);
+  const navigate = useNavigate();
+  const redirectCardeatils = () => {
+    navigate("/car-details:id");
+  };
 
-            ]
-        ]
-    ];
-    return (
-        <div>
-            <Header />
-            <Table tableHeading={userHeading} tableData={userData} heading='All Cars' />
-            <Footer />
-        </div>
-    )
+  useEffect(() => {
+    async function getCarReports() {
+      const reportData = await getAllCarReports();
+      console.log("fetched all Car Reports :", reportData);
+      if (reportData) {
+        setReport(reportData);
+      }
+    }
+    getCarReports();
+  }, []);
+
+  const userHeading = [
+    "ID",
+    "Image",
+    "Owner Name",
+    "Contact",
+    "Car Name",
+    "Type",
+    "Company",
+    "Stock",
+    "Price",
+    "Action",
+  ];
+  const userData = report.map((car) => [
+    // data values only
+    car.id, // id
+    <img src={car.car_image_url} alt="car" className="image" />,
+    car.car_owner, // owner name
+    car.user_contact, // Contact
+    car.car_name, // Car Name
+    car.car_type, // Type
+    car.car_company, // Company
+    car.stock, // Stock
+    car.price, // Price
+    [
+      <button onClick={() => redirectCardeatils(car.id)} className="editButton">
+        Edit
+      </button>,
+      <button className="deleteButton">Delete</button>,
+    ],
+  ]);
+  return (
+    <div>
+      <Header />
+      <Table
+        tableHeading={userHeading}
+        tableData={userData}
+        heading="All Cars"
+      />
+      <Footer />
+    </div>
+  );
 }
 
-export default AllCarReports
+export default AllCarReports;

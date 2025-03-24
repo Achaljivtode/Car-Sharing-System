@@ -137,6 +137,21 @@ export const registerUser = async (userData) => {
   }
 };
 
+export const fetchCustomers = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await api.get("/users/?role=customer", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching customers : ", error);
+    return null;
+  }
+};
+
 // Function to Login User
 export const loginUser = async (userData) => {
   try {
@@ -153,3 +168,66 @@ export const loginUser = async (userData) => {
 };
 
 export default api;
+
+// ______________________________________________________________________
+
+export const getAllCarReports = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await api.get(`/car-report/`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching cars:", error);
+    return null;
+  }
+};
+
+export const addcarType = async (carType) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await api.post(`/car-types/`, carType, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error adding car Type :", error);
+    return null;
+  }
+};
+
+export const getCarTypeReport = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await api.get(`/car-types/`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching cars:", error);
+    return null;
+  }
+};
+
+export const getCompanyReport = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await api.get(`/companies/`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching cars:", error);
+    return null;
+  }
+};
