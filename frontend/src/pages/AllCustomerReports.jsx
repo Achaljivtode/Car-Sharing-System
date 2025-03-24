@@ -1,28 +1,52 @@
-import React from 'react'
-import Header from '../Components/Header/Header'
-import Footer from '../Components/Footer/Footer'
-import Table from '../Components/Table/Table'
+import React, { useState, useEffect } from "react";
+import Header from "../Components/Header/Header";
+import Footer from "../Components/Footer/Footer";
+import Table from "../Components/Table/Table";
+import { fetchCustomers } from "../api";
 
 function AllCustomerReports() {
-    const userHeading =['Sr.No','Image','Name','Mobile','Email','Date Of Birth','Action']
-    const userData = [
-      [
-        1,
-        <img src="/Resources/Cars/bmw 3 series.png" alt="" className='image' />,  // customer image
-        'John Doe',
-        '1234567890',
-        'johndoe@example.com',
-        '1990-01-01',
-        <button className='deleteButton'>Delete</button>
-      ]
-    ]
+  const [customer, setCustomer] = useState([]);
+
+  useEffect(() => {
+    async function getCustomers() {
+      const customerData = await fetchCustomers();
+      console.log("fetch all customers :", customerData);
+      if (customerData) {
+        setCustomer(customerData);
+      }
+    }
+    getCustomers();
+  }, []);
+  const userHeading = [
+    "Sr.No",
+    "Image",
+    "Name",
+    "Mobile",
+    "Email",
+    "Date Of Birth",
+    "Action",
+  ];
+  const userData = customer.map((user) => [
+    user.id,
+    <img src={user.user_image_url} alt={user.username} className="image" />, // customer image
+    user.full_name,
+    user.phone_number,
+    user.email,
+    user.dob,
+    <button className="deleteButton">Delete</button>,
+  ]);
+
   return (
     <div>
-        <Header />
-        <Table tableHeading={userHeading} tableData={userData} heading='All Customer' />
-        <Footer />
+      <Header />
+      <Table
+        tableHeading={userHeading}
+        tableData={userData}
+        heading="All Customer"
+      />
+      <Footer />
     </div>
-  )
+  );
 }
 
-export default AllCustomerReports
+export default AllCustomerReports;

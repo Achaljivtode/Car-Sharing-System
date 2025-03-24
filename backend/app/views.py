@@ -27,7 +27,7 @@ from rest_framework.parsers import JSONParser, FormParser # type: ignore
 class RegisterView(generics.ListCreateAPIView):
     queryset=CustomUser.objects.all()
     serializer_class=CustomUserSerializer
-
+    
 
     
 User=get_user_model()
