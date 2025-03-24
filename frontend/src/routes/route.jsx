@@ -32,8 +32,8 @@ const routes = createBrowserRouter([
 
     { path:'/table', element:<Table /> },
 
-    // add
-    { path: '/add-car' , element: <CarAddPage /> },
+  // add
+  { path: "/add-car", element: <CarAddPage /> },
 
     // reports
     

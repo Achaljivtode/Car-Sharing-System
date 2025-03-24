@@ -17,6 +17,8 @@ class CustomUser(AbstractUser):
         (ADMIN,'admin')
     ]
 
+    email = models.EmailField(unique=True)
+
     full_name=models.CharField(max_length=255)
     user_image=models.ImageField(upload_to='user_images/',null=True,blank=True)
     dob=models.DateField(null=True,blank=True)

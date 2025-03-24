@@ -1,12 +1,51 @@
 from rest_framework import serializers
-from app.models import Car,CarBook,CustomUser,CarReport,Company,CarType,Agent,Enquiry
+from django.contrib.auth.hashers import make_password
+from app.models import (
+    Car,
+    CarBook,
+    CustomUser,
+    CarReport,
+    Company,
+    CarType,
+    Agent,
+    Enquiry,
+    CustomUser
+)
+
+
+# class CustomUserSerializer(serializers.ModelSerializer):
+#     user_image_url=serializers.SerializerMethodField()
+#     password=serializers.CharField(write_only=True)
+#     confirm_password=serializers.CharField(write_only=True)
+
+#     class Meta:
+#         model=CustomUser
+#         fields=['id','username','email','password','confirm_password','full_name','user_image','user_image_url','dob','phone_number','address','role']
+
+
+#     def validate(self,data):
+#         if data['password'] != data['confirm_password']:
+#             raise serializers.ValidationError({"Confirm Password":"password does not match ..."})
+#         return data
+    
+#     def create(self,validated_data):
+#         validated_data.pop('confirm_password')
+#         validated_data['password'] = make_password(validated_data['password'])  # Hash Passowrd
+#         user=CustomUser.objects.create_user(**validated_data)
+#         return user
+
+#     def get_user_image_url(self,obj):
+#         request=self.context.get('request')
+#         if obj.user_image and request:
+#             return request.build_absolute_uri(obj.user_image.url)
+#         return None
+
 
 
 # Car Seraializer
 
 class CarSerializer(serializers.ModelSerializer):
-    # carType_name=serializers.CharField(source='carType.car_type',read_only=True)
-    # company_name=serializers.CharField(source='company.company_name',read_only=True)
+    
     car_image_url=serializers.SerializerMethodField() # Generate full URL
     car_owner=serializers.CharField(source='agent.owner_name',read_only=True)
     owner_email=serializers.CharField(source='agent.owner_email',read_only=True)
@@ -49,6 +88,7 @@ class AgentSerializer(serializers.ModelSerializer):
 # CarBookSerializer
 
 class CarBookSerializer(serializers.ModelSerializer):
+    car_image_url = serializers.SerializerMethodField()
     car_owner=serializers.CharField(source='car.agent.owner_name',read_only=True)
     car_name=serializers.CharField(source='car.agent.car_model',read_only=True)
     car_type=serializers.CharField(source='car.agent.carType.car_type',read_only=True)
@@ -62,13 +102,22 @@ class CarBookSerializer(serializers.ModelSerializer):
     
     class Meta:
         model=CarBook
-        fields=['id','user','user_name','user_email','user_contact','booking_date','pickup_date','drop_date','car','pickup_addr','drop_addr','car_owner','car_name','car_type','car_company','price']
+        fields=['id','user','user_name','user_email','user_contact','booking_date','pickup_date','drop_date','car','pickup_addr','drop_addr','car_owner','car_name','car_image_url','car_type','car_company','price']
+
+    def get_car_image_url(self, obj):
+        """
+        Fetch the car image URL from the related Car model.
+        """
+        request = self.context.get('request')
+        if obj.car.agent.car_image and request:
+            return request.build_absolute_uri(obj.car.agent.car_image.url)
+        return None
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
     user_image_url=serializers.SerializerMethodField()
     password = serializers.CharField(write_only=True)
-    confirm_password = serializers.CharField(write_only=True)
+    confirm_password = serializers.CharField(write_only=True,required=False)
     class Meta:
         model=CustomUser
         fields=['id','username','role','email','password', 'confirm_password','full_name','phone_number','dob','address','user_image','user_image_url']
@@ -77,14 +126,16 @@ class CustomUserSerializer(serializers.ModelSerializer):
         }
 
     def validate(self, data):
-        if data.get('password') != data.get('confirm_password'):
+        password = data.get('password')
+        confirm_password=data.pop('confirm_password',None)
+
+        if password and confirm_password and password != confirm_password:
             raise serializers.ValidationError({"confirm_password": "Passwords do not match."})
         return data
-    
+        
     def create(self, validated_data):
-        validated_data.pop('confirm_password')  # Remove confirm_password before saving
-        user = CustomUser.objects.create_user(**validated_data)  # Use create_user to hash password
-        return user
+         validated_data['password'] = make_password(validated_data['password'])  # Hash password
+         return CustomUser.objects.create(**validated_data)
 
 
     def get_user_image_url(self,obj):
@@ -93,7 +144,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
             return request.build_absolute_uri(obj.user_image.url)
         return None
     
-   
+
 
 class CarReportSerializer(serializers.ModelSerializer):
     car_image_url=serializers.SerializerMethodField()
