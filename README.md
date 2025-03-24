@@ -1,3 +1,13 @@
+
+date: 24-03-2025
+time: 1:28 pm
+Backend
+admin:
+1. All Booking Report Page - > it fetches all bkookings
+2. Booking details page -> it fetches particular id
+3. Car Add page -> (some changes are remaining)
+--------------------------------------------------------------------------------------
+
 date :24-03-2025
 time: 12:11 pm
 admin:
