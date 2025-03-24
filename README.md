@@ -1,4 +1,14 @@
+date: 24-03-2025
+time: 4:05 pm
+Backend
+admin:
+1.All Car Report page
+2.All Car type Report Page
+3.All Company Report Page
+4.All Customer Report Page
 
+(edit and delete is pending)
+_________________________________________________________________________________________
 date: 24-03-2025
 time: 1:28 pm
 Backend
