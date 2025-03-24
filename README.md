@@ -13,7 +13,7 @@ admin:
 
 4.All Customer Report Page
 
-(edit and delete is pending)
+(edit and delete pages are pending)
 _________________________________________________________________________________________
 date: 24-03-2025
 time: 1:28 pm
