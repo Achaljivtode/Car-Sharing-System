@@ -1,9 +1,15 @@
 date :24-03-2025
+time: 12:11 pm
 admin:
-1. all car report page
-2. all car type report page
-3. all company reports page
-4. all customer reports page
+1. all car report page          -> edit page ready
+2. all car type report page     -> edit page ready
+3. all company reports page     -> edit page ready
+4. all customer reports page    -> edit page ready
+
+admin add section :
+1. add car
+2. add car type
+3. add company
 
 
 

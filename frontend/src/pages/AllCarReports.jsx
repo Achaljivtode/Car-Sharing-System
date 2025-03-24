@@ -3,8 +3,13 @@ import '../styles.css'
 import Header from '../Components/Header/Header'
 import Footer from '../Components/Footer/Footer'
 import Table from '../Components/Table/Table'
+import { useNavigate } from 'react-router-dom'
 
 function AllCarReports() {
+    const navigate = useNavigate()
+    const redirectCardeatils =() => {
+        navigate('/car-details:id')
+    }
     const userHeading = ['ID','Image', 'Owner Name', 'Contact','Car Name', 'Type', 'Company', 'Stock', 'Price', 'Action']
     const userData = [
         // data values only
@@ -19,7 +24,7 @@ function AllCarReports() {
             '10',               // Stock
             '1500',             // Price
             [
-                <button className='viewButton'>View</button>,
+                <button onClick={redirectCardeatils} className='editButton'>Edit</button>,
                 <button className='deleteButton'>Delete</button>
 
             ]

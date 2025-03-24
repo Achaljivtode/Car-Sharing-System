@@ -17,6 +17,11 @@ import AllCarTypeReports from "../pages/AllCarTypeReports";
 import Table from "../Components/Table/Table";
 import AllCompanyReports from "../pages/AllCompanyReports";
 import AllCustomerReports from "../pages/AllCustomerReports";
+import EditCarPage from "../pages/EditCarPage";
+import AddCompany from "../pages/AddCompany";
+import AddCartype from "../pages/AddCartype";
+import EditCarType from "../pages/EditCarType";
+import EditCompany from "../pages/EditCompany";
 
 
 const routes = createBrowserRouter([
@@ -34,12 +39,21 @@ const routes = createBrowserRouter([
 
   // add
   { path: "/add-car", element: <CarAddPage /> },
+  { path: "/add-car-type", element: <AddCartype /> },
+  { path: "/add-company", element: <AddCompany /> },
 
     // reports
     
     { path: '/car-reports' , element: <AllCarReports /> },
+    { path: '/car-details:id' , element: <EditCarPage /> },
+
+
     { path: '/car-type-reports' , element: <AllCarTypeReports /> },
+    { path:'/car-type/edit/:id', element:<EditCarType /> },
+
     { path: '/company-reports' , element: <AllCompanyReports /> },
+    { path: '/company-report/edit/:id' , element: <EditCompany /> },
+
     { path: '/customer-reports' , element: <AllCustomerReports /> },
 
     { path: '/booking-reports' , element: <AllBookingReport /> },

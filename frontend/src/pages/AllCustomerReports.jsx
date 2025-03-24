@@ -13,9 +13,7 @@ function AllCustomerReports() {
         '1234567890',
         'johndoe@example.com',
         '1990-01-01',
-        [<button className='viewButton'>view</button>,
-          <button className='deleteButton'>Delete</button>]
-        
+        <button className='deleteButton'>Delete</button>
       ]
     ]
   return (

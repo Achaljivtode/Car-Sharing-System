@@ -3,8 +3,10 @@ import '../styles.css';
 import Header from '../Components/Header/Header'
 import Footer from '../Components/Footer/Footer'
 import Table from '../Components/Table/Table'
+import { useNavigate } from 'react-router-dom';
 
 function AllCarTypeReports() {
+    const navigate = useNavigate()
     const userHeading = ['Sr.No','Type Name', 'Type Description', 'Action']
     const userData = [
         // data values only
@@ -13,7 +15,7 @@ function AllCarTypeReports() {
           'BMW',
           'hello',
           [
-            <button className="viewButton">View</button>,
+            <button className="editButton" onClick={()=> navigate('/car-type/edit/:id')}>Edit</button>,
             <button className="deleteButton">Delete</button>
           ]
         ],
