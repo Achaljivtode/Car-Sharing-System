@@ -231,3 +231,21 @@ export const getCompanyReport = async () => {
     return null;
   }
 };
+
+// ______________________________________________________
+
+// Contact Us or Enquiry
+
+export const enquiry = async (formData) => {
+  try {
+    const response = await api.post(`/enquiry/`, formData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error submitting Enquiry  :", error);
+    return null;
+  }
+};
