@@ -20,9 +20,6 @@ function BookCarPage() {
   const navigate = useNavigate();
   const [car, setCar] = useState(null);
 
-  // useEffect(() => {
-  //     validateInputFields();
-  // }, [customerName, contactNumber, email, pickupDate, dropDate, pickupAddress, dropAddress,]);
 
   useEffect(() => {
     const getCarDetails = async () => {

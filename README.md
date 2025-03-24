@@ -2,7 +2,8 @@ date :24-03-2025
 admin:
 1. all car report page
 2. all car type report page
-
+3. all company reports page
+4. all customer reports page
 
 
 
