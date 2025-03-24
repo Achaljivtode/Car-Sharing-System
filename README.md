@@ -1,3 +1,15 @@
+date :24-03-2025
+admin:
+1. all car report page
+2. all car type report page
+
+
+
+
+
+---------------------------------------------------
+
+
 https://www.jdomni.com/ecommerce-themes/car-rental-services-template
 
 BOOKING:----

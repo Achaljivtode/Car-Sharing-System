@@ -1,0 +1,20 @@
+.deleteButton {
+    background-color: red;
+    padding: 5px 10px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.viewButton {
+    background-color: rgb(43, 172, 43);
+    margin-right: 5px;
+    padding: 5px 10px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.image{
+    margin: auto;
+    width: 120px;
+    height: 75px;
+}
