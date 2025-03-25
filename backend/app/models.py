@@ -31,64 +31,89 @@ class CustomUser(AbstractUser):
         return f'{self.username} ({self.role})'
 
 
-class Company(models.Model):
-    company_name=models.CharField(max_length=60)
-    description=models.TextField()
 
-    def __str__(self):
-        return self.company_name
 
-class CarType(models.Model):
-    car_type=models.CharField(max_length=100)
-    description=models.TextField()
 
-    def __str__(self):
-        return self.car_type
     
-class Agent(models.Model):
-    owner_name=models.CharField(max_length=255)
-    owner_email=models.EmailField(unique=True)
-    owner_contact=models.CharField(max_length=15,unique=True,null=True,blank=True)
-    owner_adress=models.TextField()
 
-    car_model=models.CharField(max_length=60)
-    car_number = models.CharField(max_length=15, unique=True,validators=[car_number_validator])
-    carType=models.ForeignKey(CarType,on_delete=models.CASCADE,default=1) # carType stores id 
-    company=models.ForeignKey(Company,on_delete=models.CASCADE,default=1)
-    car_image=models.ImageField(upload_to='car_images/',default=1)
-
-    def __str__(self):
-        return self.owner_name
 
 class Car(models.Model):
-    agent=models.ForeignKey(Agent,on_delete=models.CASCADE,default=1)
-    from_location=models.CharField(max_length=255)
-    to_location=models.CharField(max_length=255)
-    price_per_day=models.DecimalField(max_digits=10, decimal_places=2)
-    description=models.TextField()
+    PETROL="petrol"
+    DIESEL="diesel"
+    ELECTRIC="electric"
+
+    FUEL_TYPE_CHOICES=[
+        (PETROL,"petrol"),
+        (DIESEL,"diesel"),
+        (ELECTRIC,"electric"),
+    ]
+
+    AVAILABLE="available"
+    IN_USE="in_use"
+
+    STATUS_CHOICES=[
+        (AVAILABLE,"available"),
+        (IN_USE,"in_use")
+    ]
+
+    # Feature Choices (Should be ManyToManyField)
+    class Feature(models.TextChoices):
+        AUTOPILOT = "autopilot", "Autopilot"
+        PREMIUM_SOUND = "premium_sound", "Premium Sound"
+        HEATED_SEATS = "heated_seats", "Heated Seats"
+        PARK_ASSIST = "park_assist", "Park Assist"
+        NAVIGATION = "navigation", "Navigation"
+        BLUETOOTH = "bluetooth", "Bluetooth"
+        AIR_SUSPENSION = "air_suspension", "Air Suspension"
+
+    
+
+    car_owner=models.CharField(max_length=255,default="none")
+    car_model=models.CharField(max_length=60,default="none")
+    car_number = models.CharField(max_length=15, unique=True,validators=[car_number_validator],null=True,blank=True)
+    fuel_type=models.CharField(max_length=10,choices=FUEL_TYPE_CHOICES,default=PETROL)
+    car_image=models.ImageField(upload_to='car_images/',default='Kia1.jpg')
+    price_per_hour=models.DecimalField(max_digits=10, decimal_places=2)
+    status=models.CharField(max_length=10,choices=STATUS_CHOICES,default=AVAILABLE)
+    # Features as ManyToManyField
+    features = models.CharField(
+        max_length=50,
+        choices=Feature.choices,
+        blank=True,
+        null=True
+    )
+
+    
+
+    
 
     def __str__(self):
-        return self.agent.car_model if self.agent else "Unknown Car"
+        return self.car_model 
 
 class CarBook(models.Model):
+    
+
     booking_date=models.DateTimeField(auto_now=True)
+    pickup_location=models.TextField(null=True,blank=True)
+    drop_location=models.TextField(null=True,blank=True)
     pickup_date=models.DateField()
     drop_date=models.DateField()
     car = models.ForeignKey(Car, on_delete=models.CASCADE, default=1)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
-    agent = models.ForeignKey(Agent, on_delete=models.CASCADE, default=1)
+    
 
 
     def __str__(self):
-        car_model = self.car.agent.car_model if self.car and self.car.agent else "Unknown Car"
+        car_model = self.car.car_model if self.car and self.car.car_owner else "Unknown Car"
         return f"Booking for {car_model} from {self.pickup_date} to {self.drop_date}"
 
 
-class CarReport(models.Model):
-    car = models.ForeignKey(Car, on_delete=models.CASCADE,default=1)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
-    agent=models.ForeignKey(Agent,on_delete=models.CASCADE,default=1)
-    stock=models.IntegerField(default=0)
+# class CarReport(models.Model):
+
+#     car = models.ForeignKey(Car, on_delete=models.CASCADE,default=1)
+#     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
+    
+#     stock=models.IntegerField(default=0)
 
 class Enquiry(models.Model):
     name=models.CharField(max_length=255)

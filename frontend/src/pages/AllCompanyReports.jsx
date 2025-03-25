@@ -3,7 +3,7 @@ import Header from "../Components/Header/Header";
 import Footer from "../Components/Footer/Footer";
 import Table from "../Components/Table/Table";
 import { useNavigate } from "react-router-dom";
-import { getCompanyReport } from "../api";
+import { getCompanyReport, getCompanyById } from "../api";
 
 function AllCompanyReports() {
   const [company, setComapny] = useState([]);
@@ -20,24 +20,27 @@ function AllCompanyReports() {
     getCompanies();
   }, []);
 
-  const userHeading = [
-    "Sr.No",
-    "Company Name",
-    "Company Description",
-    "Action",
-  ];
+  const handleDelete = async (companyId) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this car type?"
+    );
+    if (confirmDelete) {
+      const success = await getCompanyById(companyId);
+      if (success) {
+        setComapny(company.filter((car) => car.id !== companyId)); // Remove from state
+      }
+    }
+  };
+
+  const userHeading = ["ID", "Company Name", "Company Description", "Action"];
   const userdata = company.map((company) => [
     company.id, // Sr.No
     company.company_name, // Company Name
     company.description, // Company Description
     [
-      <button
-        className="editButton"
-        onClick={() => navigate("/company-report/edit/:id")}
-      >
-        Edit
+      <button className="deleteButton" onClick={() => handleDelete(company.id)}>
+        Delete
       </button>,
-      <button className="deleteButton">Delete</button>,
     ],
   ]);
   return (
