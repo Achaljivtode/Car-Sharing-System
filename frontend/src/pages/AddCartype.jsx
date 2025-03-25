@@ -23,6 +23,8 @@ function AddCartype() {
     if (response) {
       setMessage("Car Type added successfully!");
       setFormData({ car_type: "", description: "" }); // Reset form
+      console.log('submitted');
+      
     } else {
       setMessage("Error adding car type. Please try again.");
     }

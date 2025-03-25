@@ -25,46 +25,51 @@ import EditCompany from "../pages/EditCompany";
 import CustomerDashboard from "../pages/CustomerDashboard";
 import CustomerBookingPage from "../pages/CustomerBookingPage";
 import Account from "../pages/Account";
+import Helo from "../pages/helo";
+import User from "../pages/Users";
+import CarsReports2 from "../pages/CarsReport2";
+import AddCar2 from "../pages/AddCar2";
+import Booking2 from "../pages/Booking2";
 
 
 const routes = createBrowserRouter([
     //  DEFAULT 
     { path:'' , element:<HomePage /> },
     { path:'/home' , element:<HomePage /> },
-    { path:'/about' , element:<AbourPage /> },
+    // { path:'/about' , element:<AbourPage /> },
     { path:'/contact' , element:<CountactUsPage /> },
     { path:'/services' , element:<ServicePage /> },
     { path:'/booking' , element:<BookCar /> },
     { path:'/register' , element:<RegisterPage /> },
     { path:'/login' , element:<LoginPage /> },
     { path:'/book-car/:id', element:<BookCarPage /> },
-
+    
     { path:'/table', element:<Table /> },
-
-
+    
+    
     // ADMIN -------
-  // add
-  { path: "/add-car", element: <CarAddPage /> },
-  { path: "/add-car-type", element: <AddCartype /> },
-  { path: "/add-company", element: <AddCompany /> },
-
+    // add
+    { path: "/add-car", element: <CarAddPage /> },
+    { path: "/add-car-type", element: <AddCartype /> },
+    { path: "/add-company", element: <AddCompany /> },
+    
     // reports
     
     { path: '/car-reports' , element: <AllCarReports /> },
     { path: '/car-details:id' , element: <EditCarPage /> },
-
-
+    
+    
     { path: '/car-type-reports' , element: <AllCarTypeReports /> },
     { path:'/car-type/edit/:id', element:<EditCarType /> },
-
+    
     { path: '/company-reports' , element: <AllCompanyReports /> },
     { path: '/company-report/edit/:id' , element: <EditCompany /> },
-
+    
     { path: '/customer-reports' , element: <AllCustomerReports /> },
-
+    
     { path: '/booking-reports' , element: <AllBookingReport /> },
     { path: '/booking-details/:id' , element: <Bookingdetails /> },
-
+    
     
     { path:'/admin-dashboard' , element:<AdminDashboard /> },
     
@@ -74,11 +79,19 @@ const routes = createBrowserRouter([
     
     { path:'/my-booking' , element:<CustomerBookingPage /> },
     { path:'/customer-dashboard' , element:<CustomerDashboard /> },
-
-
-
+    
+    
+    
     { path:'my-Account', element:<Account /> },
     { path:'*' , element:<PageNotFound /> },
-])
 
+
+
+    { path:'/helo' , element:<Helo /> },
+    { path:'/users' , element:<User /> },
+    { path:'/admin-booking' , element:<Booking2 /> },
+    { path:'/cars' , element:<CarsReports2 /> },
+    { path:'/add-cars' , element:<AddCar2 /> },
+  ])
+  
 export default routes;

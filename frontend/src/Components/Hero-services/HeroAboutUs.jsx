@@ -2,7 +2,7 @@ import React from 'react'
 
 function HeroAboutUs() {
   return (
-    <div>
+    <div id='about'>
         <h1 className='text-center text-3xl mt-30 font-semibold'>About Us</h1>
         <div className='max-w-7xl p-10 mx-auto my-10 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2'>
             <img src="/Resources/Images/hero-bg.jpg" alt="" />

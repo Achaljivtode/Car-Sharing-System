@@ -4,12 +4,15 @@ import { IoReorderThreeOutline } from "react-icons/io5";
 import { IoIosArrowUp } from "react-icons/io";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import users from '../../constant/users';
+import { useNavigate } from 'react-router-dom';
 
 
 // import {useNavigate} from 'react-router-dom'
 
 
 function Header() {
+    const navigate = useNavigate()
+
     const [hamBurMenu, setHamburMenu] = useState(false)
     const role = localStorage.getItem('role')
     const [Users, setUsers] = useState([])
@@ -17,6 +20,16 @@ function Header() {
     const [reportdropdown, setReportDropdown] = useState(false)
     const [adddropdown, setAddDropdown] = useState(false)
 
+
+    const handleAboutClick = () => {
+        navigate("/home");
+        setTimeout(() => {
+          const aboutSection = document.getElementById("about");
+          if (aboutSection) {
+            aboutSection.scrollIntoView({ behavior: "smooth" });
+          }
+        }, 100); // Delay to ensure navigation happens first
+      };
 
     useEffect(() => {
         setUsers(users)
@@ -40,7 +53,7 @@ function Header() {
                 </div>
                 <div className="hidden lg:flex lg:gap-x-12">
                     <a href="/home" className="text-sm hover:text-blue-700 p-2 my-4 rounded-md font-bold  ">HOME</a>
-                    <a href="/about" className="text-sm hover:text-blue-700 font-bold p-2 my-4">ABOUT</a>
+                    <a onClick={handleAboutClick} className="text-sm hover:text-blue-700 font-bold p-2 my-4">ABOUT</a>
 
                     {
                         role === 'customer' ?
