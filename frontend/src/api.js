@@ -151,6 +151,34 @@ export const fetchCustomers = async () => {
     return null;
   }
 };
+// export const fetchCustomerById = async (customerId) => {
+//   try {
+//     const token = localStorage.getItem("token");
+//     const response = await api.get(`/users/${customerId}`, {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//     });
+//     return response.data;
+//   } catch (error) {
+//     console.error("Error fetching customers : ", error);
+//     return null;
+//   }
+// };
+export const deleteCustomer = async (customerId) => {
+  try {
+    const token = localStorage.getItem("token");
+    await api.delete(`/users/${customerId}/`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return true;
+  } catch (error) {
+    console.error("Error deleting customer:", error);
+    return false;
+  }
+};
 
 // Function to Login User
 export const loginUser = async (userData) => {
@@ -186,10 +214,41 @@ export const getAllCarReports = async () => {
   }
 };
 
+export const deleteCarReport = async (carId) => {
+  try {
+    const token = localStorage.getItem("token");
+    await api.delete(`/car-report/${carId}/`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return true; // Deletion successful
+  } catch (error) {
+    console.error("Error deleting car report:", error);
+    return false; // Deletion failed
+  }
+};
+
 export const addcarType = async (carType) => {
   try {
     const token = localStorage.getItem("token");
     const response = await api.post(`/car-types/`, carType, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error adding car Type :", error);
+    return null;
+  }
+};
+
+export const addCompany = async (formData) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await api.post(`/companies/`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -217,6 +276,21 @@ export const getCarTypeReport = async () => {
   }
 };
 
+export const getCarTypeById = async (carTypeId) => {
+  try {
+    const token = localStorage.getItem("token");
+    await api.delete(`/car-types/${carTypeId}/`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return true; // Deletion successful
+  } catch (error) {
+    console.error("Error deleting car type:", error);
+    return false; // Deletion failed
+  }
+};
+
 export const getCompanyReport = async () => {
   try {
     const token = localStorage.getItem("token");
@@ -229,6 +303,21 @@ export const getCompanyReport = async () => {
   } catch (error) {
     console.error("Error fetching cars:", error);
     return null;
+  }
+};
+
+export const getCompanyById = async (companyId) => {
+  try {
+    const token = localStorage.getItem("token");
+    await api.delete(`/companies/${companyId}/`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return true; // Deletion successful
+  } catch (error) {
+    console.error("Error deleting car type:", error);
+    return false; // Deletion failed
   }
 };
 

@@ -4,7 +4,7 @@ import Header from "../Components/Header/Header";
 import Footer from "../Components/Footer/Footer";
 import Table from "../Components/Table/Table";
 import { useNavigate } from "react-router-dom";
-import { getCarTypeReport } from "../api";
+import { getCarTypeReport, getCarTypeById } from "../api";
 
 function AllCarTypeReports() {
   const [carType, setCarType] = useState([]);
@@ -20,20 +20,30 @@ function AllCarTypeReports() {
     }
     getCarType();
   }, []);
-  const userHeading = ["Sr.No", "Type Name", "Type Description", "Action"];
+
+  // Delete function
+  const handleDelete = async (carTypeId) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this car type?"
+    );
+    if (confirmDelete) {
+      const success = await getCarTypeById(carTypeId);
+      if (success) {
+        setCarType(carType.filter((car) => car.id !== carTypeId)); // Remove from state
+      }
+    }
+  };
+
+  const userHeading = ["ID", "Type Name", "Type Description", "Action"];
   const userData = carType.map((car) => [
     car.id,
     car.car_type,
     car.description,
 
     [
-      <button
-        className="editButton"
-        onClick={() => navigate("/car-type/edit/:id")}
-      >
-        Edit
+      <button className="deleteButton" onClick={() => handleDelete(car.id)}>
+        Delete
       </button>,
-      <button className="deleteButton">Delete</button>,
     ],
   ]);
 

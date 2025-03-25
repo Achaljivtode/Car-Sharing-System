@@ -20,11 +20,13 @@ function AddCartype() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await addcarType(formData);
+
     if (response) {
       setMessage("Car Type added successfully!");
       setFormData({ car_type: "", description: "" }); // Reset form
     } else {
       setMessage("Error adding car type. Please try again.");
+      alert("Error submitting Car Type");
     }
   };
   const labelPlacholder = [

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "../Components/Header/Header";
 import Footer from "../Components/Footer/Footer";
 import Table from "../Components/Table/Table";
-import { fetchCustomers } from "../api";
+import { fetchCustomers, deleteCustomer } from "../api";
 
 function AllCustomerReports() {
   const [customer, setCustomer] = useState([]);
@@ -17,8 +17,21 @@ function AllCustomerReports() {
     }
     getCustomers();
   }, []);
+
+  const handleDelete = async (customerId) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this customer?"
+    );
+    if (confirmDelete) {
+      const success = await deleteCustomer(customerId);
+      if (success) {
+        setCustomer(customer.filter((user) => user.id !== customerId)); // Remove from state
+      }
+    }
+  };
+
   const userHeading = [
-    "Sr.No",
+    "ID",
     "Image",
     "Name",
     "Mobile",
@@ -33,7 +46,9 @@ function AllCustomerReports() {
     user.phone_number,
     user.email,
     user.dob,
-    <button className="deleteButton">Delete</button>,
+    <button className="deleteButton" onClick={() => handleDelete(user.id)}>
+      Delete
+    </button>,
   ]);
 
   return (
