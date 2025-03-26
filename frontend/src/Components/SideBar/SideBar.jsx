@@ -20,6 +20,7 @@ function SideBar() {
     { redirect: "", icon: MdOutlineAccountCircle, label: "Accounts" },
     { redirect: "", icon: HiOutlineLogout, label: "Logout" },
   ];
+  const role = localStorage.getItem('role')
 
   return (
     <div className={`${isSidebarOpen ? "w-64" : "w-20"} bg-white shadow-lg transition-all duration-300 flex flex-col`}>

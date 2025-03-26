@@ -4,7 +4,7 @@ import Header from "../Components/Header/Header";
 import Footer from "../Components/Footer/Footer";
 import Table from "../Components/Table/Table";
 import { useNavigate } from "react-router-dom";
-import { getAllCarReports, deleteCarReport } from "../api";
+// import { getAllCarReports, deleteCarReport } from "../api";
 import { useEffect, useState } from "react";
 
 function AllCarReports() {

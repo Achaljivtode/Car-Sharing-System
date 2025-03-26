@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Header from "../Components/Header/Header";
 import Footer from "../Components/Footer/Footer";
 import AddTable from "../Components/AddTable/AddTable";
-import { addCompany } from "../api";
+// import { addCompany } from "../api";
 
 function AddCompany() {
   const [message, setMessage] = useState("");
@@ -17,18 +17,18 @@ function AddCompany() {
   };
 
   // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const response = await addCompany(formData);
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   const response = await addCompany(formData);
 
-    if (response) {
-      setMessage("Car Type added successfully!");
-      setFormData({ company_name: "", description: "" }); // Reset form
-    } else {
-      setMessage("Error adding car type. Please try again.");
-      alert("Error submitting Car Type");
-    }
-  };
+  //   if (response) {
+  //     setMessage("Car Type added successfully!");
+  //     setFormData({ company_name: "", description: "" }); // Reset form
+  //   } else {
+  //     setMessage("Error adding car type. Please try again.");
+  //     alert("Error submitting Car Type");
+  //   }
+  // };
 
   const labelPlacholder = [
     {

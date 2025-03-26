@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Header from "../Components/Header/Header";
 import Footer from "../Components/Footer/Footer";
 import AddTable from "../Components/AddTable/AddTable";
-import { addcarType } from "../api";
+// import { addcarType } from "../api";
 
 function AddCartype() {
   const [message, setMessage] = useState("");
@@ -17,20 +17,20 @@ function AddCartype() {
   };
 
   // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const response = await addcarType(formData);
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   const response = await addcarType(formData);
 
-    if (response) {
-      setMessage("Car Type added successfully!");
-      setFormData({ car_type: "", description: "" }); // Reset form
-      console.log('submitted');
+  //   if (response) {
+  //     setMessage("Car Type added successfully!");
+  //     setFormData({ car_type: "", description: "" }); // Reset form
+  //     console.log('submitted');
       
-    } else {
-      setMessage("Error adding car type. Please try again.");
-      alert("Error submitting Car Type");
-    }
-  };
+  //   } else {
+  //     setMessage("Error adding car type. Please try again.");
+  //     alert("Error submitting Car Type");
+  //   }
+  // };
   const labelPlacholder = [
     { label: "Car Type", placeholder: "Enter Car Type Name", for: "car-type" },
     {

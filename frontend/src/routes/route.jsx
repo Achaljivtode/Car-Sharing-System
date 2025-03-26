@@ -30,6 +30,9 @@ import User from "../pages/Users";
 import CarsReports2 from "../pages/CarsReport2";
 import AddCar2 from "../pages/AddCar2";
 import Booking2 from "../pages/Booking2";
+import PerticularBook from "../pages/perticularBook";
+import CustomerDashboard2 from "../pages/CustomerDashboard2";
+import CustomerHistory from "../pages/History";
 
 
 const routes = createBrowserRouter([
@@ -71,14 +74,14 @@ const routes = createBrowserRouter([
     { path: '/booking-details/:id' , element: <Bookingdetails /> },
     
     
-    { path:'/admin-dashboard' , element:<AdminDashboard /> },
+    { path:'/admin-dashboard' , element:<Helo /> },
     
     
     // CUSTOMER -----
     
     
     { path:'/my-booking' , element:<CustomerBookingPage /> },
-    { path:'/customer-dashboard' , element:<CustomerDashboard /> },
+    // { path:'/customer-dashboard' , element:<CustomerDashboard /> },
     
     
     
@@ -92,6 +95,9 @@ const routes = createBrowserRouter([
     { path:'/admin-booking' , element:<Booking2 /> },
     { path:'/cars' , element:<CarsReports2 /> },
     { path:'/add-cars' , element:<AddCar2 /> },
+    { path:'/perticular-book' , element:<PerticularBook /> },
+    { path:'/Customer-dashboard' , element:<CustomerDashboard2 /> },
+    { path:'/Customer-History' , element:<CustomerHistory /> },
   ])
   
 export default routes;

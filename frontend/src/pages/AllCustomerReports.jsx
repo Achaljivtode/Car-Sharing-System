@@ -2,21 +2,21 @@ import React, { useState, useEffect } from "react";
 import Header from "../Components/Header/Header";
 import Footer from "../Components/Footer/Footer";
 import Table from "../Components/Table/Table";
-import { fetchCustomers, deleteCustomer } from "../api";
+// import { fetchCustomers, deleteCustomer } from "../api";
 
 function AllCustomerReports() {
   const [customer, setCustomer] = useState([]);
 
-  useEffect(() => {
-    async function getCustomers() {
-      const customerData = await fetchCustomers();
-      console.log("fetch all customers :", customerData);
-      if (customerData) {
-        setCustomer(customerData);
-      }
-    }
-    getCustomers();
-  }, []);
+  // useEffect(() => {
+  //   async function getCustomers() {
+  //     const customerData = await fetchCustomers();
+  //     console.log("fetch all customers :", customerData);
+  //     if (customerData) {
+  //       setCustomer(customerData);
+  //     }
+  //   }
+  //   getCustomers();
+  // }, []);
 
   const handleDelete = async (customerId) => {
     const confirmDelete = window.confirm(

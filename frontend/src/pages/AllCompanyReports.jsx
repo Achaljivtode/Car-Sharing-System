@@ -3,22 +3,22 @@ import Header from "../Components/Header/Header";
 import Footer from "../Components/Footer/Footer";
 import Table from "../Components/Table/Table";
 import { useNavigate } from "react-router-dom";
-import { getCompanyReport, getCompanyById } from "../api";
+// import { getCompanyReport, getCompanyById } from "../api";
 
 function AllCompanyReports() {
   const [company, setComapny] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    async function getCompanies() {
-      const companyData = await getCompanyReport();
-      console.log("fetch all company report :", companyData);
-      if (companyData) {
-        setComapny(companyData);
-      }
-    }
-    getCompanies();
-  }, []);
+  // useEffect(() => {
+  //   async function getCompanies() {
+  //     const companyData = await getCompanyReport();
+  //     console.log("fetch all company report :", companyData);
+  //     if (companyData) {
+  //       setComapny(companyData);
+  //     }
+  //   }
+  //   getCompanies();
+  // }, []);
 
   const handleDelete = async (companyId) => {
     const confirmDelete = window.confirm(
