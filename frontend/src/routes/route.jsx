@@ -22,7 +22,7 @@ import AddCompany from "../pages/AddCompany";
 import AddCartype from "../pages/AddCartype";
 import EditCarType from "../pages/EditCarType";
 import EditCompany from "../pages/EditCompany";
-import CustomerDashboard from "../pages/CustomerDashboard";
+// import CustomerDashboard from "../pages/CustomerDashboard";
 import CustomerBookingPage from "../pages/CustomerBookingPage";
 import Account from "../pages/Account";
 import Helo from "../pages/helo";
@@ -33,6 +33,8 @@ import Booking2 from "../pages/Booking2";
 import PerticularBook from "../pages/perticularBook";
 import CustomerDashboard2 from "../pages/CustomerDashboard2";
 import CustomerHistory from "../pages/History";
+import CustomerProfilePage from "../pages/CustomerProfilePage";
+import ProfilePage from "../Components/ProfilePage/ProfilePage";
 
 
 const routes = createBrowserRouter([
@@ -97,7 +99,9 @@ const routes = createBrowserRouter([
     { path:'/add-cars' , element:<AddCar2 /> },
     { path:'/perticular-book' , element:<PerticularBook /> },
     { path:'/Customer-dashboard' , element:<CustomerDashboard2 /> },
+    { path:'/Customer-booking' , element:<CustomerHistory /> },
     { path:'/Customer-History' , element:<CustomerHistory /> },
+    { path:'/Customer-profile' , element:<ProfilePage /> },
   ])
   
 export default routes;

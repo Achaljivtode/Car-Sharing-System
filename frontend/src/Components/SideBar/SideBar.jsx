@@ -1,53 +1,81 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { LuLayoutDashboard, LuUsersRound, LuNotebook } from "react-icons/lu";
 import { TbReportSearch } from "react-icons/tb";
-// import { CiCreditCard2 } from "react-icons/ci";
 import { MdOutlineAccountCircle, MdOutlineMenu } from "react-icons/md";
 import { HiOutlineLogout } from "react-icons/hi";
 import { RxCross2 } from "react-icons/rx";
+import { Car, History, Settings, LogOut } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function SideBar() {
+  const navigate = useNavigate();
+  const location = useLocation(); // Get the current route path
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [activeItem, setActiveItem] = useState(null); // Initially, no item is active
+  const [activeItem, setActiveItem] = useState(location.pathname); // Set active item based on URL
 
+  const role = localStorage.getItem("role") || "customer";
 
   const menuItems = [
-    { redirect: "/helo", icon: LuLayoutDashboard, label: "Dashboard" },
+    { redirect: "/admin-dashboard", icon: LuLayoutDashboard, label: "Dashboard" },
     { redirect: "/users", icon: LuUsersRound, label: "Users" },
     { redirect: "/admin-booking", icon: LuNotebook, label: "Bookings" },
-    { redirect: "/cars", icon: TbReportSearch, label: "Cars Reports" },
-    // { redirect: "/add-cars", icon: CiCreditCard2, label: "Add Cars" },
-    { redirect: "", icon: MdOutlineAccountCircle, label: "Accounts" },
-    { redirect: "", icon: HiOutlineLogout, label: "Logout" },
+    { redirect: "/cars-reports", icon: TbReportSearch, label: "Cars Reports" },
+    { redirect: "/admin-accounts", icon: MdOutlineAccountCircle, label: "Accounts" },
   ];
-  const role = localStorage.getItem('role')
+
+  const customerItems = [
+    { redirect: "/customer-dashboard", icon: Car, label: "Available Car" },
+    { redirect: "/customer-booking", icon: History, label: "My Booking" },
+    { redirect: "/customer-history", icon: History, label: "History" },
+    { redirect: "/customer-profile", icon: Settings, label: "Profile" },
+  ];
+
+  const handleNavigation = (path) => {
+    setActiveItem(path); // Set active item based on route path
+    navigate(path);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("role");
+    navigate("/login"); // Redirect after logout
+  };
 
   return (
-    <div className={`${isSidebarOpen ? "w-64" : "w-20"} bg-white shadow-lg transition-all duration-300 flex flex-col`}>
+    <div className={`${isSidebarOpen ? "w-80" : "w-20"} bg-white shadow-lg h-screen transition-all duration-300 flex flex-col`}>
+      {/* Sidebar Header */}
       <div className="p-4 flex items-center justify-between border-b">
-        <h1 className={`font-bold text-xl text-blue-600 ${!isSidebarOpen && "hidden"}`}>CarShare Admin</h1>
+        <h1 className={`font-bold text-xl text-blue-600 ${!isSidebarOpen && "hidden"}`}>CarShare {role === "admin" ? "Admin" : ""}</h1>
         <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-2 hover:bg-gray-100 rounded-lg">
           {isSidebarOpen ? <RxCross2 size={20} /> : <MdOutlineMenu size={20} />}
         </button>
       </div>
 
-      <nav className="flex-1 p-4">
+      {/* Sidebar Navigation */}
+      <nav className="flex-1 mt-5 p-4">
         <ul className="space-y-2">
-          {menuItems.map((item) => (
-            <li key={item.label} onClick={() => setActiveItem(item.label)}>
-              <a
-                href={item.redirect}
-                className={`flex items-center space-x-3 p-3 rounded-lg ${
-                  activeItem === item.label ? "bg-blue-500 text-white" : "hover:bg-gray-100"
+          {(role === "admin" ? menuItems : customerItems).map((item) => (
+            <li key={item.redirect}>
+              <button
+                onClick={() => handleNavigation(item.redirect)}
+                className={`flex items-center gap-3 w-full p-3 rounded-lg transition ${
+                  activeItem === item.redirect ? "bg-blue-500 text-white" : "hover:bg-gray-100"
                 }`}
               >
                 <item.icon size={20} />
                 {isSidebarOpen && <span>{item.label}</span>}
-              </a>
+              </button>
             </li>
           ))}
         </ul>
       </nav>
+
+      {/* Logout Button */}
+      <div className="p-4">
+        <button onClick={handleLogout} className="flex items-center gap-3 w-full p-3 text-red-600 hover:bg-red-50 rounded-lg">
+          <LogOut size={20} />
+          {isSidebarOpen && <span>Logout</span>}
+        </button>
+      </div>
     </div>
   );
 }

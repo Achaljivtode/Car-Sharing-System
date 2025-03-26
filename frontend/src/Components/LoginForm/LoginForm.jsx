@@ -22,7 +22,7 @@ function LoginForm() {
 
         //  Redirect based on role
         if (response.role === "admin") {
-          navigate("/admin-dashboard");
+          navigate("/helo");
         } else {
           navigate("/customer-dashboard");
         }
