@@ -66,7 +66,7 @@ class DetailCustomUserView(generics.RetrieveUpdateDestroyAPIView):
     queryset=CustomUser.objects.all()
     serializer_class=CustomUserSerializer
     lookup_field='pk'
-    permission_classes=[IsAuthenticated,IsAdmin]
+    # permission_classes=[IsAuthenticated,IsAdmin]
     
 # class LogoutView(APIView):
 #     def post(self, request):
@@ -105,7 +105,7 @@ class DetailCarView(generics.RetrieveUpdateDestroyAPIView):
 class CarBookView(generics.ListCreateAPIView):
     queryset=CarBook.objects.all()
     serializer_class=CarBookSerializer
-    permission_classes=[IsAuthenticated,IsCustomer]
+    # permission_classes=[IsAuthenticated,IsCustomer]
 
 
 class DetailCarBookView(generics.RetrieveUpdateDestroyAPIView):

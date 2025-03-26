@@ -104,7 +104,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'driveDB',
         'USER': 'root',
-        'PASSWORD': 'mohitjodhe2003',
+        'PASSWORD': 'mysql123',
         'HOST': 'localhost',
         'PORT': '3306',
     }

@@ -74,15 +74,17 @@ class CarBookSerializer(serializers.ModelSerializer):
     car_image_url = serializers.SerializerMethodField()
     car_owner=serializers.CharField(source='car.car_owner',read_only=True)
     fuel_type=serializers.CharField(source='car.fuel_type',read_only=True)
-    
+    car_model=serializers.CharField(source='car.car_model',read_only=True)
     price=serializers.CharField(source='car.price_per_hour',read_only=True)
+    user_image_url=serializers.SerializerMethodField()
     user_name=serializers.CharField(source='user.full_name',read_only=True)
     user_email=serializers.CharField(source='user.email',read_only=True)
     user_contact=serializers.CharField(source='user.phone_number',read_only=True)
+    car_status=serializers.CharField(source='car.status',read_only=True)
     
     class Meta:
         model=CarBook
-        fields=['id','user','user_name','user_email','user_contact','booking_date','pickup_date','drop_date','car','pickup_location','drop_location','car_owner','car_image_url','fuel_type','price']
+        fields=['id','user','user_image_url','user_name','user_email','user_contact','booking_date','pickup_date','drop_date','car','pickup_location','drop_location','car_owner','car_image_url','fuel_type','car_model','car_status','price']
 
     def get_car_image_url(self, obj):
         """
@@ -91,6 +93,15 @@ class CarBookSerializer(serializers.ModelSerializer):
         request = self.context.get('request')
         if obj.car.car_image and request:
             return request.build_absolute_uri(obj.car.car_image.url)
+        return None
+    
+    def get_user_image_url(self, obj):
+        """
+        Fetch the car image URL from the related Car model.
+        """
+        request = self.context.get('request')
+        if obj.user.user_image and request:
+            return request.build_absolute_uri(obj.user.user_image.url)
         return None
 
 

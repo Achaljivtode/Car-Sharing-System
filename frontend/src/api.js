@@ -10,16 +10,6 @@ const api = axios.create({
 
 // Function to Fetch Cars
 
-// export const fetchCars = async () => {
-//   try {
-//     const response = await api.get("/cars/");
-//     return response.data;
-//   } catch (error) {
-//     console.error("Error fetching cars:", error);
-//     return null;
-//   }
-// };
-
 // ------------------------------------------------------------------------------
 
 // fetchCarById
@@ -157,10 +147,10 @@ export const registerUser = async (userData) => {
 
 export const fetchCustomers = async () => {
   try {
-    const token = localStorage.getItem("token");
+    // const token = localStorage.getItem("token");
     const response = await api.get("/users/?role=customer", {
       headers: {
-        Authorization: `Bearer ${token}`,
+        // Authorization: `Bearer ${token}`,
       },
     });
     return response.data;
@@ -172,10 +162,10 @@ export const fetchCustomers = async () => {
 // -------------------------------------------------------------------------------
 export const deleteCustomer = async (customerId) => {
   try {
-    const token = localStorage.getItem("token");
+    // const token = localStorage.getItem("token");
     await api.delete(`/users/${customerId}/`, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        // Authorization: `Bearer ${token}`,
       },
     });
     return true;
@@ -352,6 +342,46 @@ export const enquiry = async (formData) => {
     return response.data;
   } catch (error) {
     console.error("Error submitting Enquiry  :", error);
+    return null;
+  }
+};
+
+export const getBookings = async () => {
+  try {
+    // const token = localStorage.getItem("token");
+    const response = await api.get("/booking-report/", {
+      headers: {
+        // Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching customers : ", error);
+    return null;
+  }
+};
+
+export const cancelBooking = async (bookingId) => {
+  try {
+    const token = localStorage.getItem("token");
+    await api.delete(`/booking-report/${bookingId}/`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return true; // Success
+  } catch (error) {
+    console.error("Error canceling booking:", error);
+    return false; // Failure
+  }
+};
+
+export const fetchCars = async () => {
+  try {
+    const response = await api.get("/cars/");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching cars:", error);
     return null;
   }
 };
