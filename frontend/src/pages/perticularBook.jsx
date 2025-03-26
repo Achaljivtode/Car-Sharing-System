@@ -17,7 +17,7 @@ import {
   Calendar as CalendarIcon,
 } from "lucide-react";
 
-function App() {
+function PerticularBook() {
   const [activeTab, setActiveTab] = useState("history");
 
   const rentalHistory = [
@@ -126,7 +126,7 @@ function App() {
     },
   ];
 
-  const formatTime = (dateString: string) => {
+  const formatTime = (dateString) => {
     return new Date(dateString).toLocaleTimeString("en-US", {
       hour: "numeric",
       minute: "2-digit",
@@ -134,7 +134,7 @@ function App() {
     });
   };
 
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString("en-US", {
       month: "long",
       day: "numeric",
@@ -142,7 +142,7 @@ function App() {
     });
   };
 
-  const calculateTimeLeft = (endTime: string) => {
+  const calculateTimeLeft = (endTime) => {
     const end = new Date(endTime);
     const now = new Date();
     const diff = end.getTime() - now.getTime();
@@ -151,7 +151,7 @@ function App() {
     return `${hours}h ${minutes}m`;
   };
 
-  const renderStars = (rating: number) => {
+  const renderStars = (rating) => {
     return [...Array(5)].map((_, index) => (
       <Star
         key={index}
@@ -512,4 +512,4 @@ function App() {
   );
 }
 
-export default App;
+export default PerticularBook;

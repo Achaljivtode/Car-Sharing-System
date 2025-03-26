@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { fetchCustomers, deleteCustomer } from "../api";
+import { fetchCustomers, deleteCustomer, getLoggedInUser } from "../api";
 
 import {
   Car,
@@ -25,6 +25,7 @@ function User() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [users, setUsers] = useState([]);
+  const [admin, setAdmin] = useState(null);
 
   useEffect(() => {
     const getCustomers = async () => {
@@ -34,6 +35,15 @@ function User() {
       }
     };
     getCustomers();
+  }, []);
+
+  // Logged In user
+  useEffect(() => {
+    const fetchData = async () => {
+      const userData = await getLoggedInUser();
+      setAdmin(userData);
+    };
+    fetchData();
   }, []);
 
   const handleDelete = async (customerId) => {
@@ -65,11 +75,14 @@ function User() {
               </button>
               <div className="flex items-center space-x-2">
                 <img
-                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                  alt="Admin"
+                  src={
+                    admin?.profile_image_url ||
+                    "https://via.placeholder.com/150"
+                  }
+                  alt={admin?.username || "User"}
                   className="w-8 h-8 rounded-full"
                 />
-                <span className="font-medium">John Doe</span>
+                <span className="font-medium">{admin?.username || "User"}</span>
               </div>
             </div>
           </div>

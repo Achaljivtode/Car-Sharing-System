@@ -33,7 +33,12 @@ class CustomUser(AbstractUser):
 
 
 
+class Feature(models.Model):
+    
+    name = models.CharField(max_length=50, unique=True)
 
+    def __str__(self):
+        return self.name
     
 
 
@@ -56,18 +61,6 @@ class Car(models.Model):
         (IN_USE,"in_use")
     ]
 
-    # Feature Choices (Should be ManyToManyField)
-    class Feature(models.TextChoices):
-        AUTOPILOT = "autopilot", "Autopilot"
-        PREMIUM_SOUND = "premium_sound", "Premium Sound"
-        HEATED_SEATS = "heated_seats", "Heated Seats"
-        PARK_ASSIST = "park_assist", "Park Assist"
-        NAVIGATION = "navigation", "Navigation"
-        BLUETOOTH = "bluetooth", "Bluetooth"
-        AIR_SUSPENSION = "air_suspension", "Air Suspension"
-
-    
-
     car_owner=models.CharField(max_length=255,default="none")
     car_model=models.CharField(max_length=60,default="none")
     car_number = models.CharField(max_length=15, unique=True,validators=[car_number_validator],null=True,blank=True)
@@ -75,13 +68,8 @@ class Car(models.Model):
     car_image=models.ImageField(upload_to='car_images/',default='Kia1.jpg')
     price_per_hour=models.DecimalField(max_digits=10, decimal_places=2)
     status=models.CharField(max_length=10,choices=STATUS_CHOICES,default=AVAILABLE)
-    # Features as ManyToManyField
-    features = models.CharField(
-        max_length=50,
-        choices=Feature.choices,
-        blank=True,
-        null=True
-    )
+    features = models.ManyToManyField(Feature, blank=True)
+    
 
     
 

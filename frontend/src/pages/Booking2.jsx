@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getBookings, cancelBooking } from "../api";
+import { getBookings, cancelBooking, getLoggedInUser } from "../api";
 import {
   //   Car,
   //   Users,
@@ -14,7 +14,7 @@ import {
   MoreVertical,
   Clock,
   MapPin,
-  //   CircleDollarSign,
+  CircleDollarSign,
   //   CalendarCheck,
   CalendarX,
   CalendarClock,
@@ -24,6 +24,7 @@ import SideBar from "../Components/SideBar/SideBar";
 function Booking2() {
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [bookings, setBookings] = useState([]);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const getBookingReports = async () => {
@@ -33,6 +34,15 @@ function Booking2() {
       }
     };
     getBookingReports();
+  }, []);
+
+  // Logged In user
+  useEffect(() => {
+    const fetchData = async () => {
+      const userData = await getLoggedInUser();
+      setUser(userData);
+    };
+    fetchData();
   }, []);
 
   const handleCancel = async (bookingId) => {
@@ -86,11 +96,13 @@ function Booking2() {
               </button>
               <div className="flex items-center space-x-2">
                 <img
-                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                  alt="Admin"
+                  src={
+                    user?.profile_image_url || "https://via.placeholder.com/150"
+                  }
+                  alt={user?.username || "User"}
                   className="w-8 h-8 rounded-full"
                 />
-                <span className="font-medium">John Doe</span>
+                <span className="font-medium">{user?.username || "User"}</span>
               </div>
             </div>
           </div>
@@ -192,7 +204,7 @@ function Booking2() {
                         />
                         <div className="ml-3">
                           <div className="text-sm font-medium text-gray-900">
-                            {booking.car_model}
+                            {booking.car_number}
                           </div>
                         </div>
                       </div>
@@ -212,25 +224,32 @@ function Booking2() {
                       </div>
                     </td>
 
-                    {/* <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
-                        <CircleDollarSign size={14} className="mr-1 text-gray-400" />
-                        <span className="text-sm text-gray-900">${booking.payment.amount}</span>
-                        <span className={`ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                          booking.payment.status === 'Paid' 
-                            ? 'bg-green-100 text-green-800' 
-                            : 'bg-yellow-100 text-yellow-800'
-                        }`}>
-                          {booking.payment.status}
+                        {/* <CircleDollarSign
+                          size={14}
+                          className="mr-1 text-gray-400"
+                        /> */}
+                        {/* <span className="text-sm text-gray-900">
+                          ${booking.car_status}
+                        </span> */}
+                        <span
+                          className={`ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                            booking.car_status === "available"
+                              ? "bg-green-100 text-green-800"
+                              : "bg-yellow-100 text-yellow-800"
+                          }`}
+                        >
+                          {booking.car_status}
                         </span>
                       </div>
-                    </td> */}
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {/* <button className="text-gray-400 hover:text-gray-600">
                                                 <MoreVertical size={20} />
                                             </button> */}
                       <button className="text-gray-400 hover:text-gray-600">
-                        {booking.car_status === "Pending" ? (
+                        {booking.car_status === "in_use" ? (
                           <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                             Confirm Booking
                           </button>

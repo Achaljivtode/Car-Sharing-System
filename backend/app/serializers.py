@@ -4,7 +4,7 @@ from app.models import (
     Car,
     CarBook,
     CustomUser,
-   
+    Feature,
     Enquiry,
     CustomUser
 )
@@ -38,23 +38,26 @@ from app.models import (
 #         return None
 
 
+class FeatureSerializer(serializers.ModelSerializer):
+    """Serializer for Features"""
+    class Meta:
+        model = Feature
+        fields = ["id", "name"]
 
 # Car Seraializer
 
 class CarSerializer(serializers.ModelSerializer):
     
     car_image_url=serializers.SerializerMethodField() # Generate full URL
-    # car_owner=serializers.CharField(source='agent.owner_name',read_only=True)
-    # owner_email=serializers.CharField(source='agent.owner_email',read_only=True)
-    # owner_contact=serializers.CharField(source='agent.owner_contact',read_only=True)
-    # car_model=serializers.CharField(source='agent.car_model',read_only=True)
-    # car_number=serializers.CharField(source='agent.car_number',read_only=True)
-    # carType_name=serializers.CharField(source='agent.carType.car_type',read_only=True)
-    # Company_name=serializers.CharField(source='agent.company.company_name',read_only=True)
+    features = FeatureSerializer(many=True, read_only=True)  # Nested serializer for read
+    feature_ids = serializers.PrimaryKeyRelatedField(
+        queryset=Feature.objects.all(), source="features", many=True, write_only=True
+    )  # Used for posting selected features
+    
     
     class Meta:
         model=Car
-        fields=['id','car_owner','car_image','car_image_url','car_model','car_number','fuel_type','price_per_hour','status','features']
+        fields=['id','car_owner','car_image','car_image_url','car_model','car_number','fuel_type','price_per_hour','status','features','feature_ids']
     
     def get_car_image_url(self, obj):
         """
@@ -75,6 +78,7 @@ class CarBookSerializer(serializers.ModelSerializer):
     car_owner=serializers.CharField(source='car.car_owner',read_only=True)
     fuel_type=serializers.CharField(source='car.fuel_type',read_only=True)
     car_model=serializers.CharField(source='car.car_model',read_only=True)
+    car_number=serializers.CharField(source='car.car_number',read_only=True)
     price=serializers.CharField(source='car.price_per_hour',read_only=True)
     user_image_url=serializers.SerializerMethodField()
     user_name=serializers.CharField(source='user.full_name',read_only=True)
@@ -84,7 +88,7 @@ class CarBookSerializer(serializers.ModelSerializer):
     
     class Meta:
         model=CarBook
-        fields=['id','user','user_image_url','user_name','user_email','user_contact','booking_date','pickup_date','drop_date','car','pickup_location','drop_location','car_owner','car_image_url','fuel_type','car_model','car_status','price']
+        fields=['id','user','user_image_url','user_name','user_email','user_contact','booking_date','pickup_date','drop_date','car','pickup_location','drop_location','car_owner','car_image_url','fuel_type','car_model','car_number','car_status','price']
 
     def get_car_image_url(self, obj):
         """
@@ -134,6 +138,21 @@ class CustomUserSerializer(serializers.ModelSerializer):
         if obj.user_image and request:
             return request.build_absolute_uri(obj.user_image.url)
         return None
+    
+
+class UserSerializer(serializers.ModelSerializer):
+        profile_image_url = serializers.SerializerMethodField()
+
+        class Meta:
+            model = CustomUser  # Replace with your actual user model
+            fields = ['id', 'username', 'email', 'profile_image_url']
+
+        def get_profile_image_url(self, obj):
+            request = self.context.get('request')
+            if obj.user_image and request:
+                return request.build_absolute_uri(obj.user_image.url)
+            return None
+
     
 
 

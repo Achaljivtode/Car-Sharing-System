@@ -4,6 +4,7 @@ from app import views
 urlpatterns = [
     path('users/',views.RegisterView.as_view(),name='register'),
     path('users/<int:pk>/',views.DetailCustomUserView.as_view(),name='users-detail'),
+    path('user/', views.LoggedInUserView.as_view(), name='get_logged_in_user'),
     path('login/',views.LoginView.as_view(),name='login'),
     path('logout/',views.LogoutView.as_view(),name='logout'),
 
@@ -18,6 +19,7 @@ urlpatterns = [
     
     path('enquiry/',views.EnquiryView.as_view(),name='enquiry'),
     path('enquiry/<int:pk>/',views.DetailEnquiryView.as_view(),name='enquiry-detail'),
+    path('features/',views.FeatureListView.as_view(),name='enquiry-detail'),
 
    
 ]

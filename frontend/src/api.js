@@ -8,123 +8,6 @@ const api = axios.create({
   baseURL: API_BASE_URL,
 });
 
-// Function to Fetch Cars
-
-// ------------------------------------------------------------------------------
-
-// fetchCarById
-
-export const fetchCarById = async (carId) => {
-  try {
-    const response = await api.get(`/cars/${carId}/`);
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching car details:", error);
-    return null;
-  }
-};
-
-// ----------------------------------------------------------------------------
-
-// Book a car
-export const bookCar = async (bookingData) => {
-  try {
-    const token = localStorage.getItem("token"); //  Ensure user is logged in
-    const response = await api.post("/booking-report/", bookingData, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // Include auth token
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error(
-      "Error booking car:",
-      error.response ? error.response.data : error.message
-    );
-    return null;
-  }
-};
-
-// -------------------------------------------------------------------------------
-
-export const getAllBookingReports = async () => {
-  try {
-    const token = localStorage.getItem("token");
-    const response = await api.get("/booking-report/", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching bookinReports:", error);
-    return [];
-  }
-};
-
-// _----------------------------------------------------------------------
-export const getBookingById = async (bookId) => {
-  try {
-    const token = localStorage.getItem("token");
-    const response = await api.get(`/booking-report/${bookId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching car details:", error);
-    return [];
-  }
-};
-
-// --------------------------------------------------------------------------
-
-export const fetchAgents = async () => {
-  try {
-    const token = localStorage.getItem("token");
-    const response = await api.get(`/agents`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.log("Error fetching agents : ", error);
-    return [];
-  }
-};
-
-// --------------------------------------------------------------------------------
-
-export const addCar = async (carData) => {
-  try {
-    const token = localStorage.getItem("token");
-    const formData = new FormData();
-
-    // Append all fields to FormData (for file uploads)
-    Object.keys(carData).forEach((key) => {
-      formData.append(key, carData[key]);
-    });
-    const response = await api.post(`/cars/`, formData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error(
-      "Error adding car:",
-      error.response ? error.response.data : error.message
-    );
-    return null;
-  }
-};
-
-// ----------------------------------------------------------------------------
-
 // Function to Register a User (Supports File Upload)
 export const registerUser = async (userData) => {
   try {
@@ -147,10 +30,10 @@ export const registerUser = async (userData) => {
 
 export const fetchCustomers = async () => {
   try {
-    // const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const response = await api.get("/users/?role=customer", {
       headers: {
-        // Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     return response.data;
@@ -162,10 +45,10 @@ export const fetchCustomers = async () => {
 // -------------------------------------------------------------------------------
 export const deleteCustomer = async (customerId) => {
   try {
-    // const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
     await api.delete(`/users/${customerId}/`, {
       headers: {
-        // Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     return true;
@@ -192,144 +75,6 @@ export const loginUser = async (userData) => {
 
 export default api;
 
-// ______________________________________________________________________
-
-// export const getAllCarReports = async () => {
-//   try {
-//     const token = localStorage.getItem("token");
-//     const response = await api.get(`/car-report/`, {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     });
-//     return response.data;
-//   } catch (error) {
-//     console.error("Error fetching cars:", error);
-//     return null;
-//   }
-// };
-
-// ------------------------------------------------------------------------------
-
-// export const deleteCarReport = async (carId) => {
-//   try {
-//     const token = localStorage.getItem("token");
-//     await api.delete(`/car-report/${carId}/`, {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     });
-//     return true; // Deletion successful
-//   } catch (error) {
-//     console.error("Error deleting car report:", error);
-//     return false; // Deletion failed
-//   }
-// };
-
-// ------------------------------------------------------------------------------
-
-// export const addcarType = async (carType) => {
-//   try {
-//     const token = localStorage.getItem("token");
-//     const response = await api.post(`/car-types/`, carType, {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//         "Content-Type": "application/json",
-//       },
-//     });
-//     return response.data;
-//   } catch (error) {
-//     console.error("Error adding car Type :", error);
-//     return null;
-//   }
-// };
-
-// --------------------------------------------------------------------------
-
-// export const addCompany = async (formData) => {
-//   try {
-//     const token = localStorage.getItem("token");
-//     const response = await api.post(`/companies/`, formData, {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//         "Content-Type": "application/json",
-//       },
-//     });
-//     return response.data;
-//   } catch (error) {
-//     console.error("Error adding car Type :", error);
-//     return null;
-//   }
-// };
-// -------------------------------------------------------------------------
-// export const getCarTypeReport = async () => {
-//   try {
-//     const token = localStorage.getItem("token");
-//     const response = await api.get(`/car-types/`, {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     });
-//     return response.data;
-//   } catch (error) {
-//     console.error("Error fetching cars:", error);
-//     return null;
-//   }
-// };
-
-// -----------------------------------------------------------------------------
-
-// export const getCarTypeById = async (carTypeId) => {
-//   try {
-//     const token = localStorage.getItem("token");
-//     await api.delete(`/car-types/${carTypeId}/`, {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     });
-//     return true; // Deletion successful
-//   } catch (error) {
-//     console.error("Error deleting car type:", error);
-//     return false; // Deletion failed
-//   }
-// };
-
-// ------------------------------------------------------------------------------
-
-// export const getCompanyReport = async () => {
-//   try {
-//     const token = localStorage.getItem("token");
-//     const response = await api.get(`/companies/`, {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     });
-//     return response.data;
-//   } catch (error) {
-//     console.error("Error fetching cars:", error);
-//     return null;
-//   }
-// };
-
-// ---------------------------------------------------------------------------------
-
-// export const getCompanyById = async (companyId) => {
-//   try {
-//     const token = localStorage.getItem("token");
-//     await api.delete(`/companies/${companyId}/`, {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     });
-//     return true; // Deletion successful
-//   } catch (error) {
-//     console.error("Error deleting car type:", error);
-//     return false; // Deletion failed
-//   }
-// };
-
-// ______________________________________________________
-
 // Contact Us or Enquiry
 
 export const enquiry = async (formData) => {
@@ -348,10 +93,10 @@ export const enquiry = async (formData) => {
 
 export const getBookings = async () => {
   try {
-    // const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const response = await api.get("/booking-report/", {
       headers: {
-        // Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     return response.data;
@@ -382,6 +127,66 @@ export const fetchCars = async () => {
     return response.data;
   } catch (error) {
     console.error("Error fetching cars:", error);
+    return [];
+  }
+};
+
+// ----------------------------------------------------------
+
+export const getLoggedInUser = async () => {
+  try {
+    const token = localStorage.getItem("token"); // Ensure token exists
+    const response = await api.get("/user/", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching logged-in user:", error);
+    return null;
+  }
+};
+
+// fetch Features
+export const fetchFeatures = async () => {
+  try {
+    const response = await api.get("/features/"); // ✅ Fetch available features from backend
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching features:", error);
+    return [];
+  }
+};
+
+// add Car
+export const addCar = async (carData) => {
+  try {
+    const formData = new FormData();
+
+    formData.append("car_owner", carData.car_owner);
+    formData.append("car_model", carData.car_model);
+    formData.append("car_number", carData.car_number);
+    formData.append("fuel_type", carData.fuel_type);
+    formData.append("price_per_hour", carData.price_per_hour);
+    formData.append("status", carData.status);
+
+    // Send feature IDs instead of names
+    carData.feature_ids.forEach((id) => formData.append("feature_ids", id));
+
+    if (carData.car_image) {
+      formData.append("car_image", carData.car_image);
+    }
+
+    const response = await api.post("/cars/", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error adding car:", error);
     return null;
   }
 };

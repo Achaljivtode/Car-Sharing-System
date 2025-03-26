@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchCars } from "../api";
+import { fetchCars, fetchFeatures, getLoggedInUser } from "../api";
 import {
   Car,
   Bell,
@@ -18,6 +18,10 @@ function CarsReports2() {
   // const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [cars, setCars] = useState([]);
+  const [user, setUser] = useState(null);
+  const [features, setFeatures] = useState([]);
+  console.log(features);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,11 +34,32 @@ function CarsReports2() {
     getCars();
   }, []);
 
+  // Logged In user
+  useEffect(() => {
+    const fetchData = async () => {
+      const userData = await getLoggedInUser();
+      setUser(userData);
+    };
+    fetchData();
+  }, []);
+
+  // Fetch Features
+  useEffect(() => {
+    const loadFeatures = async () => {
+      const fetchedFeatures = await fetchFeatures();
+      setFeatures(fetchedFeatures);
+    };
+    loadFeatures();
+  }, []);
+
+  //  Function to Map Feature IDs to Names
+  //
+
   const getStatusColor = (status) => {
     switch (status) {
-      case "Available":
+      case "available":
         return "text-green-500";
-      case "In Use":
+      case "in_use":
         return "text-blue-500";
       default:
         return "text-gray-500";
@@ -43,11 +68,11 @@ function CarsReports2() {
 
   const getTypeIcon = (type) => {
     switch (type) {
-      case "Electric":
+      case "electric":
         return <Battery className="w-4 h-4" />;
-      case "Petrol":
+      case "petrol":
         return <Fuel className="w-4 h-4" />;
-      case "Diesel":
+      case "diesel":
         return <Fuel className="w-4 h-4" />;
       default:
         return <Car className="w-4 h-4" />;
@@ -73,11 +98,13 @@ function CarsReports2() {
               </button>
               <div className="flex items-center space-x-2">
                 <img
-                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                  alt="Admin"
+                  src={
+                    user?.profile_image_url || "https://via.placeholder.com/150"
+                  }
+                  alt={user?.username || "User"}
                   className="w-8 h-8 rounded-full"
                 />
-                <span className="font-medium">John Doe</span>
+                <span className="font-medium">{user?.username || "User"}</span>
               </div>
             </div>
           </div>
@@ -140,13 +167,11 @@ function CarsReports2() {
                   <div className="absolute top-4 right-4">
                     <div
                       className={`flex items-center space-x-1 px-2 py-1 rounded-full bg-white/90 ${getStatusColor(
-                        car.car_status
+                        car.status
                       )}`}
                     >
                       <Circle size={8} />
-                      <span className="text-sm font-medium">
-                        {car.car_status}
-                      </span>
+                      <span className="text-sm font-medium">{car.status}</span>
                     </div>
                   </div>
                 </div>
@@ -161,8 +186,8 @@ function CarsReports2() {
                   </div>
                   <div className="space-y-3">
                     <div className="flex items-center text-sm text-gray-500">
-                      {car.fuel_type}
-                      {/* <span className="ml-1">{car.fuel_type}</span> */}
+                      {getTypeIcon(car.fuel_type)}
+                      <span className="ml-1">{car.fuel_type}</span>
                     </div>
                     <div className="flex items-center text-sm">
                       <Tag size={14} className="mr-1 text-gray-500" />
@@ -173,13 +198,13 @@ function CarsReports2() {
                     </div>
                     <div className="pt-2 border-t">
                       <div className="flex flex-wrap gap-2">
-                        {car.features.map((feature, index) => (
-                          <span
-                            key={index}
+                        {car.features?.map((feature) => (
+                          <p
+                            key={feature.id}
                             className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full"
                           >
-                            {feature}
-                          </span>
+                            {feature.name}
+                          </p>
                         ))}
                       </div>
                     </div>
