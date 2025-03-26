@@ -1,13 +1,14 @@
 from django.shortcuts import render
-from app.models import Car,CarBook,CustomUser,Enquiry
+from app.models import Car,CarBook,CustomUser,Enquiry,Feature
 from rest_framework.permissions import IsAuthenticated
 from app.permissions import IsAdmin,IsCustomer
 from app.serializers import (
     CarSerializer,
     CarBookSerializer,
     CustomUserSerializer,
-    
+    UserSerializer,
     EnquirySerializer,
+    FeatureSerializer,
     CustomUserSerializer)
 from rest_framework import generics
 from rest_framework.views import APIView
@@ -95,12 +96,16 @@ class LogoutView(APIView):
 class CarView(generics.ListCreateAPIView):
     queryset=Car.objects.all()
     serializer_class=CarSerializer
-    parser_classes = (MultiPartParser, FormParser)  # Accept file uploads
+    parser_classes = (MultiPartParser, FormParser, JSONParser)
      
 class DetailCarView(generics.RetrieveUpdateDestroyAPIView):
     queryset=Car.objects.all()
     serializer_class=CarSerializer
     lookup_field='pk'
+
+class FeatureListView(generics.ListCreateAPIView):
+    queryset = Feature.objects.all()
+    serializer_class = FeatureSerializer
 
 class CarBookView(generics.ListCreateAPIView):
     queryset=CarBook.objects.all()
@@ -167,3 +172,11 @@ class DetailEnquiryView(generics.RetrieveUpdateDestroyAPIView):
     queryset=Enquiry.objects.all()
     serializer_class=EnquirySerializer
     lookup_field='pk'
+
+
+class LoggedInUserView(generics.RetrieveAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user  # Returns the currently logged-in user
