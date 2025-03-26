@@ -1,3 +1,28 @@
+date: 26-03-2025
+time : 4:15
+
+Total Modified
+
+backend modified
+
+admin panel : 
+
+              1. dashboard --> fetches users who books car with login user  
+                               [pending : Total_vehicles , Active users ,Todays booking]
+                               
+              2. users ---> fetches all users with login user
+                            [pending: filter users based on status and remove the add user button and search users]
+                            
+              3. Booking --> fetches all bookings with login user 
+                             [pending : filter bookings based on status and search bookings]
+                             
+              4. car Reports --> fetches all available cars with login user also adds a car 
+                                [pending : filter car based on status  and search cars]
+                                
+              5. Account ----> not done yet
+              6. Logout ----> not done yet
+________________________________________________________________________________________________________
+
 date: 24-03-2025
 time: 5:15 pm
 - ContactUs --> Enquiry.jsx page done
