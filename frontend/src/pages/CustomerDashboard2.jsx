@@ -54,6 +54,7 @@ function CustomerDashboard2() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Sidebar */}
+<<<<<<< HEAD
       <div className="fixed left-0 top-0 h-full w-64 bg-white shadow-lg">
         <div className="p-6">
           <div className="flex items-center gap-2 mb-8">
@@ -92,6 +93,9 @@ function CustomerDashboard2() {
           </button>
         </div>
       </div>
+=======
+      
+>>>>>>> e3b41a8bcad9d77f618b4cf575ab644213c6a69f
 
       {/* Main Content */}
       <div className="ml-64 p-8">
@@ -146,18 +150,31 @@ function CustomerDashboard2() {
                 <div className="p-6">
                   <h3 className="text-xl font-semibold mb-2">{car.name}</h3>
 
+<<<<<<< HEAD
                   <div className="flex items-center gap-2 text-gray-600 mb-2">
                     <MapPin className="w-4 h-4" />
                     <span>{car.location}</span>
                   </div>
+=======
+                  {/* <div className="flex items-center gap-2 text-gray-600 mb-2">
+                    <MapPin className="w-4 h-4" />
+                    <span>{car.location}</span>
+                  </div> */}
+>>>>>>> e3b41a8bcad9d77f618b4cf575ab644213c6a69f
 
                   <div className="flex items-center gap-4 mb-4">
                     <span className="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-sm">
                       {car.type}
                     </span>
+<<<<<<< HEAD
                     <span className="px-3 py-1 bg-green-50 text-green-600 rounded-full text-sm">
                       {car.range}
                     </span>
+=======
+                    {/* <span className="px-3 py-1 bg-green-50 text-green-600 rounded-full text-sm">
+                      {car.range}
+                    </span> */}
+>>>>>>> e3b41a8bcad9d77f618b4cf575ab644213c6a69f
                   </div>
 
                   <div className="flex items-center justify-between">
