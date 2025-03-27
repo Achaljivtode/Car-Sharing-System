@@ -8,6 +8,8 @@ const api = axios.create({
   baseURL: API_BASE_URL,
 });
 
+export default api;
+
 // Function to Register a User (Supports File Upload)
 export const registerUser = async (userData) => {
   try {
@@ -73,8 +75,6 @@ export const loginUser = async (userData) => {
   }
 };
 
-export default api;
-
 // Contact Us or Enquiry
 
 export const enquiry = async (formData) => {
@@ -103,6 +103,21 @@ export const getBookings = async () => {
   } catch (error) {
     console.error("Error fetching customers : ", error);
     return null;
+  }
+};
+
+export const getBookingById = async (bookingId) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await api.get(`/booking-report/${bookingId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.error("Error fetch booking for this id:", error);
+    return false; // Failure
   }
 };
 
@@ -136,6 +151,10 @@ export const fetchCars = async () => {
 export const getLoggedInUser = async () => {
   try {
     const token = localStorage.getItem("token"); // Ensure token exists
+    if (!token) {
+      console.error("No authentication token found!");
+      return null;
+    }
     const response = await api.get("/user/", {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -148,10 +167,26 @@ export const getLoggedInUser = async () => {
   }
 };
 
+export const updateUserProfile = async (userId, updatedData) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await api.put(`/users/${userId}/`, updatedData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    return null;
+  }
+};
+
 // fetch Features
 export const fetchFeatures = async () => {
   try {
-    const response = await api.get("/features/"); // ✅ Fetch available features from backend
+    const response = await api.get("/features/"); //  Fetch available features from backend
     return response.data;
   } catch (error) {
     console.error("Error fetching features:", error);

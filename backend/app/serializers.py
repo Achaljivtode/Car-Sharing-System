@@ -80,6 +80,7 @@ class CarBookSerializer(serializers.ModelSerializer):
     car_model=serializers.CharField(source='car.car_model',read_only=True)
     car_number=serializers.CharField(source='car.car_number',read_only=True)
     price=serializers.CharField(source='car.price_per_hour',read_only=True)
+    
     user_image_url=serializers.SerializerMethodField()
     user_name=serializers.CharField(source='user.full_name',read_only=True)
     user_email=serializers.CharField(source='user.email',read_only=True)
@@ -142,10 +143,14 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
         profile_image_url = serializers.SerializerMethodField()
+        dob = serializers.CharField(default="Not Provided")  # Avoid None
+        phone_number = serializers.CharField(default="Not Provided")
+
+        id = serializers.IntegerField(read_only=True)
 
         class Meta:
             model = CustomUser  # Replace with your actual user model
-            fields = ['id', 'username', 'email', 'profile_image_url']
+            fields = ['id', 'username','full_name', 'email', 'profile_image_url','address','dob','phone_number','password']
 
         def get_profile_image_url(self, obj):
             request = self.context.get('request')
