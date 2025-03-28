@@ -62,13 +62,9 @@ function Header() {
 
                 </div>
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                    <a href="/login" onClick={() => localStorage.removeItem('role')} className="text-sm font-bold">Log in <span aria-hidden="true">&rarr;</span></a>
+                    <a href="/login"  className="text-sm font-bold">Log in <span aria-hidden="true">&rarr;</span></a>
                 </div>
             </nav>
-
-
-
-
 
 
             {/* <!-- Mobile menu, show/hide based on menu open state. --> */}

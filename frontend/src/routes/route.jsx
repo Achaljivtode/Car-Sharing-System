@@ -47,7 +47,7 @@ const routes = createBrowserRouter([
   { path: "/booking", element: <BookCars /> },
   { path: "/register", element: <RegisterPage /> },
   { path: "/login", element: <LoginPage /> },
-  // { path: "/book-car/:id", element: <BookCarPage /> },
+  { path: "/book-car/:id", element: <BookCarPage /> },
 
   { path: "/table", element: <Table /> },
 
