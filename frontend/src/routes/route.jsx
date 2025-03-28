@@ -3,7 +3,7 @@ import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import PageNotFound from "../pages/PageNotFound";
-import AbourPage from "../pages/AboutPage";
+// import AbourPage from "../pages/AboutPage";
 import CountactUsPage from "../pages/CountactUsPage";
 // import BookCar from "../pages/BookCar";
 import ServicePage from "../pages/ServicePage";
@@ -15,27 +15,26 @@ import AdminDashboard from "../pages/AdminDashboard";
 // import AllCarReports from "../pages/AllCarReports";
 // import AllCarTypeReports from "../pages/AllCarTypeReports";
 import Table from "../Components/Table/Table";
-import AllCompanyReports from "../pages/AllCompanyReports";
-import AllCustomerReports from "../pages/AllCustomerReports";
-import EditCarPage from "../pages/EditCarPage";
-import AddCompany from "../pages/AddCompany";
-import AddCartype from "../pages/AddCartype";
-import EditCarType from "../pages/EditCarType";
-import EditCompany from "../pages/EditCompany";
+// import AllCompanyReports from "../pages/AllCompanyReports";
+// import AllCustomerReports from "../pages/AllCustomerReports";
+// import EditCarPage from "../pages/EditCarPage";
+// import AddCompany from "../pages/AddCompany";
+// import AddCartype from "../pages/AddCartype";
+// import EditCarType from "../pages/EditCarType";
+// import EditCompany from "../pages/EditCompany";
 // import CustomerDashboard from "../pages/CustomerDashboard";
-import CustomerBookingPage from "../pages/CustomerBookingPage";
+// import CustomerBookingPage from "../pages/CustomerBookingPage";
 import Account from "../pages/Account";
 import Helo from "../pages/helo";
 import User from "../pages/Users";
 import CarsReports2 from "../pages/CarsReport2";
 import AddCar2 from "../pages/AddCar2";
 import Booking2 from "../pages/Booking2";
-import CustomerHistory from "../pages/History";
+// import CustomerHistory from "../pages/History";
 import CustomerDashboard2 from "../pages/CustomerDashboard2";
 import CustomerHistory from "../pages/History";
-import CustomerProfilePage from "../pages/CustomerProfilePage";
+// import CustomerProfilePage from "../pages/CustomerProfilePage";
 import ProfilePage from "../Components/ProfilePage/ProfilePage";
-
 
 const routes = createBrowserRouter([
   //  DEFAULT
@@ -83,18 +82,16 @@ const routes = createBrowserRouter([
   { path: "my-Account", element: <Account /> },
   { path: "*", element: <PageNotFound /> },
 
+  { path: "/helo", element: <Helo /> },
+  { path: "/users", element: <User /> },
+  { path: "/admin-booking", element: <Booking2 /> },
+  { path: "/cars", element: <CarsReports2 /> },
+  { path: "/add-cars", element: <AddCar2 /> },
+  // { path: "/perticular-book", element: <PerticularBook /> },
+  { path: "/Customer-dashboard", element: <CustomerDashboard2 /> },
+  { path: "/Customer-booking", element: <CustomerHistory /> },
+  { path: "/Customer-History", element: <CustomerHistory /> },
+  { path: "/Customer-profile", element: <ProfilePage /> },
+]);
 
-
-    { path:'/helo' , element:<Helo /> },
-    { path:'/users' , element:<User /> },
-    { path:'/admin-booking' , element:<Booking2 /> },
-    { path:'/cars' , element:<CarsReports2 /> },
-    { path:'/add-cars' , element:<AddCar2 /> },
-    { path:'/perticular-book' , element:<PerticularBook /> },
-    { path:'/Customer-dashboard' , element:<CustomerDashboard2 /> },
-    { path:'/Customer-booking' , element:<CustomerHistory /> },
-    { path:'/Customer-History' , element:<CustomerHistory /> },
-    { path:'/Customer-profile' , element:<ProfilePage /> },
-  ])
-  
 export default routes;

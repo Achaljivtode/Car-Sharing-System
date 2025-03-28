@@ -19,17 +19,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import check_password
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.parsers import JSONParser, FormParser # type: ignore
-# Create your views here.
 
-
-# class RegisterView(APIView):
-#     def post(self,request):
-#         data=request.data
-#         serializer=CustomUserSerializer(data=data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data,status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
     
 class RegisterView(generics.ListCreateAPIView):
     queryset=CustomUser.objects.all()
@@ -67,17 +57,9 @@ class DetailCustomUserView(generics.RetrieveUpdateDestroyAPIView):
     queryset=CustomUser.objects.all()
     serializer_class=CustomUserSerializer
     lookup_field='pk'
-    permission_classes=[IsAuthenticated,IsAdmin]
+    permission_classes=[IsAuthenticated]
     
-# class LogoutView(APIView):
-#     def post(self, request):
-#         try:
-#             refresh_token = request.data.get("refresh")
-#             token = RefreshToken(refresh_token)
-#             token.blacklist()  # Blacklist the refresh token
-#             return Response({"message": "Logged out successfully"}, status=status.HTTP_200_OK)
-#         except Exception:
-#             return Response({"error": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class LogoutView(APIView):
@@ -118,51 +100,6 @@ class DetailCarBookView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class=CarBookSerializer
     lookup_field='pk'
 
-
-# class CustomUserView(generics.ListCreateAPIView):
-#     queryset=CustomUser.objects.all()
-#     serializer_class=CustomUserSerializer
-#     permission_classes=[IsAuthenticated,IsAdmin]
-
-
-
-
-# class CarReportView(generics.ListCreateAPIView):
-#     queryset=CarReport.objects.all()
-#     serializer_class=CarReportSerializer
-
-
-# class DetailCarReportView(generics.RetrieveUpdateDestroyAPIView):
-#     queryset=CarReport.objects.all()
-#     serializer_class=CarReportSerializer
-#     lookup_field='pk'
-
-# class CompanyView(generics.ListCreateAPIView):
-#     queryset=Company.objects.all()
-#     serializer_class=CompanySerializer
-
-# class DetailCompanyView(generics.RetrieveUpdateDestroyAPIView):
-#     queryset=Company.objects.all()
-#     serializer_class=CompanySerializer
-#     lookup_field='pk'
-
-# class CarTypeView(generics.ListCreateAPIView):
-#     queryset=CarType.objects.all()
-#     serializer_class=CarTypeSerializer
-
-# class DetailCarTypeView(generics.RetrieveUpdateDestroyAPIView):
-#     queryset=CarType.objects.all()
-#     serializer_class=CarTypeSerializer
-#     lookup_field='pk'
-
-# class AgentView(generics.ListCreateAPIView):
-#     queryset=Agent.objects.all()
-#     serializer_class=AgentSerializer
-
-# class DetailAgentView(generics.RetrieveUpdateDestroyAPIView):
-#     queryset=Agent.objects.all()
-#     serializer_class=AgentSerializer
-#     lookup_field='pk'
 
 class EnquiryView(generics.ListCreateAPIView):
     queryset=Enquiry.objects.all()

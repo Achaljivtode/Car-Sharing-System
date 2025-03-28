@@ -16,11 +16,19 @@ function SideBar() {
   const role = localStorage.getItem("role") || "customer";
 
   const menuItems = [
-    { redirect: "/admin-dashboard", icon: LuLayoutDashboard, label: "Dashboard" },
+    {
+      redirect: "/helo",
+      icon: LuLayoutDashboard,
+      label: "Dashboard",
+    },
     { redirect: "/users", icon: LuUsersRound, label: "Users" },
     { redirect: "/admin-booking", icon: LuNotebook, label: "Bookings" },
-    { redirect: "/cars-reports", icon: TbReportSearch, label: "Cars Reports" },
-    { redirect: "/admin-accounts", icon: MdOutlineAccountCircle, label: "Accounts" },
+    { redirect: "/cars", icon: TbReportSearch, label: "Cars Reports" },
+    {
+      redirect: "/admin-accounts",
+      icon: MdOutlineAccountCircle,
+      label: "Accounts",
+    },
   ];
 
   const customerItems = [
@@ -37,15 +45,29 @@ function SideBar() {
 
   const handleLogout = () => {
     localStorage.removeItem("role");
+    localStorage.removeItem("token");
     navigate("/login"); // Redirect after logout
   };
 
   return (
-    <div className={`${isSidebarOpen ? "w-80" : "w-20"} bg-white shadow-lg h-screen transition-all duration-300 flex flex-col`}>
+    <div
+      className={`${
+        isSidebarOpen ? "w-80" : "w-20"
+      } bg-white shadow-lg h-screen transition-all duration-300 flex flex-col`}
+    >
       {/* Sidebar Header */}
       <div className="p-4 flex items-center justify-between border-b">
-        <h1 className={`font-bold text-xl text-blue-600 ${!isSidebarOpen && "hidden"}`}>CarShare {role === "admin" ? "Admin" : ""}</h1>
-        <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-2 hover:bg-gray-100 rounded-lg">
+        <h1
+          className={`font-bold text-xl text-blue-600 ${
+            !isSidebarOpen && "hidden"
+          }`}
+        >
+          CarShare {role === "admin" ? "Admin" : ""}
+        </h1>
+        <button
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          className="p-2 hover:bg-gray-100 rounded-lg"
+        >
           {isSidebarOpen ? <RxCross2 size={20} /> : <MdOutlineMenu size={20} />}
         </button>
       </div>
@@ -58,7 +80,9 @@ function SideBar() {
               <button
                 onClick={() => handleNavigation(item.redirect)}
                 className={`flex items-center gap-3 w-full p-3 rounded-lg transition ${
-                  activeItem === item.redirect ? "bg-blue-500 text-white" : "hover:bg-gray-100"
+                  activeItem === item.redirect
+                    ? "bg-blue-500 text-white"
+                    : "hover:bg-gray-100"
                 }`}
               >
                 <item.icon size={20} />
@@ -71,7 +95,10 @@ function SideBar() {
 
       {/* Logout Button */}
       <div className="p-4">
-        <button onClick={handleLogout} className="flex items-center gap-3 w-full p-3 text-red-600 hover:bg-red-50 rounded-lg">
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-3 w-full p-3 text-red-600 hover:bg-red-50 rounded-lg"
+        >
           <LogOut size={20} />
           {isSidebarOpen && <span>Logout</span>}
         </button>

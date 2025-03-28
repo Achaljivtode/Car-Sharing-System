@@ -19,7 +19,7 @@ urlpatterns = [
     
     path('enquiry/',views.EnquiryView.as_view(),name='enquiry'),
     path('enquiry/<int:pk>/',views.DetailEnquiryView.as_view(),name='enquiry-detail'),
-    path('features/',views.FeatureListView.as_view(),name='enquiry-detail'),
+    path('features/',views.FeatureListView.as_view(),name='features'),
 
    
 ]

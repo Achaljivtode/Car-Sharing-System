@@ -1,45 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Search, Filter } from "lucide-react";
 import SideBar from "../Components/SideBar/SideBar";
+import { fetchCars } from "../api";
 
 function CustomerDashboard2() {
   const [activeTab, setActiveTab] = useState("available");
+  const [cars, setCars] = useState([]);
 
-  const cars = [
-    {
-      id: 1,
-      name: "Tesla Model 3",
-      location: "Downtown Station",
-      price: 25,
-      image:
-        "https://images.unsplash.com/photo-1536700503339-1e4b06520771?auto=format&fit=crop&q=80&w=2000",
-      available: true,
-      range: "320 miles",
-      type: "Electric",
-    },
-    {
-      id: 2,
-      name: "BMW i4",
-      location: "Central Park",
-      price: 30,
-      image:
-        "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&q=80&w=2000",
-      available: true,
-      range: "300 miles",
-      type: "Electric",
-    },
-    {
-      id: 3,
-      name: "Audi e-tron",
-      location: "Airport Terminal",
-      price: 35,
-      image:
-        "https://images.unsplash.com/photo-1614200187524-dc4b892acf16?auto=format&fit=crop&q=80&w=2000",
-      available: false,
-      range: "280 miles",
-      type: "Electric",
-    },
-  ];
+  useEffect(() => {
+    const getCars = async () => {
+      const data = await fetchCars();
+      if (data) {
+        setCars(data);
+      }
+    };
+    getCars();
+  }, []);
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -75,37 +51,52 @@ function CustomerDashboard2() {
           {/* Car Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {cars.map((car) => (
-              <div key={car.id} className="bg-white rounded-xl shadow-sm overflow-hidden">
+              <div
+                key={car.id}
+                className="bg-white rounded-xl shadow-sm overflow-hidden"
+              >
                 <div className="relative h-48">
-                  <img src={car.image} alt={car.name} className="w-full h-full object-cover" />
-                  {!car.available && (
+                  <img
+                    src={car.car_image_url}
+                    alt={car.car_model}
+                    className="w-full h-full object-cover"
+                  />
+                  {!car.status == "available" && (
                     <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                      <span className="text-white font-semibold">Currently Rented</span>
+                      <span className="text-white font-semibold">
+                        Currently Rented
+                      </span>
                     </div>
                   )}
                 </div>
 
                 <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-2">{car.name}</h3>
+                  <h3 className="text-xl font-semibold mb-2">
+                    {car.car_model}
+                  </h3>
                   <div className="flex items-center gap-4 mb-4">
-                    <span className="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-sm">{car.type}</span>
+                    <span className="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-sm">
+                      {car.fuel_type}
+                    </span>
                   </div>
 
                   <div className="flex items-center justify-between">
                     <div>
-                      <span className="text-2xl font-bold">${car.price}</span>
+                      <span className="text-2xl font-bold">
+                        ${car.price_per_hour}
+                      </span>
                       <span className="text-gray-600">/hour</span>
                     </div>
 
                     <button
-                      disabled={!car.available}
+                      disabled={!car.status == "available"}
                       className={`px-4 py-2 rounded-lg ${
-                        car.available
+                        car.status == "available"
                           ? "bg-blue-600 text-white hover:bg-blue-700"
                           : "bg-gray-100 text-gray-400 cursor-not-allowed"
                       }`}
                     >
-                      {car.available ? "Book Now" : "Unavailable"}
+                      {car.status == "available" ? "Book Now" : "Unavailable"}
                     </button>
                   </div>
                 </div>
