@@ -39,6 +39,28 @@ function Helo() {
     fetchData();
   }, []);
 
+  const hedData = [
+    {
+      label: "Total Vehicles",
+      value: "124",
+      change: "+12%",
+      up: true,
+    },
+    {
+      label: "Active Users",
+      value: "2,847",
+      change: "+18%",
+      up: true,
+    },
+    {
+      label: "Total Bookings",
+      value: "48",
+      change: "-5%",
+      up: false,
+    },
+    { label: "Total Revenue", value: "$12,847", change: "+24%", up: true },
+  ]
+
   return (
     <div className="min-h-screen bg-gray-50 flex">
       {/* Sidebar */}
@@ -72,27 +94,8 @@ function Helo() {
         <main className="p-6">
           {/* Stats Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-            {[
-              {
-                label: "Total Vehicles",
-                value: "124",
-                change: "+12%",
-                up: true,
-              },
-              {
-                label: "Active Users",
-                value: "2,847",
-                change: "+18%",
-                up: true,
-              },
-              {
-                label: "Today's Bookings",
-                value: "48",
-                change: "-5%",
-                up: false,
-              },
-              { label: "Revenue", value: "$12,847", change: "+24%", up: true },
-            ].map((stat) => (
+            {
+              hedData.map((stat) => (
               <div key={stat.label} className="bg-white rounded-lg shadow p-6">
                 <h3 className="text-sm font-medium text-gray-500">
                   {stat.label}

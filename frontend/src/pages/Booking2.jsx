@@ -140,9 +140,9 @@ function Booking2() {
                   size={16}
                 />
               </div>
-              <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+              {/* <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
                 New Booking
-              </button>
+              </button> */}
             </div>
           </div>
 
@@ -269,7 +269,7 @@ function Booking2() {
             </table>
 
             {/* Pagination */}
-            <div className="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
+            {/* <div className="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
               <div className="flex items-center justify-between">
                 <div className="flex-1 flex justify-between sm:hidden">
                   <button className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
@@ -307,7 +307,7 @@ function Booking2() {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </main>
       </div>

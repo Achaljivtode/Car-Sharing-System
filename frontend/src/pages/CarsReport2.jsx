@@ -15,6 +15,7 @@ import SideBar from "../Components/SideBar/SideBar";
 import { useNavigate } from "react-router-dom";
 
 function CarsReports2() {
+  const role = localStorage.getItem('role')
   // const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [cars, setCars] = useState([]);
@@ -142,47 +143,60 @@ function CarsReports2() {
                   size={16}
                 />
               </div>
-              <button
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-                onClick={() => navigate("/add-cars")}
-              >
-                Add New Car
-              </button>
+              {
+                role !== 'admin' ? (
+                  <button
+                    className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                    onClick={() => navigate("/book-now")}
+                  >
+                    Book Now
+                  </button>
+                ):
+                (
+                  <button
+                    className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                    onClick={() => navigate("/add-cars")}
+                  >
+                    Add New Car
+                  </button>
+                )
+              }
             </div>
           </div>
 
           {/* Cars Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {cars.map((car) => (
               <div
                 key={car.id}
                 className="bg-white rounded-lg shadow-md overflow-hidden"
               >
-                <div className="relative h-48">
+                <div className="relative p-2 mb-5 h-48">
                   <img
                     src={car.car_image_url}
                     alt={car.car_model}
-                    className="w-full h-full object-cover"
+                    className="w-full"
                   />
-                  <div className="absolute top-4 right-4">
-                    <div
-                      className={`flex items-center space-x-1 px-2 py-1 rounded-full bg-white/90 ${getStatusColor(
-                        car.status
-                      )}`}
-                    >
-                      <Circle size={8} />
-                      <span className="text-sm font-medium">{car.status}</span>
-                    </div>
-                  </div>
+                  {
+                    role === 'admin' && (
+                      <div className="absolute top-4 right-4">
+                        <div
+                          className={`flex items-center space-x-1 px-2 py-1 rounded-full bg-white/90 ${getStatusColor(
+                            car.status
+                          )}`}
+                        >
+                          <Circle size={8} />
+                          <span className="text-sm font-medium">{car.status}</span>
+                        </div>
+                      </div>
+                    )
+                  }
                 </div>
                 <div className="p-4">
                   <div className="flex items-center justify-between mb-2">
                     <h3 className="text-lg font-semibold text-gray-900">
                       {car.car_model}
                     </h3>
-                    <button className="text-gray-400 hover:text-gray-600">
-                      <MoreVertical size={20} />
-                    </button>
                   </div>
                   <div className="space-y-3">
                     <div className="flex items-center text-sm text-gray-500">
@@ -209,6 +223,24 @@ function CarsReports2() {
                       </div>
                     </div>
                   </div>
+                  {
+                    role !== "admin" && (
+                      <div >
+                        <button
+                          disabled={car.status !== "available"}
+                          className={`px-4 py-2 w-full rounded-lg hover:cursor-pointer ${car.status === "available"
+                            ? "bg-blue-600 text-white hover:bg-blue-700"
+                            : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                            }`}
+                          onClick={() => navigate('/book-now')}
+                        >
+                          {car.status === "available" ? "Book Now" : "Unavailable"}
+                        </button>
+                      </div>
+                    )
+                  }
+
+
                 </div>
               </div>
             ))}

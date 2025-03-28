@@ -7,9 +7,6 @@ import SideBar from "../SideBar/SideBar";
 import { useNavigate } from "react-router-dom";
 
 export default function ProfilePage() {
-  // const [number, setNumber] = useState("123457890");
-  // const [email, setEmail] = useState("john.doe@example.com");
-  // const [dob, setDob] = useState("January 15, 1990");
   const navigate = useNavigate();
   const [user, setUser] = useState([]);
   const [formData, setFormData] = useState({
@@ -20,6 +17,7 @@ export default function ProfilePage() {
     dob: "",
     address: "",
     password: "",
+    profile_image_url: '',
   });
 
   useEffect(() => {
@@ -29,6 +27,7 @@ export default function ProfilePage() {
         if (data) {
           setUser(data);
           setFormData({
+            profile_image_url: data.profile_image_url ,
             username: data.username || "",
             full_name: data.full_name || "",
             phone_number: data.phone_number || "",
@@ -199,7 +198,7 @@ export default function ProfilePage() {
           </div>
 
           {/* Account Settings */}
-          <div className="bg-white rounded-xl shadow-sm p-6 mt-4">
+          {/* <div className="bg-white rounded-xl shadow-sm p-6 mt-4">
             <button
               onClick={() => {
                 localStorage.removeItem("role");
@@ -211,7 +210,7 @@ export default function ProfilePage() {
               <LogOut className="h-5 w-5 mr-2" />
               Sign Out
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
