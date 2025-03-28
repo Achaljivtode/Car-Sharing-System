@@ -225,3 +225,27 @@ export const addCar = async (carData) => {
     return null;
   }
 };
+
+// Book Car
+export const bookCar = async (bookCarData) => {
+  try {
+    const formData = new FormData();
+
+    formData.append("booking_date", bookCarData.booking_date);
+    formData.append("pickup_location", bookCarData.pickup_location);
+    formData.append("drop_location", bookCarData.drop_location);
+    formData.append("pickup_date", bookCarData.pickup_date);
+    formData.append("drop_date", bookCarData.drop_date);
+
+    const response = await api.post("/booking-report/", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error adding car:", error);
+    return null;
+  }
+};
