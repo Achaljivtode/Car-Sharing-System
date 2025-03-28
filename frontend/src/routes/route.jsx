@@ -11,7 +11,7 @@ import AdminDashboard from "../pages/AdminDashboard";
 // import CarAddPage from "../pages/CarAddPage";
 // import AllBookingReport from "../pages/AllBookingReport";
 // import Bookingdetails from "../pages/Bookingdetails";
-// import BookCarPage from "../pages/BookCarPage";
+import BookCarPage from "../pages/BookCarPage";
 // import AllCarReports from "../pages/AllCarReports";
 // import AllCarTypeReports from "../pages/AllCarTypeReports";
 import Table from "../Components/Table/Table";
@@ -47,7 +47,7 @@ const routes = createBrowserRouter([
   { path: "/booking", element: <BookCars /> },
   { path: "/register", element: <RegisterPage /> },
   { path: "/login", element: <LoginPage /> },
-  // { path: "/book-car/:id", element: <BookCarPage /> },
+  { path: "/book-car/:id", element: <BookCarPage /> },
 
   { path: "/table", element: <Table /> },
 

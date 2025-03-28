@@ -3,7 +3,7 @@ import Header from "../Components/Header/Header";
 import Footer from "../Components/Footer/Footer";
 import { isRouteErrorResponse } from "react-router-dom";
 import { useParams, useNavigate } from "react-router-dom";
-import { fetchCarById, bookCar } from "../api";
+// import {} from "../api";
 
 function BookCarPage() {
   const [customerName, setCustomerName] = useState("");
