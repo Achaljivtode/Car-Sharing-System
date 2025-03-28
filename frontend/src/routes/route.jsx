@@ -5,7 +5,7 @@ import RegisterPage from "../pages/RegisterPage";
 import PageNotFound from "../pages/PageNotFound";
 // import AbourPage from "../pages/AboutPage";
 import CountactUsPage from "../pages/CountactUsPage";
-// import BookCar from "../pages/BookCar";
+import BookCar from "../pages/BookCar";
 import ServicePage from "../pages/ServicePage";
 import AdminDashboard from "../pages/AdminDashboard";
 // import CarAddPage from "../pages/CarAddPage";
@@ -43,7 +43,7 @@ const routes = createBrowserRouter([
   // { path:'/about' , element:<AbourPage /> },
   { path: "/contact", element: <CountactUsPage /> },
   { path: "/services", element: <ServicePage /> },
-  // { path: "/booking", element: <BookCar /> },
+  { path: "/booking", element: <BookCar /> },
   { path: "/register", element: <RegisterPage /> },
   { path: "/login", element: <LoginPage /> },
   // { path: "/book-car/:id", element: <BookCarPage /> },
