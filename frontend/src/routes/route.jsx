@@ -35,6 +35,7 @@ import CustomerDashboard2 from "../pages/CustomerDashboard2";
 import CustomerHistory from "../pages/History";
 // import CustomerProfilePage from "../pages/CustomerProfilePage";
 import ProfilePage from "../Components/ProfilePage/ProfilePage";
+import BookCars from "../pages/BookCar";
 
 const routes = createBrowserRouter([
   //  DEFAULT
@@ -43,7 +44,7 @@ const routes = createBrowserRouter([
   // { path:'/about' , element:<AbourPage /> },
   { path: "/contact", element: <CountactUsPage /> },
   { path: "/services", element: <ServicePage /> },
-  // { path: "/booking", element: <BookCar /> },
+  { path: "/booking", element: <BookCars /> },
   { path: "/register", element: <RegisterPage /> },
   { path: "/login", element: <LoginPage /> },
   // { path: "/book-car/:id", element: <BookCarPage /> },
