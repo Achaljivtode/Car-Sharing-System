@@ -5,7 +5,7 @@ import RegisterPage from "../pages/RegisterPage";
 import PageNotFound from "../pages/PageNotFound";
 // import AbourPage from "../pages/AboutPage";
 import CountactUsPage from "../pages/CountactUsPage";
-import BookCar from "../pages/BookCar";
+// import BookCar from "../pages/BookCar";
 import ServicePage from "../pages/ServicePage";
 import AdminDashboard from "../pages/AdminDashboard";
 // import CarAddPage from "../pages/CarAddPage";
@@ -35,7 +35,8 @@ import CustomerDashboard2 from "../pages/CustomerDashboard2";
 import CustomerHistory from "../pages/History";
 // import CustomerProfilePage from "../pages/CustomerProfilePage";
 import ProfilePage from "../Components/ProfilePage/ProfilePage";
-import BookCars from "../pages/BookCar";
+import BookYourRide from "../pages/BookYourRide";
+// import BookCars from "../pages/BookCar";
 
 const routes = createBrowserRouter([
   //  DEFAULT
@@ -44,7 +45,7 @@ const routes = createBrowserRouter([
   // { path:'/about' , element:<AbourPage /> },
   { path: "/contact", element: <CountactUsPage /> },
   { path: "/services", element: <ServicePage /> },
-  { path: "/booking", element: <BookCars /> },
+  // { path: "/booking", element: <BookCars /> },
   { path: "/register", element: <RegisterPage /> },
   { path: "/login", element: <LoginPage /> },
   { path: "/book-car/:id", element: <BookCarPage /> },
@@ -89,10 +90,13 @@ const routes = createBrowserRouter([
   { path: "/cars", element: <CarsReports2 /> },
   { path: "/add-cars", element: <AddCar2 /> },
   // { path: "/perticular-book", element: <PerticularBook /> },
-  { path: "/Customer-dashboard", element: <CustomerDashboard2 /> },
+  // { path: "/Customer-dashboard", element: <CustomerDashboard2 /> },
+  { path: "/cars", element: <CustomerDashboard2 /> },
+  { path: "/book-now", element: <BookYourRide /> },
   { path: "/Customer-booking", element: <CustomerHistory /> },
   { path: "/Customer-History", element: <CustomerHistory /> },
   { path: "/Customer-profile", element: <ProfilePage /> },
+  { path: "/admin-accounts", element: <ProfilePage /> },
 ]);
 
 export default routes;

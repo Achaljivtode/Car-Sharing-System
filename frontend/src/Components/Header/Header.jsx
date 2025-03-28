@@ -31,6 +31,18 @@ function Header() {
         }, 100); // Delay to ensure navigation happens first
     };
 
+    const handleLogout = () => {
+        localStorage.removeItem('role')
+        localStorage.removeItem('token')
+        navigate('/login')
+    }
+
+    const handlebooking = () => {
+        role === 'customer' ?
+        navigate("/customer-dashboard") : 
+        navigate('/login')
+    }
+
     useEffect(() => {
         setUsers(users)
     }, [])
@@ -56,19 +68,23 @@ function Header() {
                     <a onClick={handleAboutClick} className="text-sm hover:text-blue-700 font-bold p-2 my-4">ABOUT</a>
                     <a href='/contact' className="text-sm hover:text-blue-700 font-bold p-2 my-4">CONTACT</a>
                     <a href='/services' className="text-sm hover:text-blue-700 font-bold p-2 my-4">SERVICES</a>
-                    <a href='/booking' className="text-sm hover:text-blue-700 font-bold p-2 my-4">BOOK A CAR</a>
+                    <a href='' onClick={handlebooking} className="text-sm hover:text-blue-700 font-bold p-2 my-4">BOOK A CAR</a>
                     <a href='/register' className="text-sm hover:text-blue-700 font-bold p-2 my-4">REGISTER</a>
 
 
                 </div>
-                <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                    <a href="/login" onClick={() => localStorage.removeItem('role')} className="text-sm font-bold">Log in <span aria-hidden="true">&rarr;</span></a>
-                </div>
+                {
+                    role ? 
+                    <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+                        <a href="" onClick={handleLogout}  className="text-sm font-bold">Log out <span aria-hidden="true">&rarr;</span></a>
+                    </div>
+                    :
+                    <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+                        <a href="/login"  className="text-sm font-bold">Log in <span aria-hidden="true">&rarr;</span></a>
+                    </div>
+
+                }
             </nav>
-
-
-
-
 
 
             {/* <!-- Mobile menu, show/hide based on menu open state. --> */}
@@ -94,7 +110,7 @@ function Header() {
                                     <a href="/about" className="-mx-3 block rounded-lg px-3 py-2 text-base/7 text-white font-semibold hover:bg-gray-50">ABOUT</a>
                                     <a href="/contact" className="-mx-3 block rounded-lg px-3 py-2 text-base/7 text-white font-semibold hover:bg-gray-50">CONTACT</a>
                                     <a href="/services" className="-mx-3 block rounded-lg px-3 py-2 text-base/7 text-white font-semibold hover:bg-gray-50">SERVICES</a>
-                                    <a href="/booking" className="-mx-3 block rounded-lg px-3 py-2 text-base/7 text-white font-semibold hover:bg-gray-50">BOOK A CAR</a>
+                                    <a href="" onClick={handlebooking} className="-mx-3 block rounded-lg px-3 py-2 text-base/7 text-white font-semibold hover:bg-gray-50">BOOK A CAR</a>
                                     <a href="/register" className="-mx-3 block rounded-lg px-3 py-2 text-base/7 text-white font-semibold hover:bg-gray-50">REGISTER</a>
 
 

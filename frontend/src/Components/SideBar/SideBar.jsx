@@ -12,6 +12,10 @@ function SideBar() {
   const location = useLocation(); // Get the current route path
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [activeItem, setActiveItem] = useState(location.pathname); // Set active item based on URL
+  // console.log(activeItem);
+  // const handleNavigation = () => {
+  //   navigate("/receiver", { state: { activeItem } }); // Passing state
+  // };
 
   const role = localStorage.getItem("role") || "customer";
 
@@ -32,7 +36,7 @@ function SideBar() {
   ];
 
   const customerItems = [
-    { redirect: "/customer-dashboard", icon: Car, label: "Available Car" },
+    { redirect: "/cars", icon: Car, label: "Available Car" },
     { redirect: "/customer-booking", icon: History, label: "My Booking" },
     { redirect: "/customer-history", icon: History, label: "History" },
     { redirect: "/customer-profile", icon: Settings, label: "Profile" },
@@ -40,7 +44,7 @@ function SideBar() {
 
   const handleNavigation = (path) => {
     setActiveItem(path); // Set active item based on route path
-    navigate(path);
+    navigate(path, { state: { activeItem: path } });
   };
 
   const handleLogout = () => {
