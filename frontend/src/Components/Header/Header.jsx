@@ -118,7 +118,7 @@ function Header() {
 
                                 </div>
                                 <div className="py-6">
-                                    <a href="/login" className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 text-white font-semibold hover:bg-gray-50">Log in</a>
+                                    <a href="/home" className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 text-white font-semibold hover:bg-gray-50">Log in</a>
                                 </div>
                             </div>
                         </div>
