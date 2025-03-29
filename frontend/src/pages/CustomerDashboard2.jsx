@@ -12,10 +12,15 @@ function CustomerDashboard2() {
       const data = await fetchCars();
       if (data) {
         setCars(data);
+        
+      }else{
+        console.log("No data");
       }
     };
     getCars();
   }, []);
+  // console.log(cars);
+  
 
   return (
     <div className="flex h-screen overflow-hidden">

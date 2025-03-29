@@ -40,7 +40,7 @@ import BookYourRide from "../pages/BookYourRide";
 
 const routes = createBrowserRouter([
   //  DEFAULT
-  { path: "", element: <HomePage /> },
+  { path: "", element:<HomePage /> },
   { path: "/home", element: <HomePage /> },
   // { path:'/about' , element:<AbourPage /> },
   { path: "/contact", element: <CountactUsPage /> },
@@ -86,16 +86,17 @@ const routes = createBrowserRouter([
 
   { path: "/helo", element: <Helo /> },
   { path: "/users", element: <User /> },
-  { path: "/admin-booking", element: <Booking2 /> },
   { path: "/cars", element: <CarsReports2 /> },
   { path: "/add-cars", element: <AddCar2 /> },
   // { path: "/perticular-book", element: <PerticularBook /> },
   // { path: "/Customer-dashboard", element: <CustomerDashboard2 /> },
-  { path: "/cars", element: <CustomerDashboard2 /> },
+  // { path: "/cars", element: <CustomerDashboard2 /> },
   { path: "/book-now", element: <BookYourRide /> },
   { path: "/Customer-booking", element: <CustomerHistory /> },
   { path: "/Customer-History", element: <CustomerHistory /> },
   { path: "/Customer-profile", element: <ProfilePage /> },
+  
+  { path: "/admin-booking", element: <Booking2 /> },
   { path: "/admin-accounts", element: <ProfilePage /> },
 ]);
 

@@ -23,6 +23,7 @@ import SideBar from "../Components/SideBar/SideBar";
 
 function Booking2() {
   const [selectedFilter, setSelectedFilter] = useState("all");
+  const [searchFilter, setSearchFilter] = useState("");
   const [bookings, setBookings] = useState([]);
   const [user, setUser] = useState(null);
 
@@ -57,27 +58,27 @@ function Booking2() {
     }
   };
 
-  const getStatusIcon = (status) => {
-    switch (status) {
-      case "Pending":
-        return <CalendarClock className="w-4 h-4 text-yellow-500" />;
-      case "Completed":
-        return <CalendarX className="w-4 h-4 text-gray-500" />;
-      default:
-        return <Calendar className="w-4 h-4" />;
-    }
-  };
+  // const getStatusIcon = (status) => {
+  //   switch (status) {
+  //     case "Pending":
+  //       return <CalendarClock className="w-4 h-4 text-yellow-500" />;
+  //     case "Completed":
+  //       return <CalendarX className="w-4 h-4 text-gray-500" />;
+  //     default:
+  //       return <Calendar className="w-4 h-4" />;
+  //   }
+  // };
 
-  const getStatusStyle = (status) => {
-    switch (status) {
-      case "Pending":
-        return "bg-yellow-100 text-yellow-800";
-      case "Completed":
-        return "bg-gray-100 text-gray-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
-  };
+  // const getStatusStyle = (status) => {
+  //   switch (status) {
+  //     case "Pending":
+  //       return "bg-yellow-100 text-yellow-800";
+  //     case "Completed":
+  //       return "bg-gray-100 text-gray-800";
+  //     default:
+  //       return "bg-gray-100 text-gray-800";
+  //   }
+  // };
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
@@ -97,7 +98,7 @@ function Booking2() {
               <div className="flex items-center space-x-2">
                 <img
                   src={
-                    user?.profile_image_url || "https://via.placeholder.com/150"
+                    user?.profile_image_url
                   }
                   alt={user?.username || "User"}
                   className="w-8 h-8 rounded-full"
@@ -119,7 +120,9 @@ function Booking2() {
               />
               <input
                 type="text"
-                placeholder="Search bookings..."
+                value={searchFilter}
+                onChange={(e) => setSearchFilter(e.target.value)}
+                placeholder="Search user..."
                 className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg w-full sm:w-96 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
@@ -132,17 +135,14 @@ function Booking2() {
                 >
                   <option value="all">All Bookings</option>
                   {/* <option value="active">Active</option> */}
-                  <option value="pending">Pending</option>
-                  <option value="completed">Completed</option>
+                  <option value="available">Available</option>
+                  <option value="in_use">In Use</option>
                 </select>
                 <Filter
                   className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
                   size={16}
                 />
               </div>
-              {/* <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                New Booking
-              </button> */}
             </div>
           </div>
 
@@ -176,81 +176,60 @@ function Booking2() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {bookings.map((booking) => (
-                  <tr key={booking.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      {booking.id}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <img
-                          className="h-8 w-8 rounded-full"
-                          src={booking.user_image_url}
-                          alt=""
-                        />
-                        <div className="ml-3">
-                          <div className="text-sm font-medium text-gray-900">
-                            {booking.user_name}
+                {bookings
+                  .filter(
+                    (booking) =>
+                      (selectedFilter === "all" || booking.car_status === selectedFilter) && // Apply filter
+                      (searchFilter === "" || booking.user_name.toLowerCase().includes(searchFilter.toLowerCase())) // Apply search
+                  )
+                  .map((booking) => (
+                    <tr key={booking.id} className="hover:bg-gray-50">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        {booking.id}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center">
+                          <img className="h-8 w-8 rounded-full" src={booking.user_image_url} alt="" />
+                          <div className="ml-3">
+                            <div className="text-sm font-medium text-gray-900">{booking.user_name}</div>
                           </div>
                         </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <img
-                          className="h-8 w-12 rounded object-cover"
-                          src={booking.car_image_url}
-                          alt=""
-                        />
-                        <div className="ml-3">
-                          <div className="text-sm font-medium text-gray-900">
-                            {booking.car_number}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center">
+                          <img className="h-8 w-12 rounded object-cover" src={booking.car_image_url} alt="" />
+                          <div className="ml-3">
+                            <div className="text-sm font-medium text-gray-900">{booking.car_number}</div>
                           </div>
                         </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="ml-3">
-                        <div className="mr-1 text-gray-700">
-                          {booking.pickup_location}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="ml-3">
+                          <div className="mr-1 text-gray-700">{booking.pickup_location}</div>
                         </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="ml-3">
-                        <div className="mr-1 text-gray-700">
-                          {booking.drop_location}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="ml-3">
+                          <div className="mr-1 text-gray-700">{booking.drop_location}</div>
                         </div>
-                      </div>
-                    </td>
-
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        {/* <CircleDollarSign
-                          size={14}
-                          className="mr-1 text-gray-400"
-                        /> */}
-                        {/* <span className="text-sm text-gray-900">
-                          ${booking.car_status}
-                        </span> */}
-                        <span
-                          className={`ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                            booking.car_status === "available"
-                              ? "bg-green-100 text-green-800"
-                              : "bg-yellow-100 text-yellow-800"
-                          }`}
-                        >
-                          {booking.car_status}
-                        </span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {/* <button className="text-gray-400 hover:text-gray-600">
-                                                <MoreVertical size={20} />
-                                            </button> */}
-                      <button className="text-gray-400 hover:text-gray-600">
-                        {booking.car_status === "in_use" ? (
-                          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center">
+                          <span
+                            className={`ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${booking.car_status === "available"
+                                ? "bg-green-100 text-green-800"
+                                : "bg-gray-100 text-gray-800"
+                              }`}
+                          >
+                            {booking.car_status}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {booking.car_status === "available" ? (
+                          <button
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                          >
                             Confirm Booking
                           </button>
                         ) : (
@@ -261,11 +240,11 @@ function Booking2() {
                             Cancel Booking
                           </button>
                         )}
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
+
             </table>
 
             {/* Pagination */}
