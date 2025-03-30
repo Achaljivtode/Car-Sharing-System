@@ -69,6 +69,7 @@ class Car(models.Model):
     price_per_hour=models.DecimalField(max_digits=10, decimal_places=2)
     status=models.CharField(max_length=10,choices=STATUS_CHOICES,default=AVAILABLE)
     features = models.ManyToManyField(Feature, blank=True)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     
 
     
@@ -86,8 +87,8 @@ class CarBook(models.Model):
     drop_location=models.TextField(null=True,blank=True)
     pickup_date=models.DateField()
     drop_date=models.DateField()
-    car = models.ForeignKey(Car, on_delete=models.CASCADE, default=1)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
+    car = models.ForeignKey(Car, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     
 
 

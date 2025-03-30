@@ -36,6 +36,8 @@ import CustomerHistory from "../pages/History";
 // import CustomerProfilePage from "../pages/CustomerProfilePage";
 import ProfilePage from "../Components/ProfilePage/ProfilePage";
 import BookYourRide from "../pages/BookYourRide";
+import CarDetails from "../Components/CarDetails/CarDeatils";
+import BookCarForm from "../Components/BookCarForm/BookCarForm";
 // import BookCars from "../pages/BookCar";
 
 const routes = createBrowserRouter([
@@ -88,11 +90,14 @@ const routes = createBrowserRouter([
   { path: "/users", element: <User /> },
   { path: "/admin-booking", element: <Booking2 /> },
   { path: "/cars", element: <CarsReports2 /> },
+  // { path: "/cars/:id", element: <BookYourRide /> },
   { path: "/add-cars", element: <AddCar2 /> },
   // { path: "/perticular-book", element: <PerticularBook /> },
   // { path: "/Customer-dashboard", element: <CustomerDashboard2 /> },
   { path: "/cars", element: <CustomerDashboard2 /> },
   { path: "/book-now", element: <BookYourRide /> },
+  // { path: "/book-now/:id", element: <CarDetails /> }, // Fetch car details
+  { path: "/book-now/:carId", element: <BookYourRide /> },
   { path: "/Customer-booking", element: <CustomerHistory /> },
   { path: "/Customer-History", element: <CustomerHistory /> },
   { path: "/Customer-profile", element: <ProfilePage /> },

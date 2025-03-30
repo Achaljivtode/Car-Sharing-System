@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { fetchCars, fetchFeatures, getLoggedInUser } from "../api";
+import {
+  fetchCars,
+  fetchCarsById,
+  fetchFeatures,
+  getLoggedInUser,
+} from "../api";
 import {
   Car,
   Bell,
@@ -15,10 +20,11 @@ import SideBar from "../Components/SideBar/SideBar";
 import { useNavigate } from "react-router-dom";
 
 function CarsReports2() {
-  const role = localStorage.getItem('role')
+  const role = localStorage.getItem("role");
   // const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [cars, setCars] = useState([]);
+  const [carDetail, setCarDetail] = useState([]);
   const [user, setUser] = useState(null);
   const [features, setFeatures] = useState([]);
   console.log(features);
@@ -31,18 +37,32 @@ function CarsReports2() {
       if (data) {
         setCars(data);
       }
+      const userData = await getLoggedInUser();
+      setUser(userData);
+      console.log(userData);
     };
     getCars();
   }, []);
 
+  // useEffect(() => {
+  //   const getCarDetail = async () => {
+  //     const data = await fetchCarsById(carId);
+  //     if (data) {
+  //       setCarDetail(data)
+  //     }
+  //   };
+  //   getCarDetail();
+  // },[carId])
+
   // Logged In user
-  useEffect(() => {
-    const fetchData = async () => {
-      const userData = await getLoggedInUser();
-      setUser(userData);
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const userData = await getLoggedInUser();
+  //     setUser(userData);
+  //     console.log(userData);
+  //   };
+  //   fetchData();
+  // }, []);
 
   // Fetch Features
   useEffect(() => {
@@ -53,8 +73,9 @@ function CarsReports2() {
     loadFeatures();
   }, []);
 
-  //  Function to Map Feature IDs to Names
-  //
+  const handleBookNow = (carId) => {
+    navigate(`/book-now/${carId}`);
+  };
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -143,24 +164,21 @@ function CarsReports2() {
                   size={16}
                 />
               </div>
-              {
-                role !== 'admin' ? (
-                  <button
-                    className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-                    onClick={() => navigate("/book-now")}
-                  >
-                    Book Now
-                  </button>
-                ):
-                (
-                  <button
-                    className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-                    onClick={() => navigate("/add-cars")}
-                  >
-                    Add New Car
-                  </button>
-                )
-              }
+              {role !== "admin" ? (
+                <button
+                  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                  onClick={() => navigate("/book-now")}
+                >
+                  Book Now
+                </button>
+              ) : (
+                <button
+                  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                  onClick={() => navigate("/add-cars")}
+                >
+                  Add New Car
+                </button>
+              )}
             </div>
           </div>
 
@@ -177,20 +195,20 @@ function CarsReports2() {
                     alt={car.car_model}
                     className="w-full"
                   />
-                  {
-                    role === 'admin' && (
-                      <div className="absolute top-4 right-4">
-                        <div
-                          className={`flex items-center space-x-1 px-2 py-1 rounded-full bg-white/90 ${getStatusColor(
-                            car.status
-                          )}`}
-                        >
-                          <Circle size={8} />
-                          <span className="text-sm font-medium">{car.status}</span>
-                        </div>
+                  {role === "admin" && (
+                    <div className="absolute top-4 right-4">
+                      <div
+                        className={`flex items-center space-x-1 px-2 py-1 rounded-full bg-white/90 ${getStatusColor(
+                          car.status
+                        )}`}
+                      >
+                        <Circle size={8} />
+                        <span className="text-sm font-medium">
+                          {car.status}
+                        </span>
                       </div>
-                    )
-                  }
+                    </div>
+                  )}
                 </div>
                 <div className="p-4">
                   <div className="flex items-center justify-between mb-2">
@@ -223,24 +241,23 @@ function CarsReports2() {
                       </div>
                     </div>
                   </div>
-                  {
-                    role !== "admin" && (
-                      <div >
-                        <button
-                          disabled={car.status !== "available"}
-                          className={`px-4 py-2 w-full rounded-lg hover:cursor-pointer ${car.status === "available"
+                  {role !== "admin" && (
+                    <div>
+                      <button
+                        disabled={car.status !== "available"}
+                        className={`px-4 py-2 w-full rounded-lg hover:cursor-pointer ${
+                          car.status === "available"
                             ? "bg-blue-600 text-white hover:bg-blue-700"
                             : "bg-gray-100 text-gray-400 cursor-not-allowed"
-                            }`}
-                          onClick={() => navigate('/book-now')}
-                        >
-                          {car.status === "available" ? "Book Now" : "Unavailable"}
-                        </button>
-                      </div>
-                    )
-                  }
-
-
+                        }`}
+                        onClick={() => handleBookNow(car.id)}
+                      >
+                        {car.status === "available"
+                          ? "Book Now"
+                          : "Unavailable"}
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}

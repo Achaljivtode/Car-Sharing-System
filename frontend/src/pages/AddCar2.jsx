@@ -31,6 +31,7 @@ function AddCar2() {
     status: "",
     car_image: null,
     feature_ids: [],
+    user: null,
   });
 
   const [features, setFeatures] = useState([]);
@@ -43,7 +44,9 @@ function AddCar2() {
   useEffect(() => {
     const fetchData = async () => {
       const userData = await getLoggedInUser();
+      console.log("Logged-in User Data:", userData);
       setUser(userData);
+      setCarData((prev) => ({ ...prev, user: userData.id }));
     };
     fetchData();
   }, []);
@@ -98,9 +101,15 @@ function AddCar2() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    // if (!user) {
+    //   alert("user is not logged in !");
+    //   return;
+    // }
+
     const response = await addCar(carData);
     if (response) {
       alert("Car added successfully!");
+
       navigate("/cars");
     }
   };

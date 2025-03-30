@@ -154,15 +154,28 @@ function User() {
                 {users.map((user, index) => (
                   <tr key={index} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <img
+                      <div className=" rounded-full  flex items-center  ">
+                        {/* <img
                           className="h-10 w-10 rounded-full"
-                          src={
-                            user.user_image_url ||
-                            "https://via.placeholder.com/150"
-                          }
+                          src={user.user_image_url}
                           alt={user.full_name}
-                        />
+                        /> */}
+                        {user?.user_image_url ? (
+                          <img
+                            src={user.user_image_url}
+                            alt={user?.full_name || "User"}
+                            className="h-10 w-10 rounded-full"
+                          />
+                        ) : (
+                          <span className="text-black text-3xl font-medium h-11 w-11 rounded-full bg-gradient-to-r from-blue-600 to-blue-400 ">
+                            {user?.full_name
+                              ?.split(" ") // Split name into words
+                              .map((word) => word.charAt(0).toUpperCase()) // Get first letter of each word
+                              .slice(0, 2) // Only take first two initials
+                              .join("") || "U"}{" "}
+                            {/* Default to 'U' if name is missing */}
+                          </span>
+                        )}
                         <div className="ml-4">
                           <div className="text-sm font-medium text-gray-900">
                             {user.full_name}

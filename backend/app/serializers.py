@@ -47,7 +47,10 @@ class FeatureSerializer(serializers.ModelSerializer):
 # Car Seraializer
 
 class CarSerializer(serializers.ModelSerializer):
-    
+    user_image_url=serializers.SerializerMethodField()
+    user_full_name=serializers.CharField(source='user.full_name',read_only=True)
+    user_email=serializers.CharField(source='user.email',read_only=True)
+    user_contact=serializers.CharField(source='user.phone_number',read_only=True)
     car_image_url=serializers.SerializerMethodField() # Generate full URL
     features = FeatureSerializer(many=True, read_only=True)  # Nested serializer for read
     feature_ids = serializers.PrimaryKeyRelatedField(
@@ -57,7 +60,7 @@ class CarSerializer(serializers.ModelSerializer):
     
     class Meta:
         model=Car
-        fields=['id','car_owner','car_image','car_image_url','car_model','car_number','fuel_type','price_per_hour','status','features','feature_ids']
+        fields=['id','car_owner','car_image','car_image_url','car_model','car_number','fuel_type','price_per_hour','status','features','feature_ids','user','user_full_name','user_image_url','user_email','user_contact',]
     
     def get_car_image_url(self, obj):
         """
@@ -66,6 +69,15 @@ class CarSerializer(serializers.ModelSerializer):
         request = self.context.get('request')  # Get request object for absolute URL
         if obj.car_image and request:
             return request.build_absolute_uri(obj.car_image.url)
+        return None
+    
+    def get_user_image_url(self, obj):
+        """
+        Fetch the car image URL from the related Car model.
+        """
+        request = self.context.get('request')
+        if obj.user.user_image and request:
+            return request.build_absolute_uri(obj.user.user_image.url)
         return None
 
     

@@ -79,6 +79,9 @@ class CarView(generics.ListCreateAPIView):
     queryset=Car.objects.all()
     serializer_class=CarSerializer
     parser_classes = (MultiPartParser, FormParser, JSONParser)
+    def perform_create(self, serializer):
+        # Attach the logged-in user while creating the booking
+        serializer.save(user=self.request.user)
      
 class DetailCarView(generics.RetrieveUpdateDestroyAPIView):
     queryset=Car.objects.all()
@@ -93,6 +96,10 @@ class CarBookView(generics.ListCreateAPIView):
     queryset=CarBook.objects.all()
     serializer_class=CarBookSerializer
     permission_classes=[IsAuthenticated,IsCustomer]
+
+    def perform_create(self, serializer):
+        # Attach the logged-in user while creating the booking
+        serializer.save(user=self.request.user)
 
 
 class DetailCarBookView(generics.RetrieveUpdateDestroyAPIView):

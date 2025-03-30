@@ -146,6 +146,20 @@ export const fetchCars = async () => {
   }
 };
 
+export const fetchCarsById = async (carId) => {
+  if (!carId) {
+    console.error("fetchCarsById was called with an undefined carId!");
+    return null;
+  }
+  try {
+    const response = await api.get(`/cars/${carId}/`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching cars:", error);
+    return [];
+  }
+};
+
 // ----------------------------------------------------------
 
 export const getLoggedInUser = async () => {
@@ -197,8 +211,9 @@ export const fetchFeatures = async () => {
 // add Car
 export const addCar = async (carData) => {
   try {
+    const token = localStorage.getItem("token");
     const formData = new FormData();
-
+    formData.append("user", carData.user);
     formData.append("car_owner", carData.car_owner);
     formData.append("car_model", carData.car_model);
     formData.append("car_number", carData.car_number);
@@ -216,6 +231,7 @@ export const addCar = async (carData) => {
     const response = await api.post("/cars/", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
       },
     });
 
@@ -229,23 +245,28 @@ export const addCar = async (carData) => {
 // Book Car
 export const bookCar = async (bookCarData) => {
   try {
-    const formData = new FormData();
+    console.log("🔄 Sending request to API:", bookCarData);
 
-    formData.append("booking_date", bookCarData.booking_date);
-    formData.append("pickup_location", bookCarData.pickup_location);
-    formData.append("drop_location", bookCarData.drop_location);
-    formData.append("pickup_date", bookCarData.pickup_date);
-    formData.append("drop_date", bookCarData.drop_date);
+    const token = localStorage.getItem("token");
+    // const formData = new FormData();
 
-    const response = await api.post("/booking-report/", formData, {
+    // formData.append("pickup_location", bookCarData.pickup_location);
+    // formData.append("drop_location", bookCarData.drop_location);
+    // formData.append("pickup_date", bookCarData.pickup_date);
+    // formData.append("drop_date", bookCarData.drop_date);
+
+    const response = await api.post(`/booking-report/`, bookCarData, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+
+        "Content-Type": "application/json",
       },
     });
+    console.log("✅ API Response:", response.data);
 
     return response.data;
   } catch (error) {
-    console.error("Error adding car:", error);
+    console.error("Error booking car:", error.response?.data || error.message);
     return null;
   }
 };

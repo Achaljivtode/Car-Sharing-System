@@ -17,6 +17,10 @@ function CustomerDashboard2() {
     getCars();
   }, []);
 
+  // const handleBookNow = (car) => {
+  //   navigate("/book-now", { state: { car } });
+  // };
+
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar (Fixed) */}
@@ -89,6 +93,7 @@ function CustomerDashboard2() {
                     </div>
 
                     <button
+                      // onClick={() => handleBookNow(car)}
                       disabled={!car.status == "available"}
                       className={`px-4 py-2 rounded-lg ${
                         car.status == "available"

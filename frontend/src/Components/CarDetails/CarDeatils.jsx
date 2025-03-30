@@ -1,13 +1,50 @@
-import React from 'react';
-import { Car, CircleDollarSign, Hash, Binary } from 'lucide-react';
+import React, { useEffect, useState } from "react";
+// import { useParams } from "react-router-dom";
+import { Car, CircleDollarSign, Hash, Binary } from "lucide-react";
+import { fetchCarsById } from "../../api";
 
-const CarDetails = () => {
+const CarDetails = ({ carId }) => {
+  // const { carId } = useParams();
+  const [car, setCar] = useState(null);
+
+  console.log("Car ID:", carId);
+
+  useEffect(() => {
+    const getCar = async () => {
+      if (!carId) {
+        console.error("Car ID is undefined!");
+        return;
+      }
+      try {
+        const data = await fetchCarsById(carId);
+        if (data) {
+          setCar(data);
+        } else {
+          console.error("No car data found.");
+        }
+      } catch (error) {
+        console.error("Error fetching car details:", error);
+      }
+    };
+    getCar();
+  }, [carId]);
+
+  if (!carId) {
+    return (
+      <p className="text-center text-gray-600">Error: No Car ID provided.</p>
+    );
+  }
+
+  if (!car) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <div className="w-full lg:w-[500px] bg-white rounded-xl shadow-lg p-6 space-y-6">
       <div className="aspect-video w-full rounded-lg overflow-hidden">
         <img
-          src="https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&q=80&w=1536"
-          alt="Tesla Model 3"
+          src={car.car_image_url}
+          alt={car.car_model}
           className="w-full h-full object-cover"
         />
       </div>
@@ -17,7 +54,7 @@ const CarDetails = () => {
           <Car className="h-5 w-5" />
           <div>
             <p className="text-sm text-gray-500">Car Model</p>
-            <p className="font-semibold">Tesla Model 3</p>
+            <p className="font-semibold">{car.car_model}</p>
           </div>
         </div>
 
@@ -25,7 +62,7 @@ const CarDetails = () => {
           <Hash className="h-5 w-5" />
           <div>
             <p className="text-sm text-gray-500">Car Number</p>
-            <p className="font-semibold">XYZ-1234</p>
+            <p className="font-semibold">{car.car_number}</p>
           </div>
         </div>
 
@@ -33,7 +70,7 @@ const CarDetails = () => {
           <Binary className="h-5 w-5" />
           <div>
             <p className="text-sm text-gray-500">Model Number</p>
-            <p className="font-semibold">TM3-2024-LR</p>
+            <p className="font-semibold">{car.car_model}</p>
           </div>
         </div>
 
@@ -41,7 +78,7 @@ const CarDetails = () => {
           <CircleDollarSign className="h-5 w-5" />
           <div>
             <p className="text-sm text-gray-500">Price per Hour</p>
-            <p className="font-semibold text-blue-600">$35.00</p>
+            <p className="font-semibold text-blue-600">${car.price_per_hour}</p>
           </div>
         </div>
       </div>
