@@ -38,9 +38,6 @@ function AddCar2() {
   const [user, setUser] = useState([]);
   const navigate = useNavigate();
   console.log(features);
-  
-
-  // const [selectedFeatures, setSelectedFeatures] = useState([]);
 
   // Logged In user
   useEffect(() => {
@@ -84,14 +81,6 @@ function AddCar2() {
     }));
   };
 
-  // const handleFeatureChange = (event) => {
-  //   const featureId = parseInt(event.target.value);
-  //   const { name, checked } = event.target;
-  //   setSelectedFeatures((prevFeatures) =>
-  //     checked ? [...prevFeatures, name] : prevFeatures.filter((feature) => feature !== name)
-  //   );
-  // };
-
   const handleChange = (event) => {
     const { name, value } = event.target;
     setCarData({ ...carData, [name]: value });
@@ -103,10 +92,6 @@ function AddCar2() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // if (!user) {
-    //   alert("user is not logged in !");
-    //   return;
-    // }
 
     const response = await addCar(carData);
     if (response) {
@@ -254,12 +239,7 @@ function AddCar2() {
                       className="hidden"
                       accept="image/*"
                     />
-                    {/* <button
-                      type="button"
-                      className="mt-2 text-sm text-blue-600 hover:text-blue-500"
-                    >
-                      Upload Image
-                    </button> */}
+
                     {/* Show Image Preview if Selected */}
                     {carData.car_image && (
                       <img
@@ -331,12 +311,6 @@ function AddCar2() {
                     </div>
                   ))}
                 </div>
-                {/* <p className="mt-4 text-sm text-gray-600">
-                  Selected Features:{" "}
-                  {selectedFeatures.length > 0
-                    ? selectedFeatures.join(", ")
-                    : "None"}
-                </p> */}
               </div>
 
               {/* Submit Buttons */}

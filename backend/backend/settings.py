@@ -57,7 +57,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),  # Access token expires in 30 min
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),  # Access token expires in 1 day
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),  # Refresh token expires in 7 days
     'ROTATE_REFRESH_TOKENS': True,  #  Issue new refresh token when refreshed
     'BLACKLIST_AFTER_ROTATION': True,  #  Blacklist old refresh tokens
@@ -165,6 +165,8 @@ CORS_ALLOWED_ORIGINS = [
 ]
 CORS_ALLOW_CREDENTIALS = True
 
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
+
 # CORS_ALLOW_HEADERS = [
 #     'content-type',
 #     'authorization',
@@ -182,4 +184,11 @@ CORS_ALLOW_CREDENTIALS = True
 # ]
 
 
-
+# ------------------------------------------
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Use your email provider's SMTP server
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')  # Your email address
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')  # Your email password or app password
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

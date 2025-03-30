@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from "react";
-
 import { getLoggedInUser, updateUserProfile, getBookings } from "../../api";
-import { LogOut, MapPin, Phone, Mail, Calendar, User } from "lucide-react";
+import {
+  LogOut,
+  MapPin,
+  Phone,
+  Mail,
+  Calendar,
+  User,
+  Camera,
+  Clock,
+  Car,
+} from "lucide-react";
 import SideBar from "../SideBar/SideBar";
-
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 export default function ProfilePage() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [user, setUser] = useState([]);
   const [formData, setFormData] = useState({
     username: "",
@@ -56,11 +64,7 @@ export default function ProfilePage() {
     myBookings();
   }, []);
 
-  const userBookings = bookings.filter((rental) => {
-    console.log("ID:", rental.user, user.id);
-    return user.id === rental.user;
-  });
-
+  const userBookings = bookings.filter((rental) => user.id === rental.user);
   const bookingCount = userBookings.length;
 
   const handleChange = (e) => {
@@ -75,7 +79,7 @@ export default function ProfilePage() {
     try {
       const updatedUser = await updateUserProfile(user.id, formData);
       if (updatedUser) {
-        setUser(updatedUser); // Update UI with new user data
+        setUser(updatedUser);
         alert("Profile updated successfully");
       }
     } catch (error) {
@@ -83,47 +87,44 @@ export default function ProfilePage() {
       alert("Failed to update profile");
     }
   };
-  //   if (!user || Object.keys(user).length === 0) {
-  //     return <div>Loading...</div>;
-  //   }
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen overflow-hidden bg-gray-50">
       <SideBar />
-      {/* Main Content Wrapper */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <div className="overflow-y-auto max-h-screen p-4">
+        <div className="overflow-y-auto max-h-screen p-6">
           {/* Profile Header */}
-          <div className="bg-white rounded-xl shadow-sm p-6">
-            <div className="flex items-center">
-              <div className="relative">
-                <div className="h-24 w-24 rounded-full bg-gradient-to-r from-blue-600 to-blue-400 flex items-center justify-center">
+          <div className="bg-white rounded-2xl shadow-lg p-8 relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-r from-blue-500 to-purple-500 opacity-90"></div>
+            <div className="relative flex flex-col md:flex-row items-center md:items-end space-y-4 md:space-y-0 pt-20">
+              <div className="relative group">
+                <div className="h-32 w-32 rounded-full ring-4 ring-white bg-gradient-to-r from-blue-600 to-blue-400 flex items-center justify-center overflow-hidden">
                   {user?.profile_image_url ? (
                     <img
                       src={user.profile_image_url}
                       alt={user?.full_name || "User"}
-                      className="w-24 h-24 rounded-full object-cover"
+                      className="w-full h-full object-cover"
                     />
                   ) : (
                     <span className="text-white text-4xl font-medium">
                       {user?.full_name
-                        ?.split(" ") // Split name into words
-                        .map((word) => word.charAt(0).toUpperCase()) // Get first letter of each word
-                        .slice(0, 2) // Only take first two initials
-                        .join("") || "U"}{" "}
-                      {/* Default to 'U' if name is missing */}
+                        ?.split(" ")
+                        .map((word) => word.charAt(0).toUpperCase())
+                        .slice(0, 2)
+                        .join("") || "U"}
                     </span>
                   )}
                 </div>
-              </div>
-              <div className="ml-6">
-                <div className="flex items-center space-x-4">
-                  <h2 className="text-2xl font-bold">
-                    {user.full_name || "User"}
-                  </h2>
+                <div className="absolute bottom-0 right-0 bg-blue-500 p-2 rounded-full shadow-lg cursor-pointer hover:bg-blue-600 transition-colors">
+                  <Camera className="h-4 w-4 text-white" />
                 </div>
-                <div className="mt-2 flex items-center text-gray-500">
-                  <MapPin className="h-4 w-4 mr-1" />
+              </div>
+              <div className="md:ml-8 text-center md:text-left">
+                <h2 className="text-3xl font-bold text-gray-800">
+                  {user.full_name || "User"}
+                </h2>
+                <div className="mt-2 flex items-center justify-center md:justify-start text-gray-600">
+                  <MapPin className="h-4 w-4 mr-2" />
                   <span>{user.address || "Location not available"}</span>
                 </div>
               </div>
@@ -131,103 +132,135 @@ export default function ProfilePage() {
           </div>
 
           {/* Stats Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-4">
-            <div className="bg-white p-4 rounded-xl shadow-sm">
-              <div className="text-gray-500">Total Rides</div>
-              <div className="mt-2 text-2xl font-bold">{bookingCount || 0}</div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+            <div className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow">
+              <div className="flex items-center">
+                <div className="p-3 bg-blue-100 rounded-lg">
+                  <Car className="h-6 w-6 text-blue-600" />
+                </div>
+                <div className="ml-4">
+                  <div className="text-sm text-gray-500 font-medium">
+                    Total Rides
+                  </div>
+                  <div className="text-2xl font-bold text-gray-800">
+                    {bookingCount || 0}
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="bg-white p-4 rounded-xl shadow-sm">
-              <div className="text-gray-500">Member Since</div>
-              <div className="mt-2 text-2xl font-bold">
-                {user.date_joined || "N/A"}
+            <div className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow">
+              <div className="flex items-center">
+                <div className="p-3 bg-purple-100 rounded-lg">
+                  <Clock className="h-6 w-6 text-purple-600" />
+                </div>
+                <div className="ml-4">
+                  <div className="text-sm text-gray-500 font-medium">
+                    Member Since
+                  </div>
+                  <div className="text-2xl font-bold text-gray-800">
+                    {user.date_joined || "N/A"}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow">
+              <div className="flex items-center">
+                <div className="p-3 bg-green-100 rounded-lg">
+                  <User className="h-6 w-6 text-green-600" />
+                </div>
+                <div className="ml-4">
+                  <div className="text-sm text-gray-500 font-medium">
+                    Profile Status
+                  </div>
+                  <div className="text-2xl font-bold text-gray-800">Active</div>
+                </div>
               </div>
             </div>
           </div>
 
           {/* Contact Information */}
-          <div className="bg-white rounded-xl shadow-sm p-6 mt-4">
-            <h3 className="text-lg font-semibold mb-4">Contact Information</h3>
-            <div className="space-y-4">
-              <div className="flex items-center">
-                <Phone className="h-5 w-5 text-gray-400 mr-3" />
-                <div>
-                  <div className="font-medium">Phone Number</div>
+          <div className="bg-white rounded-2xl shadow-lg p-8 mt-6">
+            <h3 className="text-xl font-bold text-gray-800 mb-6">
+              Contact Information
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-6">
+                <div className="relative">
+                  <label className="text-sm font-medium text-gray-700 flex items-center">
+                    <Phone className="h-4 w-4 mr-2 text-gray-400" />
+                    Phone Number
+                  </label>
                   <input
-                    type="number"
+                    type="tel"
                     name="phone_number"
-                    className="text-gray-500 p-1 outline-none rounded"
+                    className="mt-2 block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                     value={formData.phone_number}
                     onChange={handleChange}
-                    placeholder="Enter Your Number"
+                    placeholder="Enter your phone number"
                   />
                 </div>
-              </div>
-              <div className="flex items-center">
-                <Mail className="h-5 w-5 text-gray-400 mr-3" />
-                <div>
-                  <div className="font-medium">Email</div>
+                <div className="relative">
+                  <label className="text-sm font-medium text-gray-700 flex items-center">
+                    <Mail className="h-4 w-4 mr-2 text-gray-400" />
+                    Email Address
+                  </label>
                   <input
                     type="email"
                     name="email"
-                    className="text-gray-500 p-1 outline-none rounded"
+                    className="mt-2 block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                     value={formData.email}
                     onChange={handleChange}
-                    placeholder="Enter Your Email"
+                    placeholder="Enter your email"
                   />
                 </div>
               </div>
-              <div className="flex items-center">
-                <Calendar className="h-5 w-5 text-gray-400 mr-3" />
-                <div>
-                  <div className="font-medium">Date of Birth</div>
+              <div className="space-y-6">
+                <div className="relative">
+                  <label className="text-sm font-medium text-gray-700 flex items-center">
+                    <Calendar className="h-4 w-4 mr-2 text-gray-400" />
+                    Date of Birth
+                  </label>
                   <input
-                    type="text"
+                    type="date"
                     name="dob"
-                    className="text-gray-500 p-1 outline-none rounded"
+                    className="mt-2 block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                     value={formData.dob}
                     onChange={handleChange}
-                    placeholder="Enter Your DOB"
                   />
                 </div>
-              </div>
-              <div className="flex items-center">
-                <MapPin className="h-5 w-5 text-gray-400 mr-3" />
-                <div>
-                  <div className="font-medium">address</div>
+                <div className="relative">
+                  <label className="text-sm font-medium text-gray-700 flex items-center">
+                    <MapPin className="h-4 w-4 mr-2 text-gray-400" />
+                    Address
+                  </label>
                   <textarea
-                    // type="text"
                     name="address"
-                    className="text-gray-500  outline-none rounded w-[600px]  resize"
+                    rows="3"
+                    className="mt-2 block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
                     value={formData.address}
                     onChange={handleChange}
-                    placeholder="Enter Your address"
+                    placeholder="Enter your address"
                   ></textarea>
                 </div>
               </div>
             </div>
 
-            <button
-              onClick={handleUpdate}
-              className="w-full bg-blue-500 text-white my-5 p-2 rounded-md hover:cursor-pointer hover:bg-blue-600"
-            >
-              Save
-            </button>
+            <div className="mt-8 flex items-center justify-between">
+              <a
+                href="/change-password"
+                className="text-blue-500 hover:text-blue-600 font-medium flex items-center"
+              >
+                <User className="h-4 w-4 mr-2" />
+                Change Password
+              </a>
+              <button
+                onClick={handleUpdate}
+                className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:ring-4 focus:ring-blue-200 transition-all font-medium"
+              >
+                Save Changes
+              </button>
+            </div>
           </div>
-
-          {/* Account Settings */}
-          {/* <div className="bg-white rounded-xl shadow-sm p-6 mt-4">
-            <button
-              onClick={() => {
-                localStorage.removeItem("role");
-                localStorage.removeItem("token");
-                navigate("/login");
-              }}
-              className="w-full flex items-center justify-center px-4 py-3 mt-6 text-red-600 bg-red-50 rounded-lg hover:bg-red-100"
-            >
-              <LogOut className="h-5 w-5 mr-2" />
-              Sign Out
-            </button>
-          </div> */}
         </div>
       </div>
     </div>

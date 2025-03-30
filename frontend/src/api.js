@@ -171,6 +171,32 @@ export const fetchCarsById = async (carId) => {
   }
 };
 
+export const deleteCar = async (carId) => {
+  try {
+    const token = localStorage.getItem("token"); // Ensure authentication
+    const response = await api.delete(`/cars/${carId}/`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // Include JWT token if required
+      },
+    });
+
+    if (response.status === 204 || response.status === 200) {
+      return true; // Successfully deleted
+    } else {
+      console.error(
+        "Failed to delete car:",
+        response.status,
+        response.statusText
+      );
+      return false; // Failed deletion
+    }
+  } catch (error) {
+    console.error("Error deleting car:", error.response?.data || error.message);
+    return false;
+  }
+};
+
 // ----------------------------------------------------------
 
 export const getLoggedInUser = async () => {
@@ -256,15 +282,9 @@ export const addCar = async (carData) => {
 // Book Car
 export const bookCar = async (bookCarData) => {
   try {
-    console.log("🔄 Sending request to API:", bookCarData);
+    console.log(" Sending request to API:", bookCarData);
 
     const token = localStorage.getItem("token");
-    // const formData = new FormData();
-
-    // formData.append("pickup_location", bookCarData.pickup_location);
-    // formData.append("drop_location", bookCarData.drop_location);
-    // formData.append("pickup_date", bookCarData.pickup_date);
-    // formData.append("drop_date", bookCarData.drop_date);
 
     const response = await api.post(`/booking-report/`, bookCarData, {
       headers: {
@@ -273,7 +293,7 @@ export const bookCar = async (bookCarData) => {
         "Content-Type": "application/json",
       },
     });
-    console.log("✅ API Response:", response.data);
+    console.log(" API Response:", response.data);
 
     return response;
   } catch (error) {
@@ -283,5 +303,75 @@ export const bookCar = async (bookCarData) => {
     );
     throw error;
     // return null;
+  }
+};
+
+// -------------------Reset Password------------------------------
+
+// 🚀 API to request a password reset
+export const requestPasswordReset = async (email) => {
+  try {
+    const response = await api.post("/password-reset-request/", { email });
+    return response.data; // Returns { "message": "Password reset link sent to your email." }
+  } catch (error) {
+    throw error.response?.data || { error: "Something went wrong" };
+  }
+};
+
+// 🚀 API to confirm the password reset
+export const confirmPasswordReset = async (
+  uid,
+  token,
+  newPassword,
+  confirmPassword
+) => {
+  try {
+    const response = await api.post("/password-reset-confirm/", {
+      uid,
+      token,
+      new_password: newPassword,
+      confirm_password: confirmPassword,
+    });
+    return response.data; // Returns { "message": "Password reset successfully!" }
+  } catch (error) {
+    throw error.response?.data || { error: "Something went wrong" };
+  }
+};
+
+// -------------------------------------------------------------------------
+// 🚀 API to Change Password (for Logged-in Users)
+export const changePassword = async (
+  oldPassword,
+  newPassword,
+  confirmPassword
+) => {
+  try {
+    const token = localStorage.getItem("token"); // Ensure user is authenticated
+    if (!token) {
+      throw new Error("User not authenticated");
+    }
+
+    const response = await api.put(
+      "/change-password/",
+      {
+        old_password: oldPassword,
+        new_password: newPassword,
+        confirm_password: confirmPassword,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    return response.data; // Returns { "message": "Password changed successfully" }
+  } catch (error) {
+    console.error(
+      "Error changing password:",
+      error.response?.data || error.message
+    );
+    return error.response?.data || { error: "Something went wrong" };
   }
 };

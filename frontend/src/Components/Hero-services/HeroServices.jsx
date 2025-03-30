@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
 import HeroServiceCard from "./HeroServiceCard";
-// import { fetchCars } from "../../api";
+import { fetchCars } from "../../api";
 
 function HeroServices() {
   const [cars, setCars] = useState([]); //  Store fetched cars
 
-  // useEffect(() => {
-  //   async function getCars() {
-  //     const carData = await fetchCars(); //  Fetch cars from backend
-  //     console.log("Fetched Cars:", carData);
-  //     if (carData) {
-  //       setCars(carData);
-  //     }
-  //   }
-  //   getCars();
-  // }, []);
+  useEffect(() => {
+    async function getCars() {
+      const carData = await fetchCars(); //  Fetch cars from backend
+      console.log("Fetched Cars:", carData);
+      if (carData) {
+        setCars(carData);
+      }
+    }
+    getCars();
+  }, []);
   return (
     <div>
       <h1 className="text-center  text-3xl font-semibold my-20">Services</h1>

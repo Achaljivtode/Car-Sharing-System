@@ -2,10 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Calendar, MapPin } from "lucide-react";
 import { bookCar, getLoggedInUser, getBookingById } from "../../api";
 ("react-router-dom");
-// import { useParams } from "react-router-dom";
 
 const BookCarForm = ({ carId, bookingId }) => {
-  // const { carId } = useParams();
   const [user, setUser] = useState(null);
   const [bookingStatus, setBookingStatus] = useState("");
 
@@ -19,8 +17,6 @@ const BookCarForm = ({ carId, bookingId }) => {
     booking_status: "Booked",
   });
 
-  // console.log("user_id", formData.user_id);
-
   // Logged In user
   useEffect(() => {
     const fetchData = async () => {
@@ -30,19 +26,6 @@ const BookCarForm = ({ carId, bookingId }) => {
     };
     fetchData();
   }, []);
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   console.log("Form submitted:", formData);
-  //   // Handle form submission logic here
-  // };
-
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setFormData((prev) => ({
-  //     ...prev,
-  //     [name]: value,
-  //   }));
-  // };
 
   // Fetch Booking Status
   useEffect(() => {
@@ -77,16 +60,6 @@ const BookCarForm = ({ carId, bookingId }) => {
       return;
     }
 
-    // if (
-    //   !formData.pickup_location ||
-    //   !formData.drop_location ||
-    //   !formData.pickup_date ||
-    //   !formData.drop_date
-    // ) {
-    //   alert("All fields are required!");
-    //   return;
-    // }
-
     console.log("form submitted", formData);
 
     const bookCarData = {
@@ -100,18 +73,14 @@ const BookCarForm = ({ carId, bookingId }) => {
     };
     console.log("📤 Sending Booking Data-----------------:", bookCarData);
 
-    // console.log("car ----> ", car);
-
     try {
       const response = await bookCar(bookCarData);
-      console.log("✅ Booking Response:", response);
-
-      // console.log("✅ Booking Response:", response.data);
+      console.log(" Booking Response:", response);
 
       if (!response || !response.data) {
         throw new Error("Invalid response from server. Please try again.");
       }
-      console.log("✅ Booking Response:", response.data);
+      console.log(" Booking Response:", response.data);
 
       alert("Car booked successfully!");
 
@@ -127,7 +96,7 @@ const BookCarForm = ({ carId, bookingId }) => {
       setBookingStatus(response.data.booking_status); // Update status after booking
     } catch (error) {
       console.error(
-        "❌ Error booking car:",
+        " Error booking car:",
         error.response?.data || error.message
       );
 

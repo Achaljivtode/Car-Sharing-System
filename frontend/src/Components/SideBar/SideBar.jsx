@@ -1,21 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { LuLayoutDashboard, LuUsersRound, LuNotebook } from "react-icons/lu";
 import { TbReportSearch } from "react-icons/tb";
 import { MdOutlineAccountCircle, MdOutlineMenu } from "react-icons/md";
-import { HiOutlineLogout } from "react-icons/hi";
 import { RxCross2 } from "react-icons/rx";
 import { Car, History, Settings, LogOut } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 function SideBar() {
   const navigate = useNavigate();
-  const location = useLocation(); // Get the current route path
+  const location = useLocation();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [activeItem, setActiveItem] = useState(location.pathname); // Set active item based on URL
-  // console.log(activeItem);
-  // const handleNavigation = () => {
-  //   navigate("/receiver", { state: { activeItem } }); // Passing state
-  // };
+  const [activeItem, setActiveItem] = useState(location.pathname);
 
   const role = localStorage.getItem("role") || "customer";
 
@@ -43,68 +38,100 @@ function SideBar() {
   ];
 
   const handleNavigation = (path) => {
-    setActiveItem(path); // Set active item based on route path
+    setActiveItem(path);
     navigate(path, { state: { activeItem: path } });
   };
 
   const handleLogout = () => {
     localStorage.removeItem("role");
     localStorage.removeItem("token");
-    navigate("/home"); // Redirect after logout
+    navigate("/home");
   };
 
   return (
     <div
       className={`${
         isSidebarOpen ? "w-80" : "w-20"
-      } bg-white shadow-lg h-screen transition-all duration-300 flex flex-col`}
+      } bg-white shadow-xl h-screen transition-all duration-300 flex flex-col relative group`}
     >
-      {/* Sidebar Header */}
-      <div className="p-4 flex items-center justify-between border-b">
-        <h1
-          className={`font-bold text-xl text-blue-600 ${
-            !isSidebarOpen && "hidden"
-          }`}
-        >
-          CarShare {role === "admin" ? "Admin" : ""}
-        </h1>
+      <div className="p-6 flex items-center justify-between border-b border-gray-100">
+        <div className="flex items-center space-x-3">
+          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+            <Car className="text-white w-5 h-5" />
+          </div>
+          <h1
+            className={`font-bold text-xl bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent transition-opacity duration-300 ${
+              !isSidebarOpen ? "opacity-0" : "opacity-100"
+            }`}
+          >
+            CarShare {role === "admin" ? "Admin" : ""}
+          </h1>
+        </div>
         <button
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className="p-2 hover:bg-gray-100 rounded-lg"
+          className="p-2 hover:bg-gray-50 rounded-lg transition-colors duration-200"
         >
-          {isSidebarOpen ? <RxCross2 size={20} /> : <MdOutlineMenu size={20} />}
+          {isSidebarOpen ? (
+            <RxCross2 className="w-5 h-5 text-gray-500" />
+          ) : (
+            <MdOutlineMenu className="w-5 h-5 text-gray-500" />
+          )}
         </button>
       </div>
 
-      {/* Sidebar Navigation */}
-      <nav className="flex-1 mt-5 p-4">
+      <nav className="flex-1 mt-6 px-4">
         <ul className="space-y-2">
           {(role === "admin" ? menuItems : customerItems).map((item) => (
             <li key={item.redirect}>
               <button
                 onClick={() => handleNavigation(item.redirect)}
-                className={`flex items-center gap-3 w-full p-3 rounded-lg transition ${
+                className={`flex items-center gap-3 w-full p-4 rounded-xl transition-all duration-200 group relative ${
                   activeItem === item.redirect
-                    ? "bg-blue-500 text-white"
-                    : "hover:bg-gray-100"
+                    ? "bg-blue-600 text-white shadow-lg shadow-blue-200"
+                    : "hover:bg-gray-50 text-gray-700 hover:text-blue-600"
                 }`}
               >
-                <item.icon size={20} />
-                {isSidebarOpen && <span>{item.label}</span>}
+                <item.icon
+                  className={`w-5 h-5 transition-transform duration-200 ${
+                    !isSidebarOpen && "transform group-hover:scale-110"
+                  }`}
+                />
+                <span
+                  className={`font-medium transition-opacity duration-300 ${
+                    !isSidebarOpen ? "opacity-0" : "opacity-100"
+                  }`}
+                >
+                  {item.label}
+                </span>
+                {!isSidebarOpen && (
+                  <div className="absolute left-14 bg-white px-3 py-2 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50">
+                    {item.label}
+                  </div>
+                )}
               </button>
             </li>
           ))}
         </ul>
       </nav>
 
-      {/* Logout Button */}
-      <div className="p-4">
+      <div className="p-4 border-t border-gray-100">
         <button
           onClick={handleLogout}
-          className="flex items-center gap-3 w-full p-3 text-red-600 hover:bg-red-50 rounded-lg"
+          className="flex items-center gap-3 w-full p-4 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-xl transition-colors duration-200 group"
         >
-          <LogOut size={20} />
-          {isSidebarOpen && <span>Logout</span>}
+          <LogOut className="w-5 h-5" />
+          <span
+            className={`font-medium transition-opacity duration-300 ${
+              !isSidebarOpen ? "opacity-0" : "opacity-100"
+            }`}
+          >
+            Logout
+          </span>
+          {!isSidebarOpen && (
+            <div className="absolute left-14 bg-white px-3 py-2 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50">
+              Logout
+            </div>
+          )}
         </button>
       </div>
     </div>
