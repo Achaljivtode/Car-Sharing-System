@@ -37,8 +37,10 @@ function AddCar2() {
   const [features, setFeatures] = useState([]);
   const [user, setUser] = useState([]);
   const navigate = useNavigate();
+  console.log(features);
+  
 
-  const [selectedFeatures, setSelectedFeatures] = useState([]);
+  // const [selectedFeatures, setSelectedFeatures] = useState([]);
 
   // Logged In user
   useEffect(() => {
@@ -120,7 +122,7 @@ function AddCar2() {
       <SideBar />
 
       {/* Main Content */}
-      <div className="flex-1">
+      <div className="bg-gray-100 flex-1">
         {/* Header */}
         <header className="bg-white shadow-sm">
           <div className="flex items-center justify-between px-6 py-4">
@@ -155,15 +157,15 @@ function AddCar2() {
         </header>
 
         {/* Add Car Form */}
-        <main className="p-6">
-          <div className="max-w-4xl mx-auto">
+        <main className=" p-6 ">
+          <div className=" h-[650px] overflow-y-auto max-w-4xl  mx-auto  no-scrollbar">
             <form
               onSubmit={handleSubmit}
-              className="bg-white shadow-md rounded-lg p-6 space-y-6"
+              className="bg-white  shadow-md rounded-lg p-10 space-y-6"
             >
               {/* Basic Information */}
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-gray-900">
+                <h3 className="text-xl mb-10 font-semibold text-gray-900">
                   Basic Information
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

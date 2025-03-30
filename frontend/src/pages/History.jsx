@@ -11,7 +11,7 @@ function CustomerHistory() {
 
   const location = useLocation();
   const activeItem = location.state?.activeItem || "No active item received";
-  console.log(activeItem);
+  // console.log();
 
   useEffect(() => {
     const myBookings = async () => {
@@ -42,6 +42,7 @@ function CustomerHistory() {
     console.log("ID:", rental.user, user.id);
     return user.id === rental.user;
   });
+  console.log(userBookings);
 
   const handleCancel = async (bookingId) => {
     const confirmed = window.confirm(
@@ -71,26 +72,34 @@ function CustomerHistory() {
                 className="bg-white rounded-xl shadow-sm overflow-hidden mb-6"
               >
                 <div className="flex">
-                  <div className="p-2 w-1/4">
+                  <div className="flex flex-col justify-center p-2 w-[400px] mr-10">
                     <img
                       src={rental.car_image_url}
                       alt={rental.car_model}
-                      className="h-[200px] w-[350px]"
+                      className=" h-[200px] w-[400px]"
                     />
                   </div>
                   <div className="w-3/4 p-6">
                     <h3 className="text-xl font-semibold mb-2">
                       {rental.car_model}
                     </h3>
-                    <div className="flex items-center gap-2 text-gray-600">
-                      <MapPin className="w-4 h-4 m-1" />
-                      <span>{rental.pickup_location}</span>
-                      <span className="ml-5">→ {rental.drop_location}</span>
+                    <div className="w-2/4 mb-10 flex justify-between items-center gap-2 text-gray-600">
+                      <div className="flex">
+                        <MapPin className="w-4 h-4 m-1" />
+                        <span>{rental.pickup_location}</span>
+                      </div>
+                      <h1>→</h1>
+                      <div className="flex">
+                        <MapPin className="w-4 h-4 m-1" />
+                        <span>{rental.drop_location}</span>
+                      </div>
+
+                      {/* <span className="ml-5"><span className="ml-10"><MapPin className="w-4 h-4 m-1" /> {rental.drop_location}</span></span> */}
                     </div>
-                    <div className="grid grid-cols-3 gap-6 my-4">
-                      <div className="flex flex-col text-lg text-gray-500">
+                    <div className=" w-3/4 grid grid-cols-2 gap-6 my-4">
+                      <div className="flex flex-col text-lg text-gray-800">
                         Booking Date:
-                        <span className="text-gray-700 font-semibold text-xl">
+                        <span className="text-gray-500 text-md">
                           {rental.booking_date}
                         </span>
                       </div>

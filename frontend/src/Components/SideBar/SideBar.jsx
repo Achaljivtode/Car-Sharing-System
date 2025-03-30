@@ -50,7 +50,7 @@ function SideBar() {
   const handleLogout = () => {
     localStorage.removeItem("role");
     localStorage.removeItem("token");
-    navigate("/login"); // Redirect after logout
+    navigate("/home"); // Redirect after logout
   };
 
   return (

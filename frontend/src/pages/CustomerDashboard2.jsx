@@ -12,10 +12,15 @@ function CustomerDashboard2() {
       const data = await fetchCars();
       if (data) {
         setCars(data);
+        
+      }else{
+        console.log("No data");
       }
     };
     getCars();
   }, []);
+  // console.log(cars);
+  
 
   // const handleBookNow = (car) => {
   //   navigate("/book-now", { state: { car } });

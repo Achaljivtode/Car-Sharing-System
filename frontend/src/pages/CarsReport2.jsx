@@ -23,11 +23,13 @@ function CarsReports2() {
   const role = localStorage.getItem("role");
   // const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [selectedFilter, setSelectedFilter] = useState("all");
+  const [searchFilter, setSearchFilter] = useState("");
   const [cars, setCars] = useState([]);
   const [carDetail, setCarDetail] = useState([]);
   const [user, setUser] = useState(null);
   const [features, setFeatures] = useState([]);
-  console.log(features);
+  console.log("selectedFilter", selectedFilter);
+  console.log("searchFilter", searchFilter);
 
   const navigate = useNavigate();
 
@@ -107,7 +109,7 @@ function CarsReports2() {
       <SideBar />
 
       {/* Main Content */}
-      <div className="flex-1">
+      <div className="flex-1 bg-gray-100">
         {/* Header */}
         <header className="bg-white shadow-sm">
           <div className="flex items-center justify-between px-6 py-4">
@@ -120,9 +122,7 @@ function CarsReports2() {
               </button>
               <div className="flex items-center space-x-2">
                 <img
-                  src={
-                    user?.profile_image_url || "https://via.placeholder.com/150"
-                  }
+                  src={user?.profile_image_url || user?.username}
                   alt={user?.username || "User"}
                   className="w-8 h-8 rounded-full"
                 />
@@ -133,7 +133,7 @@ function CarsReports2() {
         </header>
 
         {/* Cars Content */}
-        <main className="p-6">
+        <main className=" p-6">
           {/* Search and Filters */}
           <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="relative">
@@ -144,6 +144,8 @@ function CarsReports2() {
               <input
                 type="text"
                 placeholder="Search cars..."
+                value={searchFilter}
+                onChange={(e) => setSearchFilter(e.target.value)}
                 className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg w-full sm:w-96 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
@@ -156,8 +158,7 @@ function CarsReports2() {
                 >
                   <option value="all">All Cars</option>
                   <option value="available">Available</option>
-                  <option value="in-use">In Use</option>
-                  {/* <option value="maintenance">Maintenance</option> */}
+                  <option value="in_use">In Use</option>
                 </select>
                 <Filter
                   className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
@@ -184,83 +185,92 @@ function CarsReports2() {
 
           {/* Cars Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {cars.map((car) => (
-              <div
-                key={car.id}
-                className="bg-white rounded-lg shadow-md overflow-hidden"
-              >
-                <div className="relative p-2 mb-5 h-48">
-                  <img
-                    src={car.car_image_url}
-                    alt={car.car_model}
-                    className="w-full"
-                  />
-                  {role === "admin" && (
-                    <div className="absolute top-4 right-4">
-                      <div
-                        className={`flex items-center space-x-1 px-2 py-1 rounded-full bg-white/90 ${getStatusColor(
-                          car.status
-                        )}`}
-                      >
-                        <Circle size={8} />
-                        <span className="text-sm font-medium">
-                          {car.status}
+            {cars
+              .filter(
+                (car) =>
+                  (selectedFilter === "all" || car.status === selectedFilter) && // Filter by status
+                  (searchFilter === "" ||
+                    car.car_model
+                      .toLowerCase()
+                      .includes(searchFilter.toLowerCase())) // Show all if search is empty
+              )
+              .map((car) => (
+                <div
+                  key={car.id}
+                  className="bg-white rounded-lg shadow-md overflow-hidden"
+                >
+                  <div className="relative p-2 mb-5 h-48">
+                    <img
+                      src={car.car_image_url}
+                      alt={car.car_model}
+                      className="w-full"
+                    />
+                    {role === "admin" && (
+                      <div className="absolute top-4 right-4">
+                        <div
+                          className={`flex items-center space-x-1 px-2 py-1 rounded-full bg-white/90 ${getStatusColor(
+                            car.status
+                          )}`}
+                        >
+                          <Circle size={8} />
+                          <span className="text-sm font-medium">
+                            {car.status}
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="text-lg font-semibold text-gray-900">
+                        {car.car_model}
+                      </h3>
+                    </div>
+                    <div className="space-y-3">
+                      <div className="flex items-center text-sm text-gray-500">
+                        {getTypeIcon(car.fuel_type)}
+                        <span className="ml-1">{car.fuel_type}</span>
+                      </div>
+                      <div className="flex items-center text-sm">
+                        <Tag size={14} className="mr-1 text-gray-500" />
+                        <span className="font-semibold text-blue-600">
+                          ${car.price_per_hour}
                         </span>
+                        <span className="text-gray-500">/hour</span>
+                      </div>
+                      <div className="pt-2 border-t">
+                        <div className="flex flex-wrap gap-2">
+                          {car.features?.map((feature) => (
+                            <p
+                              key={feature.id}
+                              className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full"
+                            >
+                              {feature.name}
+                            </p>
+                          ))}
+                        </div>
                       </div>
                     </div>
-                  )}
-                </div>
-                <div className="p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-lg font-semibold text-gray-900">
-                      {car.car_model}
-                    </h3>
-                  </div>
-                  <div className="space-y-3">
-                    <div className="flex items-center text-sm text-gray-500">
-                      {getTypeIcon(car.fuel_type)}
-                      <span className="ml-1">{car.fuel_type}</span>
-                    </div>
-                    <div className="flex items-center text-sm">
-                      <Tag size={14} className="mr-1 text-gray-500" />
-                      <span className="font-semibold text-blue-600">
-                        ${car.price_per_hour}
-                      </span>
-                      <span className="text-gray-500">/hour</span>
-                    </div>
-                    <div className="pt-2 border-t">
-                      <div className="flex flex-wrap gap-2">
-                        {car.features?.map((feature) => (
-                          <p
-                            key={feature.id}
-                            className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full"
-                          >
-                            {feature.name}
-                          </p>
-                        ))}
+                    {role !== "admin" && (
+                      <div>
+                        <button
+                          disabled={car.status !== "available"}
+                          className={`px-4 py-2 w-full rounded-lg hover:cursor-pointer ${
+                            car.status === "available"
+                              ? "bg-blue-600 text-white hover:bg-blue-700"
+                              : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                          }`}
+                          onClick={() => navigate("/book-now")}
+                        >
+                          {car.status === "available"
+                            ? "Book Now"
+                            : "Unavailable"}
+                        </button>
                       </div>
-                    </div>
+                    )}
                   </div>
-                  {role !== "admin" && (
-                    <div>
-                      <button
-                        disabled={car.status !== "available"}
-                        className={`px-4 py-2 w-full rounded-lg hover:cursor-pointer ${
-                          car.status === "available"
-                            ? "bg-blue-600 text-white hover:bg-blue-700"
-                            : "bg-gray-100 text-gray-400 cursor-not-allowed"
-                        }`}
-                        onClick={() => handleBookNow(car.id)}
-                      >
-                        {car.status === "available"
-                          ? "Book Now"
-                          : "Unavailable"}
-                      </button>
-                    </div>
-                  )}
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
         </main>
       </div>
