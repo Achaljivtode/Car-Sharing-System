@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Calendar, MapPin } from "lucide-react";
-import { bookCar, getLoggedInUser } from "../../api";
+import { bookCar, getLoggedInUser, getBookingById } from "../../api";
 ("react-router-dom");
 // import { useParams } from "react-router-dom";
 
-const BookCarForm = ({ carId }) => {
+const BookCarForm = ({ carId, bookingId }) => {
   // const { carId } = useParams();
   const [user, setUser] = useState(null);
+  const [bookingStatus, setBookingStatus] = useState("");
 
   const [formData, setFormData] = useState({
     pickup_location: "",
@@ -15,6 +16,7 @@ const BookCarForm = ({ carId }) => {
     drop_date: "",
     user: null,
     car: carId,
+    booking_status: "Booked",
   });
 
   // console.log("user_id", formData.user_id);
@@ -41,6 +43,19 @@ const BookCarForm = ({ carId }) => {
   //     [name]: value,
   //   }));
   // };
+
+  // Fetch Booking Status
+  useEffect(() => {
+    const fetchBookingStatus = async () => {
+      if (bookingId) {
+        const booking = await getBookingById(bookingId);
+        if (booking) {
+          setBookingStatus(booking.booking_status); // Set status
+        }
+      }
+    };
+    fetchBookingStatus();
+  }, [bookingId]); // Run whenever carId changes
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -81,6 +96,7 @@ const BookCarForm = ({ carId }) => {
       drop_location: formData.drop_location,
       pickup_date: formData.pickup_date,
       drop_date: formData.drop_date,
+      booking_status: formData.booking_status || "Booked",
     };
     console.log("📤 Sending Booking Data-----------------:", bookCarData);
 
@@ -88,23 +104,27 @@ const BookCarForm = ({ carId }) => {
 
     try {
       const response = await bookCar(bookCarData);
+      console.log("✅ Booking Response:", response);
+
+      // console.log("✅ Booking Response:", response.data);
+
+      if (!response || !response.data) {
+        throw new Error("Invalid response from server. Please try again.");
+      }
       console.log("✅ Booking Response:", response.data);
 
-      if (response) {
-        alert("Car booked successfully!");
+      alert("Car booked successfully!");
 
-        setFormData({
-          pickup_location: "",
-          drop_location: "",
-          pickup_date: "",
-          drop_date: "",
-          user: user?.id,
-          car: carId,
-        });
-      } else {
-        alert("failed to book the car . please try again");
-        console.log("booking failed ", response);
-      }
+      setFormData({
+        pickup_location: "",
+        drop_location: "",
+        pickup_date: "",
+        drop_date: "",
+        user: user?.id,
+        car: carId,
+        booking_status: "Booked",
+      });
+      setBookingStatus(response.data.booking_status); // Update status after booking
     } catch (error) {
       console.error(
         "❌ Error booking car:",
@@ -114,9 +134,7 @@ const BookCarForm = ({ carId }) => {
       console.log("user.id ----> ", user.id);
       console.log("carId ----> ", carId);
       console.log("user ----> ", user);
-      alert(
-        `Error: ${error.response?.data?.message || "Something went wrong"}`
-      );
+      alert(`Error: ${error.response?.data?.message || error.message}`);
     }
   };
 
@@ -128,6 +146,12 @@ const BookCarForm = ({ carId }) => {
       <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">
         Book a Car
       </h2>
+      {/* Booking Status Display */}
+      {bookingStatus && (
+        <div className="text-center bg-gray-100 p-3 rounded-lg">
+          <strong>Booking Status:</strong> {bookingStatus}
+        </div>
+      )}
 
       <div className="space-y-4">
         <div className="relative">

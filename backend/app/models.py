@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
+from django.utils.timezone import now
+
 
 car_number_validator = RegexValidator(
     regex=r'^[A-Z]{2}\d{2}[A-Z]{2}\d{4}$',
@@ -80,7 +82,11 @@ class Car(models.Model):
         return self.car_model 
 
 class CarBook(models.Model):
-    
+    STATUS_CHOICES = [
+        ('Booked', 'Booked'),
+        ('Cancelled', 'Cancelled'),
+        ('Completed', 'Completed'),
+    ]
 
     booking_date=models.DateTimeField(auto_now=True)
     pickup_location=models.TextField(null=True,blank=True)
@@ -89,6 +95,13 @@ class CarBook(models.Model):
     drop_date=models.DateField()
     car = models.ForeignKey(Car, on_delete=models.CASCADE)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    booking_status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Booked')
+
+    def save(self, *args, **kwargs):
+        """Automatically update status to 'Completed' if drop_date has passed and booking is not canceled."""
+        if self.drop_date < now().date() and self.booking_status != 'Cancelled':
+            self.booking_status = 'Completed'
+        super().save(*args, **kwargs)
     
 
 

@@ -38,10 +38,24 @@ function CustomerHistory() {
   // );
   // console.log(user.id);
 
-  const userBookings = bookings.filter((rental) => {
-    console.log("ID:", rental.user, user.id);
-    return user.id === rental.user;
-  });
+  const userBookings = user
+    ? bookings.filter((rental) => {
+        console.log("ID:", rental.user, user.id);
+        return user.id === rental.user;
+      })
+    : [];
+
+  // Filter bookings based on `activeItem`
+  const filteredBookings =
+    activeItem === "/customer-booking"
+      ? userBookings.filter((rental) => rental.booking_status === "Booked")
+      : activeItem === "/Customer-History"
+      ? userBookings.filter(
+          (rental) =>
+            rental.booking_status === "Completed" ||
+            rental.booking_status === "Cancelled"
+        )
+      : userBookings;
 
   const handleCancel = async (bookingId) => {
     const confirmed = window.confirm(
@@ -49,9 +63,17 @@ function CustomerHistory() {
     );
     if (!confirmed) return;
 
-    const success = await cancelBooking(bookingId);
-    if (success) {
-      setBookings(bookings.filter((booking) => booking.id !== bookingId));
+    const updateBooking = await cancelBooking(bookingId);
+    if (updateBooking) {
+      // setBookings(bookings.filter((booking) => booking.id !== bookingId));
+
+      setBookings((prevBookings) =>
+        prevBookings.map((booking) =>
+          booking.id === bookingId
+            ? { ...booking, booking_status: "Cancelled" }
+            : booking
+        )
+      );
     }
   };
 
@@ -64,8 +86,8 @@ function CustomerHistory() {
           <p className="text-gray-600">View your past booking</p>
         </div>
         <div className="flex-1 overflow-y-auto p-6 bg-gray-100">
-          {userBookings.length > 0 ? (
-            userBookings.map((rental) => (
+          {filteredBookings.length > 0 ? (
+            filteredBookings.map((rental) => (
               <div
                 key={rental.id}
                 className="bg-white rounded-xl shadow-sm overflow-hidden mb-6"
@@ -110,17 +132,32 @@ function CustomerHistory() {
                           ${rental.price}
                         </span>
                       </div>
+                      <div className="flex flex-col text-lg text-gray-500">
+                        Status:
+                        <span
+                          className={`text-md font-semibold ${
+                            rental.booking_status === "Cancelled"
+                              ? "text-red-500"
+                              : rental.booking_status === "Completed"
+                              ? "text-green-500"
+                              : "text-blue-500"
+                          }`}
+                        >
+                          {rental.booking_status}
+                        </span>
+                      </div>
                     </div>
 
                     {/* Show Cancel Button only if activeItem is 'customer-booking' */}
-                    {activeItem === "/customer-booking" && (
-                      <button
-                        className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
-                        onClick={() => handleCancel(rental.id)}
-                      >
-                        Cancel Booking
-                      </button>
-                    )}
+                    {activeItem === "/customer-booking" &&
+                      rental.booking_status === "Booked" && (
+                        <button
+                          className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
+                          onClick={() => handleCancel(rental.id)}
+                        >
+                          Cancel Booking
+                        </button>
+                      )}
                   </div>
                 </div>
               </div>

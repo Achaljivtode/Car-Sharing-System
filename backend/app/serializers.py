@@ -101,7 +101,7 @@ class CarBookSerializer(serializers.ModelSerializer):
     
     class Meta:
         model=CarBook
-        fields=['id','user','user_image_url','user_name','user_email','user_contact','booking_date','pickup_date','drop_date','car','pickup_location','drop_location','car_owner','car_image_url','fuel_type','car_model','car_number','car_status','price']
+        fields=['id','user','user_image_url','user_name','user_email','user_contact','booking_date','pickup_date','drop_date','car','pickup_location','drop_location','car_owner','car_image_url','fuel_type','car_model','car_number','car_status','price','booking_status']
 
     def get_car_image_url(self, obj):
         """

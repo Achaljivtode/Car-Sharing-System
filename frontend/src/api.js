@@ -114,7 +114,7 @@ export const getBookingById = async (bookingId) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    return response;
+    return response.data;
   } catch (error) {
     console.error("Error fetch booking for this id:", error);
     return false; // Failure
@@ -124,15 +124,26 @@ export const getBookingById = async (bookingId) => {
 export const cancelBooking = async (bookingId) => {
   try {
     const token = localStorage.getItem("token");
-    await api.delete(`/booking-report/${bookingId}/`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return true; // Success
+    const response = await api.patch(
+      `/booking-report/${bookingId}/`,
+      { booking_status: "Cancelled" },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data; // Success
   } catch (error) {
-    console.error("Error canceling booking:", error);
-    return false; // Failure
+    console.error(
+      "Error canceling booking:",
+      error.response?.data || error.message
+    );
+    return {
+      success: false,
+      message: error.response?.data?.detail || "Failed to cancel booking",
+    };
   }
 };
 
@@ -264,9 +275,13 @@ export const bookCar = async (bookCarData) => {
     });
     console.log("✅ API Response:", response.data);
 
-    return response.data;
+    return response;
   } catch (error) {
-    console.error("Error booking car:", error.response?.data || error.message);
-    return null;
+    console.error(
+      "Error in bookCar API:",
+      error.response?.data || error.message
+    );
+    throw error;
+    // return null;
   }
 };

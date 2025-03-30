@@ -1,5 +1,5 @@
 from django.contrib import admin
-from app.models import  Car,CarBook,CustomUser,Enquiry
+from app.models import  Car,CarBook,CustomUser,Enquiry,Feature
 from django.contrib.auth.admin import UserAdmin
 # Register your models here.
 
@@ -10,6 +10,7 @@ admin.site.register(CarBook)
 # admin.site.register(CarReport)
 # admin.site.register(Agent)
 admin.site.register(Enquiry)
+admin.site.register(Feature)
 
 class CustomUserAdmin(UserAdmin):
     model = CustomUser

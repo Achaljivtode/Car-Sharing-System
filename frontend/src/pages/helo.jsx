@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { getBookings, getLoggedInUser } from "../api";
+import {
+  getBookings,
+  getLoggedInUser,
+  fetchCars,
+  fetchCustomers,
+} from "../api";
 import {
   //   Car,
   //   Users,
@@ -18,6 +23,31 @@ function Helo() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const [cars, setCars] = useState([]);
+  const [customers, setCustomers] = useState([]);
+
+  useEffect(() => {
+    const getTotalcars = async () => {
+      const data = await fetchCars();
+      if (data) {
+        setCars(data);
+      }
+    };
+    getTotalcars();
+  }, []);
+
+  const Vehicle_count = cars.length;
+
+  useEffect(() => {
+    const getCustomers = async () => {
+      const data = await fetchCustomers();
+      if (data) {
+        setCustomers(data);
+      }
+    };
+    getCustomers();
+  }, []);
+  const customer_count = customers.length;
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -30,6 +60,7 @@ function Helo() {
     fetchBookings();
   }, []);
 
+  const booking_count = bookings.length;
   // Logged In user
   useEffect(() => {
     const fetchData = async () => {
@@ -42,23 +73,17 @@ function Helo() {
   const hedData = [
     {
       label: "Total Vehicles",
-      value: "124",
-      change: "+12%",
-      up: true,
+      value: Vehicle_count,
     },
     {
       label: "Active Users",
-      value: "2,847",
-      change: "+18%",
-      up: true,
+      value: customer_count,
     },
     {
       label: "Total Bookings",
-      value: "48",
-      change: "-5%",
-      up: false,
+      value: booking_count,
     },
-    { label: "Total Revenue", value: "$12,847", change: "+24%", up: true },
+    // { label: "Total Revenue", value: "$12,847", change: "+24%", up: true },
   ];
 
   return (
@@ -100,10 +125,10 @@ function Helo() {
                   {stat.label}
                 </h3>
                 <div className="mt-2 flex items-baseline">
-                  <p className="text-2xl font-semibold text-gray-900">
+                  <p className="text-2xl font-semibold text-green-600">
                     {stat.value}
                   </p>
-                  <span
+                  {/* <span
                     className={`ml-2 flex items-baseline text-sm font-semibold ${
                       stat.up ? "text-green-600" : "text-red-600"
                     }`}
@@ -112,7 +137,7 @@ function Helo() {
                     <ChevronUp
                       className={`${!stat.up && "rotate-180"} h-4 w-4`}
                     />
-                  </span>
+                  </span> */}
                 </div>
               </div>
             ))}
@@ -149,63 +174,70 @@ function Helo() {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {bookings.map((booking, index) => (
-                      <tr key={index}>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center">
-                            <img
-                              className="h-10 w-10 rounded-full bg-gray-200"
-                              src={
-                                booking.user_image_url ||
-                                "https://via.placeholder.com/150"
-                              }
-                              alt={booking.user_name}
-                            />
+                    {bookings
+                      .filter((booking) => booking.booking_status === "Booked")
+                      .map((booking, index) => (
+                        <tr key={index}>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="flex items-center">
+                              {booking?.user_image_url ? (
+                                <img
+                                  src={booking.user_image_url}
+                                  alt={booking?.user_name || "User"}
+                                  className="h-8 w-8 rounded-full object-cover "
+                                />
+                              ) : (
+                                <span className="text-black text-xl font-medium h-8 w-8 rounded-full bg-gradient-to-r from-blue-600 to-blue-400  text-center">
+                                  {booking?.user_name
+                                    ?.split(" ") // Split name into words
+                                    .map((word) => word.charAt(0).toUpperCase()) // Get first letter of each word
+                                    .slice(0, 2) // Only take first two initials
+                                    .join("") || "U"}{" "}
+                                  {/* Default to 'U' if name is missing */}
+                                </span>
+                              )}
 
-                            <div className="ml-4">
-                              <div className="text-sm font-medium text-gray-900">
-                                {booking.user_name}
+                              <div className="ml-4">
+                                <div className="text-sm font-medium text-gray-900">
+                                  {booking.user_name}
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">
-                            {booking.car_number}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center text-sm text-gray-900">
-                            <MapPin size={16} className="mr-1" />
-                            {booking.pickup_location}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center text-sm text-gray-900">
-                            <MapPin size={16} className="mr-1" />
-                            {booking.drop_location}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <span
-                            className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                              booking.car_status === "available"
-                                ? "bg-green-100 text-green-800"
-                                : booking.status === "in_use"
-                                ? "bg-gray-100 text-gray-800"
-                                : "bg-yellow-100 text-yellow-800"
-                            }`}
-                          >
-                            {booking.car_status}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {new Date(booking.booking_date).toLocaleDateString(
-                            "en-CA"
-                          )}
-                        </td>
-                      </tr>
-                    ))}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="text-sm text-gray-900">
+                              {booking.car_number}
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="flex items-center text-sm text-gray-900">
+                              <MapPin size={16} className="mr-1" />
+                              {booking.pickup_location}
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="flex items-center text-sm text-gray-900">
+                              <MapPin size={16} className="mr-1" />
+                              {booking.drop_location}
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <span
+                              className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                                booking.booking_status === "Booked" &&
+                                "text-blue-500"
+                              }`}
+                            >
+                              {booking.booking_status}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {new Date(booking.booking_date).toLocaleDateString(
+                              "en-CA"
+                            )}
+                          </td>
+                        </tr>
+                      ))}
                   </tbody>
                 </table>
               </div>

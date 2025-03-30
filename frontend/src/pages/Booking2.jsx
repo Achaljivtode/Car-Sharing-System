@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  getBookings,
-  cancelBooking,
-  getLoggedInUser,
-  getBookingById,
-} from "../api";
+import { getBookings, cancelBooking, getLoggedInUser } from "../api";
 import {
   //   Car,
   //   Users,
@@ -54,38 +49,57 @@ function Booking2() {
     fetchData();
   }, []);
 
+  // const handleCancel = async (bookingId) => {
+  //   const confirmed = window.confirm(
+  //     "Are you sure you want to cancel this booking?"
+  //   );
+  //   if (!confirmed) return; // Stop if user cancels
+
+  //   const success = await cancelBooking(bookingId);
+  //   if (success) {
+  //     setBookings(
+  //       bookings.filter((booking) =>
+  //         booking.id !== bookingId
+  //           ? { ...booking, car_status: "available" }
+  //           : booking
+  //       )
+  //     ); // Remove booking from UI
+  //   }
+  // };
+
   const handleCancel = async (bookingId) => {
     const confirmed = window.confirm(
       "Are you sure you want to cancel this booking?"
     );
-    if (!confirmed) return; // Stop if user cancels
-
-    const success = await cancelBooking(bookingId);
-    if (success) {
-      setBookings(
-        bookings.filter((booking) =>
-          booking.id !== bookingId
-            ? { ...booking, car_status: "available" }
-            : booking
-        )
-      ); // Remove booking from UI
-    }
-  };
-
-  const handleConfirm = (bookingId) => {
-    const confirmed = window.confirm(
-      "Are you sure you want to confirm this booking?"
-    );
     if (!confirmed) return;
 
-    setBookings((prevBookings) =>
-      prevBookings.map((booking) =>
-        booking.id === bookingId
-          ? { ...booking, car_status: "in_use" }
-          : booking
-      )
-    );
+    const updateBooking = await cancelBooking(bookingId);
+    if (updateBooking) {
+      // setBookings(bookings.filter((booking) => booking.id !== bookingId));
+
+      setBookings((prevBookings) =>
+        prevBookings.map((booking) =>
+          booking.id === bookingId
+            ? { ...booking, booking_status: "Cancelled" }
+            : booking
+        )
+      );
+    }
   };
+  // const handleConfirm = (bookingId) => {
+  //   const confirmed = window.confirm(
+  //     "Are you sure you want to confirm this booking?"
+  //   );
+  //   if (!confirmed) return;
+
+  //   setBookings((prevBookings) =>
+  //     prevBookings.map((booking) =>
+  //       booking.id === bookingId
+  //         ? { ...booking, car_status: "in_use" }
+  //         : booking
+  //     )
+  //   );
+  // };
 
   // const getStatusIcon = (status) => {
   //   switch (status) {
@@ -219,14 +233,30 @@ function Booking2() {
                         {booking.id}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center">
-                          <img
+                        <div className="  flex items-center ">
+                          {/* <img
                             className="h-8 w-8 rounded-full"
                             src={booking.user_image_url}
                             alt=""
-                          />
+                          /> */}
+                          {booking?.user_image_url ? (
+                            <img
+                              src={booking.user_image_url}
+                              alt={booking?.user_name || "User"}
+                              className="h-8 w-8 rounded-full object-cover "
+                            />
+                          ) : (
+                            <span className="text-black text-xl font-medium h-8 w-8 rounded-full bg-gradient-to-r from-blue-600 to-blue-400  text-center">
+                              {booking?.user_name
+                                ?.split(" ") // Split name into words
+                                .map((word) => word.charAt(0).toUpperCase()) // Get first letter of each word
+                                .slice(0, 2) // Only take first two initials
+                                .join("") || "U"}{" "}
+                              {/* Default to 'U' if name is missing */}
+                            </span>
+                          )}
                           <div className="ml-3">
-                            <div className="text-sm font-medium text-gray-900">
+                            <div className="text-sm font-medium text-gray-900  ">
                               {booking.user_name}
                             </div>
                           </div>
@@ -264,31 +294,26 @@ function Booking2() {
                         <div className="flex items-center">
                           <span
                             className={`ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                              booking.car_status === "available"
-                                ? "bg-green-100 text-green-800"
-                                : "bg-gray-100 text-gray-800"
+                              booking.booking_status === "Cancelled"
+                                ? "text-red-500"
+                                : booking.booking_status === "Completed"
+                                ? "text-green-500"
+                                : "text-blue-500"
                             }`}
                           >
-                            {booking.car_status}
+                            {booking.booking_status}
                           </span>
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {booking.car_status === "available" ? (
-                          <button
-                            onClick={() => handleConfirm(booking.id)}
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                          >
-                            Confirm Booking
-                          </button>
-                        ) : (
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-grey-500">
+                        {booking.booking_status === "Booked" ? (
                           <button
                             onClick={() => handleCancel(booking.id)}
                             className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                           >
                             Cancel Booking
                           </button>
-                        )}
+                        ) : null}
                       </td>
                     </tr>
                   ))}

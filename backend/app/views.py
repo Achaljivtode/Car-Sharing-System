@@ -107,6 +107,12 @@ class DetailCarBookView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class=CarBookSerializer
     lookup_field='pk'
 
+    def get_object(self):
+        """Fetches the object and ensures its status is updated."""
+        obj = super().get_object()
+        obj.save()  # This will trigger the `save()` method to update the status if needed.
+        return obj
+
 
 class EnquiryView(generics.ListCreateAPIView):
     queryset=Enquiry.objects.all()
