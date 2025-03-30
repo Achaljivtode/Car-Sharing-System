@@ -59,7 +59,7 @@ function Helo() {
       up: false,
     },
     { label: "Total Revenue", value: "$12,847", change: "+24%", up: true },
-  ]
+  ];
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
@@ -94,8 +94,7 @@ function Helo() {
         <main className="p-6">
           {/* Stats Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-            {
-              hedData.map((stat) => (
+            {hedData.map((stat) => (
               <div key={stat.label} className="bg-white rounded-lg shadow p-6">
                 <h3 className="text-sm font-medium text-gray-500">
                   {stat.label}
@@ -201,7 +200,9 @@ function Helo() {
                           </span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {booking.booking_date}
+                          {new Date(booking.booking_date).toLocaleDateString(
+                            "en-CA"
+                          )}
                         </td>
                       </tr>
                     ))}

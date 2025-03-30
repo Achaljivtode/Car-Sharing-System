@@ -128,7 +128,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
     confirm_password = serializers.CharField(write_only=True,required=False)
     class Meta:
         model=CustomUser
-        fields=['id','username','role','email','password', 'confirm_password','full_name','phone_number','dob','address','user_image','user_image_url']
+        fields=['id','username','role','email','password', 'confirm_password','full_name','phone_number','dob','address','user_image','user_image_url','date_joined']
         extra_kwargs={
             'password':{'write_only':True} # ensures password will not show in api responses
         }
@@ -157,18 +157,22 @@ class UserSerializer(serializers.ModelSerializer):
         profile_image_url = serializers.SerializerMethodField()
         dob = serializers.CharField(default="Not Provided")  # Avoid None
         phone_number = serializers.CharField(default="Not Provided")
+        date_joined = serializers.SerializerMethodField()
 
         id = serializers.IntegerField(read_only=True)
 
         class Meta:
             model = CustomUser  # Replace with your actual user model
-            fields = ['id', 'username','full_name', 'email', 'profile_image_url','address','dob','phone_number','password']
+            fields = ['id', 'username','full_name', 'email', 'profile_image_url','address','dob','phone_number','password','date_joined']
 
         def get_profile_image_url(self, obj):
             request = self.context.get('request')
             if obj.user_image and request:
                 return request.build_absolute_uri(obj.user_image.url)
             return None
+        
+        def get_date_joined(self, obj):
+            return obj.date_joined.date()
 
     
 

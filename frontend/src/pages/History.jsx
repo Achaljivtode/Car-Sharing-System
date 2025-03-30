@@ -42,7 +42,6 @@ function CustomerHistory() {
     console.log("ID:", rental.user, user.id);
     return user.id === rental.user;
   });
-  console.log(userBookings);
 
   const handleCancel = async (bookingId) => {
     const confirmed = window.confirm(
@@ -100,7 +99,9 @@ function CustomerHistory() {
                       <div className="flex flex-col text-lg text-gray-800">
                         Booking Date:
                         <span className="text-gray-500 text-md">
-                          {rental.booking_date}
+                          {new Date(rental.booking_date).toLocaleDateString(
+                            "en-CA"
+                          )}
                         </span>
                       </div>
                       <div className="flex flex-col text-lg text-gray-500">

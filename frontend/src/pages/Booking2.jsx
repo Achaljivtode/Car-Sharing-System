@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { getBookings, cancelBooking, getLoggedInUser } from "../api";
+import {
+  getBookings,
+  cancelBooking,
+  getLoggedInUser,
+  getBookingById,
+} from "../api";
 import {
   //   Car,
   //   Users,
@@ -20,12 +25,15 @@ import {
   CalendarClock,
 } from "lucide-react";
 import SideBar from "../Components/SideBar/SideBar";
+import { useNavigate } from "react-router-dom";
 
 function Booking2() {
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [searchFilter, setSearchFilter] = useState("");
   const [bookings, setBookings] = useState([]);
   const [user, setUser] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getBookingReports = async () => {
@@ -54,8 +62,29 @@ function Booking2() {
 
     const success = await cancelBooking(bookingId);
     if (success) {
-      setBookings(bookings.filter((booking) => booking.id !== bookingId)); // Remove booking from UI
+      setBookings(
+        bookings.filter((booking) =>
+          booking.id !== bookingId
+            ? { ...booking, car_status: "available" }
+            : booking
+        )
+      ); // Remove booking from UI
     }
+  };
+
+  const handleConfirm = (bookingId) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to confirm this booking?"
+    );
+    if (!confirmed) return;
+
+    setBookings((prevBookings) =>
+      prevBookings.map((booking) =>
+        booking.id === bookingId
+          ? { ...booking, car_status: "in_use" }
+          : booking
+      )
+    );
   };
 
   // const getStatusIcon = (status) => {
@@ -97,9 +126,7 @@ function Booking2() {
               </button>
               <div className="flex items-center space-x-2">
                 <img
-                  src={
-                    user?.profile_image_url
-                  }
+                  src={user?.profile_image_url}
                   alt={user?.username || "User"}
                   className="w-8 h-8 rounded-full"
                 />
@@ -179,8 +206,12 @@ function Booking2() {
                 {bookings
                   .filter(
                     (booking) =>
-                      (selectedFilter === "all" || booking.car_status === selectedFilter) && // Apply filter
-                      (searchFilter === "" || booking.user_name.toLowerCase().includes(searchFilter.toLowerCase())) // Apply search
+                      (selectedFilter === "all" ||
+                        booking.car_status === selectedFilter) && // Apply filter
+                      (searchFilter === "" ||
+                        booking.user_name
+                          .toLowerCase()
+                          .includes(searchFilter.toLowerCase())) // Apply search
                   )
                   .map((booking) => (
                     <tr key={booking.id} className="hover:bg-gray-50">
@@ -189,37 +220,54 @@ function Booking2() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
-                          <img className="h-8 w-8 rounded-full" src={booking.user_image_url} alt="" />
+                          <img
+                            className="h-8 w-8 rounded-full"
+                            src={booking.user_image_url}
+                            alt=""
+                          />
                           <div className="ml-3">
-                            <div className="text-sm font-medium text-gray-900">{booking.user_name}</div>
+                            <div className="text-sm font-medium text-gray-900">
+                              {booking.user_name}
+                            </div>
                           </div>
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
-                          <img className="h-8 w-12 rounded object-cover" src={booking.car_image_url} alt="" />
+                          <img
+                            className="h-8 w-12 rounded object-cover"
+                            src={booking.car_image_url}
+                            alt=""
+                          />
                           <div className="ml-3">
-                            <div className="text-sm font-medium text-gray-900">{booking.car_number}</div>
+                            <div className="text-sm font-medium text-gray-900">
+                              {booking.car_number}
+                            </div>
                           </div>
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="ml-3">
-                          <div className="mr-1 text-gray-700">{booking.pickup_location}</div>
+                          <div className="mr-1 text-gray-700">
+                            {booking.pickup_location}
+                          </div>
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="ml-3">
-                          <div className="mr-1 text-gray-700">{booking.drop_location}</div>
+                          <div className="mr-1 text-gray-700">
+                            {booking.drop_location}
+                          </div>
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <span
-                            className={`ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${booking.car_status === "available"
+                            className={`ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                              booking.car_status === "available"
                                 ? "bg-green-100 text-green-800"
                                 : "bg-gray-100 text-gray-800"
-                              }`}
+                            }`}
                           >
                             {booking.car_status}
                           </span>
@@ -228,6 +276,7 @@ function Booking2() {
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {booking.car_status === "available" ? (
                           <button
+                            onClick={() => handleConfirm(booking.id)}
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                           >
                             Confirm Booking
@@ -244,7 +293,6 @@ function Booking2() {
                     </tr>
                   ))}
               </tbody>
-
             </table>
 
             {/* Pagination */}

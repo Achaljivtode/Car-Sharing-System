@@ -13,7 +13,7 @@ admin.site.register(Enquiry)
 
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
-    list_display = ('username', 'email','full_name','user_image','dob', 'phone_number', 'address','role')
+    list_display = ('username', 'email','full_name','user_image','dob', 'phone_number', 'address','role','date_joined')
     search_fields = ('username', 'email', 'phone_number','full_name','role')
 
     fieldsets = UserAdmin.fieldsets + (

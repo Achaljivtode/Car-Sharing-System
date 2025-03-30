@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { getLoggedInUser, updateUserProfile } from "../../api";
+import { getLoggedInUser, updateUserProfile, getBookings } from "../../api";
 import { LogOut, MapPin, Phone, Mail, Calendar, User } from "lucide-react";
 import SideBar from "../SideBar/SideBar";
 
@@ -17,8 +17,10 @@ export default function ProfilePage() {
     dob: "",
     address: "",
     password: "",
-    profile_image_url: '',
+    profile_image_url: "",
   });
+
+  const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -27,7 +29,7 @@ export default function ProfilePage() {
         if (data) {
           setUser(data);
           setFormData({
-            profile_image_url: data.profile_image_url ,
+            profile_image_url: data.profile_image_url,
             username: data.username || "",
             full_name: data.full_name || "",
             phone_number: data.phone_number || "",
@@ -43,6 +45,23 @@ export default function ProfilePage() {
     };
     fetchUser();
   }, []);
+
+  useEffect(() => {
+    const myBookings = async () => {
+      const data = await getBookings();
+      if (data) {
+        setBookings(data);
+      }
+    };
+    myBookings();
+  }, []);
+
+  const userBookings = bookings.filter((rental) => {
+    console.log("ID:", rental.user, user.id);
+    return user.id === rental.user;
+  });
+
+  const bookingCount = userBookings.length;
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -115,14 +134,12 @@ export default function ProfilePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-4">
             <div className="bg-white p-4 rounded-xl shadow-sm">
               <div className="text-gray-500">Total Rides</div>
-              <div className="mt-2 text-2xl font-bold">
-                {user.totalRides || 0}
-              </div>
+              <div className="mt-2 text-2xl font-bold">{bookingCount || 0}</div>
             </div>
             <div className="bg-white p-4 rounded-xl shadow-sm">
               <div className="text-gray-500">Member Since</div>
               <div className="mt-2 text-2xl font-bold">
-                {user.memberSince || "N/A"}
+                {user.date_joined || "N/A"}
               </div>
             </div>
           </div>

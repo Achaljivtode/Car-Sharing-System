@@ -28,6 +28,7 @@ function CarsReports2() {
   const [carDetail, setCarDetail] = useState([]);
   const [user, setUser] = useState(null);
   const [features, setFeatures] = useState([]);
+  // console.log(features);
   console.log("selectedFilter", selectedFilter);
   console.log("searchFilter", searchFilter);
 
@@ -260,7 +261,7 @@ function CarsReports2() {
                               ? "bg-blue-600 text-white hover:bg-blue-700"
                               : "bg-gray-100 text-gray-400 cursor-not-allowed"
                           }`}
-                          onClick={() => navigate("/book-now")}
+                          onClick={() => handleBookNow(car.id)}
                         >
                           {car.status === "available"
                             ? "Book Now"
