@@ -34,11 +34,17 @@ import ForgotPassword from "../pages/ForgotPassword";
 import ResetPassword from "../pages/ResetPassword";
 // -------------------------------------------
 import ChangePassword from "../pages/ChangePassword";
+import HomePage2 from "../pages/HomePage2";
 // -------------------------------------------
 
 const routes = createBrowserRouter([
   //  DEFAULT
   { path: "", element: <HomePage /> },
+
+
+  { path: "/home2", element: <HomePage2 /> },
+
+
   { path: "/home", element: <HomePage /> },
   // { path:'/about' , element:<AbourPage /> },
   { path: "/contact", element: <CountactUsPage /> },

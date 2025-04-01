@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { RxCross1 } from "react-icons/rx";
 import { IoReorderThreeOutline } from "react-icons/io5";
-import { IoIosArrowUp } from "react-icons/io";
-import { MdKeyboardArrowDown } from "react-icons/md";
+// import { IoIosArrowUp } from "react-icons/io";
+// import { MdKeyboardArrowDown } from "react-icons/md";
 import users from '../../constant/users';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,8 +17,8 @@ function Header() {
     const role = localStorage.getItem('role')
     const [Users, setUsers] = useState([])
     console.log(Users);
-    const [reportdropdown, setReportDropdown] = useState(false)
-    const [adddropdown, setAddDropdown] = useState(false)
+    // const [reportdropdown, setReportDropdown] = useState(false)
+    // const [adddropdown, setAddDropdown] = useState(false)
 
 
     const handleAboutClick = () => {
@@ -31,11 +31,11 @@ function Header() {
         }, 100); // Delay to ensure navigation happens first
     };
 
-    const handleLogout = () => {
-        localStorage.removeItem('role')
-        localStorage.removeItem('token')
-        navigate('/login')
-    }
+    // const handleLogout = () => {
+    //     localStorage.removeItem('role')
+    //     localStorage.removeItem('token')
+    //     navigate('/login')
+    // }
 
     const handlebooking = () => {
         role === 'customer' ?
@@ -54,7 +54,7 @@ function Header() {
                 <div className="flex lg:flex-1">
                     <a href="/" className="-m-1.5 p-1.5">
                         <span className="sr-only">Your Company</span>
-                        <h1 className='text-sm font-bold ' >COMPANY</h1>
+                        <h1 className='text-2xl font-bold ' >CarShare</h1>
                     </a>
                 </div>
                 <div className="flex lg:hidden">
@@ -73,7 +73,10 @@ function Header() {
 
 
                 </div>
-                {
+                <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+                        <a href="/login"  className="text-sm font-bold">Log in <span aria-hidden="true">&rarr;</span></a>
+                    </div>
+                {/* {
                     role ? 
                     <div className="hidden lg:flex lg:flex-1 lg:justify-end">
                         <a href="" onClick={handleLogout}  className="text-sm font-bold">Log out <span aria-hidden="true">&rarr;</span></a>
@@ -83,7 +86,7 @@ function Header() {
                         <a href="/login"  className="text-sm font-bold">Log in <span aria-hidden="true">&rarr;</span></a>
                     </div>
 
-                }
+                } */}
             </nav>
 
 
