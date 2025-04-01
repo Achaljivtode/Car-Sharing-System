@@ -269,7 +269,7 @@ function User() {
       <div className="flex-1 flex flex-col">
         <header className="bg-white shadow-sm sticky top-0 z-10">
           <div className="flex items-center justify-between px-6 py-4">
-            <h2 className="text-3xl font-bold text-gray-800 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <h2 className="text-3xl font-bold  bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               Users Management
             </h2>
             <div className="flex items-center space-x-6">
@@ -280,8 +280,7 @@ function User() {
               <div className="flex items-center space-x-3 bg-gray-50 py-2 px-4 rounded-full">
                 <img
                   src={
-                    admin?.profile_image_url ||
-                    "https://via.placeholder.com/150"
+                    admin?.profile_image_url 
                   }
                   alt={admin?.username || "User"}
                   className="w-10 h-10 rounded-full border-2 border-blue-500"

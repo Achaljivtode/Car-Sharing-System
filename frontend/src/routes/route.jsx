@@ -20,13 +20,13 @@ import CarsReports2 from "../pages/CarsReport2";
 import AddCar2 from "../pages/AddCar2";
 import Booking2 from "../pages/Booking2";
 
-import CustomerDashboard2 from "../pages/CustomerDashboard2";
+// import CustomerDashboard2 from "../pages/CustomerDashboard2";
 import CustomerHistory from "../pages/History";
 
 import ProfilePage from "../Components/ProfilePage/ProfilePage";
 import BookYourRide from "../pages/BookYourRide";
-import CarDetails from "../Components/CarDetails/CarDeatils";
-import BookCarForm from "../Components/BookCarForm/BookCarForm";
+// import CarDetails from "../Components/CarDetails/CarDeatils";
+// import BookCarForm from "../Components/BookCarForm/BookCarForm";
 
 // -----------------------forget ppassword-----------------------
 

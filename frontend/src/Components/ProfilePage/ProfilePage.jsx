@@ -115,9 +115,6 @@ export default function ProfilePage() {
                     </span>
                   )}
                 </div>
-                <div className="absolute bottom-0 right-0 bg-blue-500 p-2 rounded-full shadow-lg cursor-pointer hover:bg-blue-600 transition-colors">
-                  <Camera className="h-4 w-4 text-white" />
-                </div>
               </div>
               <div className="md:ml-8 text-center md:text-left">
                 <h2 className="text-3xl font-bold text-gray-800">
