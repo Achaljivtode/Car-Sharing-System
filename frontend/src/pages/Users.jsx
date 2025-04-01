@@ -269,7 +269,7 @@ function User() {
       <div className="flex-1 flex flex-col">
         <header className="bg-white shadow-sm sticky top-0 z-10">
           <div className="flex items-center justify-between px-6 py-4">
-            <h2 className="text-3xl font-bold text-gray-800 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <h2 className="text-3xl font-bold  bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               Users Management
             </h2>
             <div className="flex items-center space-x-6">
@@ -329,14 +329,14 @@ function User() {
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+          <div className=" bg-white h-[450px] rounded-2xl shadow-lg overflow-y-auto border border-gray-900">
             <div className="p-6 border-b border-gray-100">
               <h3 className="text-xl font-bold text-gray-800">User List</h3>
               <p className="text-sm text-gray-500 mt-1">
                 Manage and monitor user accounts
               </p>
             </div>
-            <div className="overflow-x-auto">
+            <div className=" overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">
                 <thead>
                   <tr className="bg-gray-50">

@@ -491,7 +491,7 @@ function Booking2() {
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+          <div className="bg-white rounded-xl shadow-sm overflow-hidden h-[450px] overflow-y-auto">
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">
                 <thead>
