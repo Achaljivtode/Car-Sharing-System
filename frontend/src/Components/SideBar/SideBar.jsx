@@ -93,7 +93,7 @@ function SideBar() {
               >
                 <item.icon
                   className={`w-5 h-5 transition-transform duration-200 ${
-                    !isSidebarOpen && "transform group-hover:scale-110"
+                    !isSidebarOpen && "transform group-hover:scale-110 "
                   }`}
                 />
                 <span

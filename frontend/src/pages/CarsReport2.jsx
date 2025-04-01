@@ -99,10 +99,10 @@ function CarsReports2() {
                 Available Cars
               </h2>
               <div className="flex items-center space-x-4">
-                <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                {/* <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
                   <Bell size={20} />
-                </button>
-                <div className="flex items-center space-x-3">
+                </button> */}
+                <div className=" flex items-center space-x-3">
                   <div className="w-8 h-8 rounded-full bg-gray-200 overflow-hidden">
                     <img
                       src={
@@ -123,7 +123,7 @@ function CarsReports2() {
         </header>
 
         {/* Main Content */}
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <main className="max-w-7xl  h-[620px] overflow-y-auto mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Search and Filters */}
           <div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="relative flex-1 max-w-md">
@@ -167,7 +167,7 @@ function CarsReports2() {
           </div>
 
           {/* Cars Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {cars
               .filter(
                 (car) =>
@@ -180,9 +180,9 @@ function CarsReports2() {
               .map((car) => (
                 <div
                   key={car.id}
-                  className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300"
+                  className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300  m-2"
                 >
-                  <div className="relative aspect-[16/9] overflow-hidden bg-gray-100">
+                  <div className="relative aspect-[16/9] overflow-hidden bg-gray-100 ">
                     <img
                       src={car.car_image_url}
                       alt={car.car_model}

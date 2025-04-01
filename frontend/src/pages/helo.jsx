@@ -384,7 +384,7 @@ function Helo() {
             ))}
           </div>
 
-          <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+          <div className="bg-white rounded-2xl shadow-sm overflow-y-auto h-[340px]">
             <div className="p-6 border-b border-gray-100">
               <h3 className="text-xl font-bold text-gray-800">
                 Recent Activity

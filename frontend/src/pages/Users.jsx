@@ -328,14 +328,14 @@ function User() {
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+          <div className=" bg-white h-[450px] rounded-2xl shadow-lg overflow-y-auto border border-gray-900">
             <div className="p-6 border-b border-gray-100">
               <h3 className="text-xl font-bold text-gray-800">User List</h3>
               <p className="text-sm text-gray-500 mt-1">
                 Manage and monitor user accounts
               </p>
             </div>
-            <div className="overflow-x-auto">
+            <div className=" overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">
                 <thead>
                   <tr className="bg-gray-50">
