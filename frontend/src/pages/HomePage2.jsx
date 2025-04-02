@@ -18,7 +18,6 @@ function HomePage2() {
   return (
     <div>
         <Header />
-
         <main>
             <Hero scrollToCars={scrollToCars} />
             <Services />

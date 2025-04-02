@@ -1,7 +1,7 @@
 import React from "react";
 import BookCarForm from "../Components/BookCarForm/BookCarForm";
 import CarDetails from "../Components/CarDetails/CarDeatils";
-import Footer from "../Components/Footer/Footer";
+
 import SideBar from "../Components/SideBar/SideBar";
 import { useParams } from "react-router-dom";
 
