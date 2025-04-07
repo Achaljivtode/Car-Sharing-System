@@ -124,10 +124,8 @@ function AddCar2() {
               </h2>
             </div>
             <div className="flex items-center space-x-4">
-              <button className="p-2 hover:bg-gray-100 rounded-full">
-                <Bell size={20} />
-              </button>
-              <div className="flex items-center space-x-2">
+              
+              <div onClick={()=> navigate('/admin-accounts')} className="flex items-center space-x-2 hover:cursor-pointer">
                 <img
                   src={
                     user?.profile_image_url || "https://via.placeholder.com/150"
@@ -143,7 +141,7 @@ function AddCar2() {
 
         {/* Add Car Form */}
         <main className=" p-6 ">
-          <div className=" h-[650px] overflow-y-auto max-w-4xl  mx-auto  no-scrollbar">
+          <div className=" h-[600px] overflow-y-auto max-w-4xl  mx-auto  no-scrollbar">
             <form
               onSubmit={handleSubmit}
               className="bg-white  shadow-md rounded-lg p-10 space-y-6"

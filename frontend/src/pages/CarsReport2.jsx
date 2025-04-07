@@ -102,7 +102,7 @@ function CarsReports2() {
                 {/* <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
                   <Bell size={20} />
                 </button> */}
-                <div className=" flex items-center space-x-3">
+                <div onClick={()=> navigate('/admin-accounts')} className=" flex items-center space-x-3 hover:cursor-pointer">
                   <div className="w-8 h-8 rounded-full bg-gray-200 overflow-hidden">
                     <img
                       src={

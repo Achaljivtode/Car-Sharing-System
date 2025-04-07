@@ -376,12 +376,12 @@ import SideBar from "../Components/SideBar/SideBar";
 import { useNavigate } from "react-router-dom";
 
 function Booking2() {
+  const navigate = useNavigate();
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [searchFilter, setSearchFilter] = useState("");
   const [bookings, setBookings] = useState([]);
   const [user, setUser] = useState(null);
 
-  const navigate = useNavigate();
 
   useEffect(() => {
     const getBookingReports = async () => {
@@ -443,11 +443,8 @@ function Booking2() {
               Bookings
             </h2>
             <div className="flex items-center space-x-4">
-              <button className="p-2 hover:bg-gray-100 rounded-full relative">
-                <Bell size={20} />
-                <span className="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full"></span>
-              </button>
-              <div className="flex items-center space-x-2">
+              
+              <div onClick={()=> navigate('/admin-accounts')} className="flex items-center space-x-2 hover:cursor-pointer">
                 <img
                   src={user?.profile_image_url}
                   alt={user?.username || "User"}

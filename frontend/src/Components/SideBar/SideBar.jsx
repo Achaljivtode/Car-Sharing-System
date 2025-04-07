@@ -13,10 +13,12 @@ function SideBar() {
   const [activeItem, setActiveItem] = useState(location.pathname);
 
   const role = localStorage.getItem("role") || "customer";
+  console.log(isSidebarOpen);
+
 
   const menuItems = [
     {
-      redirect: "/helo",
+      redirect: "/admin-dashboard",
       icon: LuLayoutDashboard,
       label: "Dashboard",
     },
@@ -47,34 +49,34 @@ function SideBar() {
     localStorage.removeItem("token");
     navigate("/home");
   };
-
   return (
     <div
-      className={`${
-        isSidebarOpen ? "w-80" : "w-20"
-      } bg-white shadow-xl h-screen transition-all duration-300 flex flex-col relative group`}
+      className={`${isSidebarOpen ? "w-80" : "w-25"
+        } bg-white shadow-xl h-screen transition-all duration-300 flex flex-col relative group`}
     >
-      <div className="p-6 flex items-center justify-between border-b border-gray-100">
+      <div className=" p-6 flex items-center justify-between border-b border-gray-100">
         <div className="flex items-center space-x-3">
           <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
             <Car className="text-white w-5 h-5" />
           </div>
-          <h1
-            className={`font-bold text-xl bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent transition-opacity duration-300 ${
-              !isSidebarOpen ? "opacity-0" : "opacity-100"
-            }`}
-          >
-            CarShare {role === "admin" ? "Admin" : ""}
-          </h1>
+          {
+            isSidebarOpen &&
+            <h1
+              className={` font-bold text-xl bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent transition-opacity duration-300 ${!isSidebarOpen ? "opacity-0" : "opacity-100"
+                }`}
+            >
+              CarShare {role === "admin" ? "Admin" : ""}
+            </h1>
+          }
         </div>
         <button
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className="p-2 hover:bg-gray-50 rounded-lg transition-colors duration-200"
+          className="p-2  hover:bg-gray-50 rounded-lg transition-colors duration-200"
         >
           {isSidebarOpen ? (
-            <RxCross2 className="w-5 h-5 text-gray-500" />
+            <RxCross2 className="w-6 h-6 text-gray-500" />
           ) : (
-            <MdOutlineMenu className="w-5 h-5 text-gray-500" />
+            <MdOutlineMenu className="w-6 h-6 text-gray-500" />
           )}
         </button>
       </div>
@@ -85,29 +87,25 @@ function SideBar() {
             <li key={item.redirect}>
               <button
                 onClick={() => handleNavigation(item.redirect)}
-                className={`flex items-center gap-3 w-full p-4 rounded-xl transition-all duration-200 group relative ${
-                  activeItem === item.redirect
-                    ? "bg-blue-600 text-white shadow-lg shadow-blue-200"
-                    : "hover:bg-gray-50 text-gray-700 hover:text-blue-600"
-                }`}
+                className={`flex items-center gap-3 w-full p-4 rounded-xl transition-all duration-200 group relative ${activeItem === item.redirect
+                  ? "bg-blue-600 text-white shadow-lg shadow-blue-200"
+                  : "hover:bg-gray-50 text-gray-700 hover:text-blue-600"
+                  }`}
               >
                 <item.icon
-                  className={`w-5 h-5 transition-transform duration-200 ${
-                    !isSidebarOpen && "transform group-hover:scale-110 "
-                  }`}
+                  className={`w-5 h-5 transition-transform duration-200 ${!isSidebarOpen && "transform group-hover:scale-110 "
+                    }`}
                 />
-                <span
-                  className={`font-medium transition-opacity duration-300 ${
-                    !isSidebarOpen ? "opacity-0" : "opacity-100"
-                  }`}
-                >
-                  {item.label}
-                </span>
-                {!isSidebarOpen && (
-                  <div className="absolute left-14 bg-white px-3 py-2 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50">
+                {isSidebarOpen && (
+                  <span
+                    className={`font-medium transition-opacity duration-300 ${!isSidebarOpen ? "opacity-0" : "opacity-100"
+                      }`}
+                  >
                     {item.label}
-                  </div>
+                  </span>
                 )}
+
+
               </button>
             </li>
           ))}
@@ -120,17 +118,10 @@ function SideBar() {
           className="flex items-center gap-3 w-full p-4 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-xl transition-colors duration-200 group"
         >
           <LogOut className="w-5 h-5" />
-          <span
-            className={`font-medium transition-opacity duration-300 ${
-              !isSidebarOpen ? "opacity-0" : "opacity-100"
-            }`}
-          >
-            Logout
-          </span>
-          {!isSidebarOpen && (
-            <div className="absolute left-14 bg-white px-3 py-2 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50">
+          {isSidebarOpen && (
+            <span className="font-medium">
               Logout
-            </div>
+            </span>
           )}
         </button>
       </div>

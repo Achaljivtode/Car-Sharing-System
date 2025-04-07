@@ -225,8 +225,10 @@ import {
   Calendar,
 } from "lucide-react";
 import SideBar from "../Components/SideBar/SideBar";
+import { useNavigate } from "react-router-dom";
 
 function User() {
+  const navigate = useNavigate();
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [searchFilter, setSearchFilter] = useState("");
   const [users, setUsers] = useState([]);
@@ -273,15 +275,11 @@ function User() {
               Users Management
             </h2>
             <div className="flex items-center space-x-6">
-              <button className="p-2 hover:bg-gray-100 rounded-full relative transition-all duration-200">
-                <Bell size={20} />
-                <span className="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full"></span>
-              </button>
-              <div className="flex items-center space-x-3 bg-gray-50 py-2 px-4 rounded-full">
+              
+              <div onClick={() => navigate('/admin-accounts')} className="flex items-center space-x-3 bg-gray-50 py-2 px-4 rounded-full hover:cursor-pointer">
                 <img
                   src={
-                    admin?.profile_image_url ||
-                    "https://via.placeholder.com/150"
+                    admin?.profile_image_url 
                   }
                   alt={admin?.username || "User"}
                   className="w-10 h-10 rounded-full border-2 border-blue-500"
@@ -309,27 +307,9 @@ function User() {
                 className="pl-10 pr-4 py-3 border border-gray-200 rounded-xl w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
               />
             </div>
-            <div className="flex items-center gap-4">
-              <div className="relative">
-                <select
-                  value={selectedFilter}
-                  onChange={(e) => setSelectedFilter(e.target.value)}
-                  className="appearance-none bg-white border border-gray-200 rounded-xl px-4 py-3 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                >
-                  <option value="all">All Users</option>
-                  <option value="active">Active</option>
-                  <option value="inactive">Inactive</option>
-                  <option value="pending">Pending</option>
-                </select>
-                <Filter
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
-                  size={16}
-                />
-              </div>
-            </div>
           </div>
 
-          <div className=" bg-white h-[450px] rounded-2xl shadow-lg overflow-y-auto border border-gray-900">
+          <div className=" bg-white h-[450px] rounded-2xl shadow-lg overflow-y-auto border border-gray-100">
             <div className="p-6 border-b border-gray-100">
               <h3 className="text-xl font-bold text-gray-800">User List</h3>
               <p className="text-sm text-gray-500 mt-1">
