@@ -40,7 +40,7 @@ function Header() {
 
     const handlebooking = () => {
         role === 'customer' ?
-        navigate("/customer-dashboard") : 
+        navigate("/cars") : 
         navigate('/login')
     }
 

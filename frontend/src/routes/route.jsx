@@ -21,6 +21,7 @@ import AboutPage from "../pages/AboutPage";
 import AdminDashBoard from "../pages/AdminDashboard";
 import BookYourRide from "../pages/BookYourRide";
 import BookCarForm from "../Components/BookCarForm/BookCarForm";
+import ContactUsdetails from "../pages/ContactUsdetails";
 // -------------------------------------------
 
 const routes = createBrowserRouter([
@@ -40,6 +41,7 @@ const routes = createBrowserRouter([
   
   { path: "/admin-dashboard", element: <AdminDashBoard /> },
   { path: "/users", element: <User /> },
+  { path: "/feedback-details", element: <ContactUsdetails /> },
   { path: "/admin-booking", element: <Booking2 /> },
   { path: "/cars", element: <CarsReports2 /> },
   { path: "/add-cars", element: <AddCar2 /> },
