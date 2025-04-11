@@ -1,5 +1,5 @@
 from django.urls import path
-from rest_framework_simplejwt.views import TokenRefreshView
+from rest_framework_simplejwt.views import TokenRefreshView,TokenObtainPairView
 from app import views
 urlpatterns = [
     path('users/',views.RegisterView.as_view(),name='register'),
@@ -9,6 +9,7 @@ urlpatterns = [
     path('login/',views.LoginView.as_view(),name='login'),
     path('logout/',views.LogoutView.as_view(),name='logout'),
 
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     # JWT Token Refresh (Required for Refreshing Access Tokens)
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
