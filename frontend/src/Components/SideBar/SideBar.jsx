@@ -23,6 +23,7 @@ function SideBar() {
       label: "Dashboard",
     },
     { redirect: "/users", icon: LuUsersRound, label: "Users" },
+    { redirect: "/feedback-details", icon: LuUsersRound, label: "Feedback Details" },
     { redirect: "/admin-booking", icon: LuNotebook, label: "Bookings" },
     { redirect: "/cars", icon: TbReportSearch, label: "Cars Reports" },
     {
