@@ -135,6 +135,8 @@ class UserSerializer(serializers.ModelSerializer):
                 return request.build_absolute_uri(obj.user_image.url)
             return None
         
+        
+        
         def get_date_joined(self, obj):
             return obj.date_joined.date()
 

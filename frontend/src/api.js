@@ -91,6 +91,37 @@ export const enquiry = async (formData) => {
   }
 };
 
+export const fetchEnquiries = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await api.get("/enquiry/", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching features:", error);
+    return [];
+  }
+};
+
+export const deleteEnquiry = async (enquiryId) => {
+  try {
+    const token = localStorage.getItem("token");
+    await api.delete(`/enquiry/${enquiryId}/`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return true;
+  } catch (error) {
+    console.error("Error deleting customer:", error);
+    return false;
+  }
+};
+
 export const getBookings = async () => {
   try {
     const token = localStorage.getItem("token");

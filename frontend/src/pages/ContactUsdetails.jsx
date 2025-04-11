@@ -214,206 +214,222 @@
 // export default User;
 
 import React, { useState, useEffect } from "react";
-import { fetchCustomers, deleteCustomer, getLoggedInUser } from "../api";
 import {
-    Bell,
-    Search,
-    Filter,
-    Trash2,
-    Mail,
-    Phone,
-    Calendar,
+  fetchCustomers,
+  fetchEnquiries,
+  deleteEnquiry,
+  getLoggedInUser,
+} from "../api";
+import {
+  Bell,
+  Search,
+  Filter,
+  Trash2,
+  Mail,
+  Phone,
+  Calendar,
 } from "lucide-react";
 import SideBar from "../Components/SideBar/SideBar";
 import { useNavigate } from "react-router-dom";
 
 function ContactUsdetails() {
-    const navigate = useNavigate();
-    const [selectedFilter, setSelectedFilter] = useState("all");
-    const [searchFilter, setSearchFilter] = useState("");
-    const [users, setUsers] = useState([]);
-    const [admin, setAdmin] = useState(null);
+  const navigate = useNavigate();
+  const [selectedFilter, setSelectedFilter] = useState("all");
+  const [searchFilter, setSearchFilter] = useState("");
+  const [users, setUsers] = useState([]);
+  const [admin, setAdmin] = useState(null);
+  const [enquiries, setEnquiry] = useState([]);
 
-    useEffect(() => {
-        const getCustomers = async () => {
-            const data = await fetchCustomers();
-            if (data) {
-                setUsers(data);
-            }
-        };
-        getCustomers();
-    }, []);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const userData = await getLoggedInUser();
-            setAdmin(userData);
-        };
-        fetchData();
-    }, []);
-
-    const handleDelete = async (customerId) => {
-        const confirmed = window.confirm(
-            "Are you sure you want to delete this user?"
-        );
-        if (!confirmed) return;
-
-        const success = await deleteCustomer(customerId);
-        if (success) {
-            setUsers(users.filter((user) => user.id !== customerId));
-        }
+  useEffect(() => {
+    const getCustomers = async () => {
+      const data = await fetchCustomers();
+      if (data) {
+        setUsers(data);
+      }
     };
+    getCustomers();
+  }, []);
 
-    return (
-        <div className="min-h-screen bg-gray-50 flex">
-            <SideBar />
+  useEffect(() => {
+    const getEnquiries = async () => {
+      const data = await fetchEnquiries();
+      if (data) {
+        setEnquiry(data);
+      }
+    };
+    getEnquiries();
+  }, []);
 
-            <div className=" flex-1 flex flex-col">
-                <header className="bg-white shadow-sm sticky top-0 z-10">
-                    <div className="flex items-center justify-between px-6 py-4">
-                        <h2 className="text-3xl font-bold  bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                            FeedBack Details
-                        </h2>
-                        <div className="flex items-center space-x-6">
+  useEffect(() => {
+    const fetchData = async () => {
+      const userData = await getLoggedInUser();
+      setAdmin(userData);
+    };
+    fetchData();
+  }, []);
 
-                            <div onClick={() => navigate('/admin-accounts')} className="flex items-center space-x-3 bg-gray-50 py-2 px-4 rounded-full hover:cursor-pointer">
-                                <img
-                                    src={
-                                        admin?.profile_image_url
-                                    }
-                                    alt={admin?.username || "User"}
-                                    className="w-10 h-10 rounded-full border-2 border-blue-500"
-                                />
-                                <span className="font-medium text-gray-700">
-                                    {admin?.username || "User"}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </header>
-
-                <main className="p-6 flex-1 overflow-auto">
-                    <div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                        <div className="relative flex-1 max-w-md">
-                            <Search
-                                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                                size={20}
-                            />
-                            <input
-                                type="text"
-                                placeholder="Search users by name..."
-                                value={searchFilter}
-                                onChange={(e) => setSearchFilter(e.target.value)}
-                                className="pl-10 pr-4 py-3 border border-gray-200 rounded-xl w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                            />
-                        </div>
-                    </div>
-
-                    <div className=" bg-white h-[450px] rounded-2xl shadow-lg overflow-y-auto border border-gray-100">
-                        <div className="p-6 border-b border-gray-100">
-                            <h3 className="text-xl font-bold text-gray-800">FeedBack List</h3>
-                            <p className="text-sm text-gray-500 mt-1">
-                                Manage and monitor user Feedback
-                            </p>
-                        </div>
-                        <div className="  overflow-x-auto">
-                            <table className=" min-w-full divide-y divide-gray-200">
-                                <thead>
-                                    <tr className="bg-gray-50">
-                                        {["User", "Email", "Contact", "Message", "Actions"].map(
-                                            (header) => (
-                                                <th
-                                                    key={header}
-                                                    className="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider bg-gradient-to-b from-gray-50 to-gray-100"
-                                                >
-                                                    {header}
-                                                </th>
-                                            )
-                                        )}
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-gray-100">
-                                    {users
-                                        .filter((user) =>
-                                            user.full_name
-                                                .toLowerCase()
-                                                .includes(searchFilter.toLowerCase())
-                                        )
-                                        .map((user, index) => (
-                                            <tr
-                                                key={index}
-                                                className="hover:bg-blue-50/50 transition-colors duration-200"
-                                            >
-                                                <td className="px-6 py-4 whitespace-nowrap">
-                                                    <div className="flex items-center">
-                                                        {user?.user_image_url ? (
-                                                            <img
-                                                                src={user.user_image_url}
-                                                                alt={user?.full_name || "User"}
-                                                                className="h-10 w-10 rounded-full object-cover border-2 border-gray-200 shadow-sm"
-                                                            />
-                                                        ) : (
-                                                            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 text-white text-lg font-medium shadow-sm">
-                                                                {user?.full_name
-                                                                    ?.split(" ")
-                                                                    .map((word) => word.charAt(0).toUpperCase())
-                                                                    .slice(0, 2)
-                                                                    .join("") || "U"}
-                                                            </div>
-                                                        )}
-                                                        <div className="ml-4">
-                                                            <div className="text-sm font-semibold text-gray-900">
-                                                                {user.full_name}
-                                                            </div>
-                                                            <div className="text-xs text-gray-500">
-                                                                User ID: #{user.id}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td className="px-6 py-4 whitespace-nowrap">
-                                                    <div className="flex items-center text-sm text-gray-600 group">
-                                                        <div className="p-1.5 rounded-lg bg-blue-50 group-hover:bg-blue-100 transition-colors duration-200 mr-2">
-                                                            <Mail size={14} className="text-blue-500" />
-                                                        </div>
-                                                        {user.email}
-                                                    </div>
-                                                </td>
-                                                <td className="px-6 py-4 whitespace-nowrap">
-                                                    <div className="flex items-center text-sm text-gray-600 group">
-                                                        <div className="p-1.5 rounded-lg bg-green-50 group-hover:bg-green-100 transition-colors duration-200 mr-2">
-                                                            <Phone size={14} className="text-green-500" />
-                                                        </div>
-                                                        {user.phone_number}
-                                                    </div>
-                                                </td>
-                                                <td className="w-[400px] px-6 py-4">
-                                                    <div className="overflow-x-auto max-w-[400px] no-scrollbar">
-                                                        <div className="w-[800px]">
-                                                            <h1>Message Here Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam, doloremque?</h1>
-                                                        </div>
-                                                    </div>
-                                                </td>
-
-                                                <td className="px-6 py-4 whitespace-nowrap">
-                                                    <button
-                                                        onClick={() => handleDelete(user.id)}
-                                                        className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-400 transition-all duration-200 shadow-sm hover:shadow"
-                                                    >
-                                                        <Trash2 size={16} className="mr-2" />
-                                                        Delete
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </main>
-            </div>
-        </div>
+  const handleDelete = async (enquiryId) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this enquiry?"
     );
+    if (!confirmed) return;
+
+    const success = await deleteEnquiry(enquiryId);
+    if (success) {
+      setEnquiry(enquiries.filter((enquiry) => enquiry.id !== enquiryId));
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 flex">
+      <SideBar />
+
+      <div className=" flex-1 flex flex-col">
+        <header className="bg-white shadow-sm sticky top-0 z-10">
+          <div className="flex items-center justify-between px-6 py-4">
+            <h2 className="text-3xl font-bold  bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              FeedBack Details
+            </h2>
+            <div className="flex items-center space-x-6">
+              <div
+                onClick={() => navigate("/admin-accounts")}
+                className="flex items-center space-x-3 bg-gray-50 py-2 px-4 rounded-full hover:cursor-pointer"
+              >
+                <img
+                  src={admin?.profile_image_url}
+                  alt={admin?.username || "User"}
+                  className="w-10 h-10 rounded-full border-2 border-blue-500"
+                />
+                <span className="font-medium text-gray-700">
+                  {admin?.username || "User"}
+                </span>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <main className="p-6 flex-1 overflow-auto">
+          <div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="relative flex-1 max-w-md">
+              <Search
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                size={20}
+              />
+              <input
+                type="text"
+                placeholder="Search users by name..."
+                value={searchFilter}
+                onChange={(e) => setSearchFilter(e.target.value)}
+                className="pl-10 pr-4 py-3 border border-gray-200 rounded-xl w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+              />
+            </div>
+          </div>
+
+          <div className=" bg-white h-[450px] rounded-2xl shadow-lg overflow-y-auto border border-gray-100">
+            <div className="p-6 border-b border-gray-100">
+              <h3 className="text-xl font-bold text-gray-800">FeedBack List</h3>
+              <p className="text-sm text-gray-500 mt-1">
+                Manage and monitor user Feedback
+              </p>
+            </div>
+            <div className="  overflow-x-auto">
+              <table className=" min-w-full divide-y divide-gray-200">
+                <thead>
+                  <tr className="bg-gray-50">
+                    {["User", "Email", "Contact", "Message", "Actions"].map(
+                      (header) => (
+                        <th
+                          key={header}
+                          className="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider bg-gradient-to-b from-gray-50 to-gray-100"
+                        >
+                          {header}
+                        </th>
+                      )
+                    )}
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {enquiries
+                    .filter((enquiry) =>
+                      enquiry.name
+                        .toLowerCase()
+                        .includes(searchFilter.toLowerCase())
+                    )
+                    .map((enquiry, index) => (
+                      <tr
+                        key={index}
+                        className="hover:bg-blue-50/50 transition-colors duration-200"
+                      >
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center">
+                            {enquiry?.user_image_url ? (
+                              <img
+                                src={enquiry.user_image_url}
+                                alt={enquiry?.full_name || "User"}
+                                className="h-10 w-10 rounded-full object-cover border-2 border-gray-200 shadow-sm"
+                              />
+                            ) : (
+                              <div className="flex items-center justify-center h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 text-white text-lg font-medium shadow-sm">
+                                {enquiry?.name
+                                  ?.split(" ")
+                                  .map((word) => word.charAt(0).toUpperCase())
+                                  .slice(0, 2)
+                                  .join("") || "U"}
+                              </div>
+                            )}
+                            <div className="ml-4">
+                              <div className="text-sm font-semibold text-gray-900">
+                                {enquiry.name}
+                              </div>
+                              <div className="text-xs text-gray-500">
+                                User ID: {enquiry.id}
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center text-sm text-gray-600 group">
+                            <div className="p-1.5 rounded-lg bg-blue-50 group-hover:bg-blue-100 transition-colors duration-200 mr-2">
+                              <Mail size={14} className="text-blue-500" />
+                            </div>
+                            {enquiry.email}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center text-sm text-gray-600 group">
+                            <div className="p-1.5 rounded-lg bg-green-50 group-hover:bg-green-100 transition-colors duration-200 mr-2">
+                              <Phone size={14} className="text-green-500" />
+                            </div>
+                            {enquiry.contact}
+                          </div>
+                        </td>
+                        <td className="w-[400px] px-6 py-4">
+                          <div className="overflow-x-auto max-w-[400px] no-scrollbar">
+                            <div className="w-[800px]">
+                              <h1>{enquiry.message}</h1>
+                            </div>
+                          </div>
+                        </td>
+
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <button
+                            onClick={() => handleDelete(enquiry.id)}
+                            className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-400 transition-all duration-200 shadow-sm hover:shadow"
+                          >
+                            <Trash2 size={16} className="mr-2" />
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  );
 }
 
 export default ContactUsdetails;

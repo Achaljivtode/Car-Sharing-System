@@ -1,11 +1,12 @@
 from django.shortcuts import render
+from datetime import date
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import smart_str
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from rest_framework.permissions import IsAuthenticated
-from app.permissions import IsAdmin,IsCustomer
+from app.permissions import IsAdmin,IsCustomer,IsCustomerForPostOnly
 from rest_framework import generics, status
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
@@ -46,6 +47,12 @@ class RegisterView(generics.ListCreateAPIView):
     queryset=CustomUser.objects.all()
     serializer_class=CustomUserSerializer
 
+    def get_queryset(self):
+        queryset = CustomUser.objects.all()
+        role = self.request.query_params.get('role', None)
+        if role is not None:
+            queryset = queryset.filter(role=role)
+        return queryset
     
 User=get_user_model()
 
@@ -116,14 +123,30 @@ class FeatureListView(generics.ListCreateAPIView):
 
 # --------------------- car book ---------------------------
 class CarBookView(generics.ListCreateAPIView):
-    queryset=CarBook.objects.all()
+    # queryset=CarBook.objects.all()
     serializer_class=CarBookSerializer
-    permission_classes=[IsAuthenticated,IsCustomer]
+    permission_classes=[IsAuthenticated,IsCustomerForPostOnly]
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.role == 'admin':  
+            return CarBook.objects.filter(booking_status="Booked")
+
+        #  For customers, show only their own bookings
+        bookings = CarBook.objects.filter(user=user)
+
+        # Update status to 'Completed' if drop_date passed and not cancelled
+        for booking in bookings:
+            if booking.drop_date < date.today() and booking.booking_status == 'Booked':
+                booking.booking_status = 'Completed'
+                booking.save()
+        return bookings
 
     def perform_create(self, serializer):
         # Attach the logged-in user while creating the booking
         serializer.save(user=self.request.user)
 
+    
 # -----------------------  booking id ---------------------
 class DetailCarBookView(generics.RetrieveUpdateDestroyAPIView):
     queryset=CarBook.objects.all()
@@ -149,12 +172,15 @@ class DetailEnquiryView(generics.RetrieveUpdateDestroyAPIView):
 
 # --------------------- Logged In User -----------------------
 class LoggedInUserView(generics.RetrieveAPIView):
+
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
 
     def get_object(self):
         return self.request.user  # Returns the currently logged-in user
 
+    def get_serializer_context(self):
+        return {"request": self.request}
 
 # ------------------ password reset  request view--------------
 

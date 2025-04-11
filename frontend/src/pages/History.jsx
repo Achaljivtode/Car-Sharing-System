@@ -148,6 +148,14 @@ function CustomerHistory() {
                               )}
                             </p>
                           </div>
+                          <div>
+                            <p className="text-sm text-gray-500">Drop Date</p>
+                            <p className="font-medium">
+                              {new Date(rental.drop_date).toLocaleDateString(
+                                "en-CA"
+                              )}
+                            </p>
+                          </div>
                         </div>
 
                         <div className="flex items-center space-x-3">

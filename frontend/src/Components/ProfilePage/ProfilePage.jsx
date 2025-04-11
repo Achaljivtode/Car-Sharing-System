@@ -76,14 +76,26 @@ export default function ProfilePage() {
       alert("User ID is missing. Try logging in again.");
       return;
     }
+    // try {
+    //   const updatedUser = await updateUserProfile(user.id, formData);
+    //   if (updatedUser) {
+    //     setUser(updatedUser);
+
+    //     alert("Profile updated successfully");
+    //   }
+    // } catch (error) {
+    //   console.error("Error updating profile:", error);
+    //   alert("Failed to update profile");
+    // }
+
     try {
-      const updatedUser = await updateUserProfile(user.id, formData);
-      if (updatedUser) {
-        setUser(updatedUser);
-        alert("Profile updated successfully");
-      }
+      await updateUserProfile(user.id, formData); // Just send update
+      const updatedUser = await getLoggedInUser(); // Then fetch fresh user
+      console.log("Updated user data:", updatedUser);
+      setUser(updatedUser); // Profile image + date formatting works
+      alert("Profile updated successfully");
     } catch (error) {
-      console.error("Error updating profile:", error);
+      console.error("Error updating user:", error);
       alert("Failed to update profile");
     }
   };
