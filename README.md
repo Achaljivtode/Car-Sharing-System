@@ -39,7 +39,7 @@ car-sharing-system/ ├── backend/ │ ├── carshare/ # Django app │ 
 ![Register Page](frontend/Resources/Screenshots/register_page.png) |
 ![Login Page](frontend/Resources/Screenshots/login_page.png) |
 |![Contact Page](frontend/Resources/Screenshots/contact_page.png)|
-![Customer Dashboard](frontend/Resources/Screenshots/customer_dashboard.png)|
+![Customer Dashboard](frontend/Resources/Screenshots/Customer_dashboard.png)|
 ![Admin Dashboard](frontend/Resources/Screenshots/admin_dashboard.png)|
 ![Profile Page](frontend/Resources/Screenshots/profile_page.png)|
 
