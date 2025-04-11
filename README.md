@@ -30,18 +30,18 @@ A car sharing system where users can book cars and admins can manage listings, u
 ## 📁 Project Structure
 car-sharing-system/ ├── backend/ │ ├── carshare/ # Django app │ └── manage.py ├── frontend/ │ ├── src/ │ └── public/
 
-
-
 ---
 
 ## 📸 Screenshots
 
-![Home Page](frontend/public/screenshots/homepage.png)  
-![Register Page](frontend/public/screenshots/register_page.png)  
-![Login Page](frontend/public/screenshots/login_page.png)  
-![Contact Page](frontend/public/screenshots/contact_page.png)  
-![Admin Dashboard](frontend/public/screenshots/admin_dashboard.png)  
-![Customer Dashboard](frontend/public/screenshots/customer_dashboard.png)
+
+![Home](frontend/Resources/screenshots/homepage.png) |
+![Register Page](frontend/Resources/screenshots/register_page.png) |
+![Login Page](frontend/Resources/screenshots/login_page.png) |
+|![Contact Page](frontend/Resources/screenshots/contact_page.png)|
+![Customer Dashboard](frontend/Resources/screenshots/customer_dashboard.png)|
+![Admin Dashboard](frontend/Resources/screenshots/admin_dashboard.png)|
+![Profile Page](frontend/Resources/screenshots/profile_page.png)|
 
 ---
 
