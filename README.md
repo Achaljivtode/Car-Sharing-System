@@ -1,8 +1,5 @@
 ---
 
-### 🤝 2. **Group Project README (collaborative, generic)**
-
-```markdown
 # 🚗 Car Sharing System – Fullstack (Django + React)
 
 A car sharing system where users can book cars and admins can manage listings, users, and more through both a Django Admin Panel and a custom React dashboard.
@@ -65,6 +62,6 @@ car-sharing-system/ ├── backend/ │ ├── carshare/ # Django app │ 
 git clone https://github.com/Achaljivtode/Car-Sharing-System.git
 cd Car-Sharing-System
 python -m venv env
-source env/bin/activate  # Windows: env\Scripts\activate
+# Windows: env\Scripts\activate
 pip install -r requirements.txt
 
